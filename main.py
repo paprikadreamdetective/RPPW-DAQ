@@ -1,6 +1,6 @@
 import socket
 import rgb
-
+import time
 
 rgbObj = rgb.rgb(16, 17, 18, False)
 rgbObj.off()
@@ -13,17 +13,22 @@ r_value = "OFF"
 g_value = "OFF"
 b_value = "OFF"
 
+analog_pin = machine.ADC(28)
+
 
 def get_string_value(input: bool):
     if input:
         return "ON"
     return "OFF"
 
-def web_page():
+def web_page(quality: float):
     
     r_value = get_string_value(r_state)
     g_value = get_string_value(g_state)
     b_value = get_string_value(b_state)
+
+    quality_air_value = str(quality)
+
     html = """
             <html>
             <head>
@@ -96,44 +101,19 @@ def web_page():
             </head>
 
             <body>
-                <h1>Raspberry Pi Pico W Web Server</h1>
-                <p>RGB Control</p>    
-
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <p><a href="/?led-r"><button class="ButtonR Button">R</button></a></p>
-                            </td>
-                            <td>
-                                <strong> """+ r_value +"""</strong> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p><a href="/?led-g"><button class="ButtonG Button">G</button></a></p>
-                            </td>
-                            <td>
-                                <strong> """+ g_value +"""</strong> 
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p><a href="/?led-b"><button class="ButtonB Button">B</button></a></p>
-                            </td>
-                            <td>
-                            <strong> """+ b_value +""" </strong>  
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <center>
-                                    <img src="https://brandslogos.com/wp-content/uploads/images/large/raspberry-pi-logo.png" alt="Logo Raspberry Pi" width="150" height="150">
-                                </center>
-                            </td>
-                        </tr> 
-                    </tbody>
-                </table>
+                <h1>Air Quality Detector Sensor</h1>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <p><a href="/?led-r"><button class="ButtonR Button">Reload</button></a></p>
+                                </td>
+                                <td>
+                                    <strong> """+ quality_air_value +"""</strong> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
             </body>
             </html>
         """
@@ -145,6 +125,9 @@ s.bind(('', 80))
 s.listen(5)
 
 while True:
+    sensor_value = analog_pin.read_u16()
+    print("Sensor Value: ", sensor_value)
+    time.sleep(5)
     try:
         conn, addr = s.accept()
         print('Got a connection from %s' % str(addr))
@@ -153,7 +136,6 @@ while True:
         led_r = request.find('/?led-r')
         led_g = request.find('/?led-g')
         led_b = request.find('/?led-b')
-        
         if led_r == 6:
             print('LED R ') 
             r_state = not r_state
@@ -184,7 +166,7 @@ while True:
             else:
                 rgbObj.off()   
             
-        response = web_page()
+        response = web_page(sensor_value)
         conn.send('HTTP/1.1 200 OK\n')
         conn.send('Content-Type: text/html\n')
         conn.send('Connection: close\n\n')
