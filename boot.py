@@ -1,11 +1,13 @@
-import model.WLAN_connection 
-import model.MQTT_connection
+import WLAN_connection 
+#from model.WLAN_connection import init_connection
+#from model.MQTT_connection import init_connection_mqtt
+import MQTT_connection
 import time
 from machine import Pin
 
 ssid = 'Totalplay-65A5'
 password = '65A52884MYHBTyWx'
-station = model.WLAN_connection.init_connection(ssid, password)
+station = WLAN_connection.init_connection(ssid, password)
 
 while station.isconnected() == False:
   pass
@@ -18,7 +20,7 @@ led = Pin("LED", Pin.OUT)
 
 
 try:
-  client = model.MQTT_connection.init_connection()
+  client = MQTT_connection.init_connection()
 except OSError as e:
   print('Failed to connect to the MQTT Broker. Reconnecting...')
   time.sleep(5)
