@@ -15,8 +15,19 @@ print(station.ifconfig())
 
 led = Pin("LED", Pin.OUT)
 
-client = MQTT_connection.init_connection
 
-#led.on()
-#time.sleep(1)
-#led.off()
+
+try:
+  client = MQTT_connection.init_connection()
+except OSError as e:
+  print('Failed to connect to the MQTT Broker. Reconnecting...')
+  time.sleep(5)
+  machine.reset()
+
+while True:
+  
+  client.publish("LabHardware", "led on")
+  led.on()
+  time.sleep(5)
+  client.publish("LabHardware", "led off")
+  led.off() 

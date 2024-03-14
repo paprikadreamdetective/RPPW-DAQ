@@ -11,8 +11,3 @@ def init_connection():
     client.connect()
     print('Connected to %s MQTT Broker'%(mqtt_server))
     return client
-
-def reconnect():
-    print('Failed to connect to the MQTT Broker. Reconnecting...')
-    time.sleep(5)
-    machine.reset()
