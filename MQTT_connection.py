@@ -1,13 +1,12 @@
 from umqtt.simple import MQTTClient
 import time
 import machine
-mqtt_server = 'broker.hivemq.com'
-client_id = 'pi4'
-topic_pub = b'LabHardware'
-topic_msg = b'Toggle Led'
+#mqtt_server = 'broker.hivemq.com'
+mqtt_broker = '192.168.100.152'
+#mqtt_user = 'raspberry_pi_pico_w'
 
 def init_connection():
-    client = MQTTClient(client_id, mqtt_server, keepalive=3600)
+    client = MQTTClient("raspberry_pi_pico_w", mqtt_broker, keepalive=60)
     client.connect()
-    print('Connected to %s MQTT Broker'%(mqtt_server))
+    print('Connected to %s MQTT Broker')
     return client
