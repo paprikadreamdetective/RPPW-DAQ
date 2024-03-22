@@ -1,23 +1,32 @@
 
-import socket
+#import socket
+from SocketConnector import SocketConnector 
 import time
 multicast_group = ('224.10.10.5', 10000)
+
 #sck = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sck = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+#sck = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 #server_address = ('192.168.100.136', 999)
 
-print('connecting to {} port {}'.format(*multicast_group))
+print('Connecting to {} port {}'.format(*multicast_group))
+
+web_socket_sender = SocketConnector('224.10.10.5', 10000)
+
+
 #sck.connect(server_address)
 
 while True:
 #try:
-    message = b'Im Raspberry Pi Pico W, Whats u r name? '
-    print('sending {!r}'.format(message))
-    sent = sck.sendto(message, multicast_group)
+  message = b'Im Raspberry Pi Pico W, Whats u r name?'
+  print('sending {!r}'.format(message))
+  web_socket_sender.send_msg(message)
+  time.sleep(1)
+    #sent = sck.sendto(message, multicast_group)
     #sck.sendall(message)
-    amount_received = 0
-    amount_expected = len(message)
+    
+    #amount_received = 0
+    #amount_expected = len(message)
     #while amount_received < amount_expected:
     #    data = sck.recv(32)
     #    amount_received += len(data)
@@ -25,7 +34,7 @@ while True:
 #finally:
 #    print('closing socket')
 #    sck.close()
-    time.sleep(1)
+  
 
 '''
 import socket
