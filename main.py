@@ -1,6 +1,6 @@
 
 #import socket
-from SocketConnector import SocketConnector 
+from model.SocketConnector import SocketConnector 
 import time
 multicast_group = ('224.10.10.5', 10000)
 

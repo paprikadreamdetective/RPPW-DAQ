@@ -1,8 +1,7 @@
 import WLAN_connection 
 #from model.WLAN_connection import init_connection
 #from model.MQTT_connection import init_connection_mqtt
-import MQTT_connection
-import time
+
 from machine import Pin
 topic = b'HelloMQTT/temp'
 PUBLISH_TOPIC = b"temp"
