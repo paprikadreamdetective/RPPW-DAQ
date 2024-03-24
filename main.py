@@ -1,40 +1,67 @@
 from model.SocketConnector import SocketConnector 
-from model.MQ135 import MQ135
+from MQ135 import MQ135
 
 import time
 import machine
-multicast_group = '224.10.10.5' 
+import WLAN_connection 
+multicast_group = '224.10.10.10' 
 port = 10000
-print('Connecting to ' + str(multicast_group) + ' : ' + str(port))
+#print('Connecting to ' + str(multicast_group) + ' : ' + str(port))
 led = machine.Pin('LED', machine.Pin.OUT)
+
+
+ssid = 'Totalplay-65A5'
+password = '65A52884MYHBTyWx'
+station = WLAN_connection.init_connection(ssid, password)
+
+while station.isconnected() == False:
+  pass
+
+print('WiFi Connection is successful')
 
 temperature = 7.0
 humidity = 61.0
+a = 5.2735
+b = -0.3503
+Rl = 20000
+value = 0
+Rs = 0
+Rs_Media = 0
+Ro = 0
+
+ppm_CO2_actual = 0
+
+
 
 mq135 = MQ135(28)
 
 #analog_pin = machine.ADC(28)
-
+print('Connecting to ' + str(multicast_group) + ' : ' + str(port))
 web_socket_sender = SocketConnector(multicast_group, port)
 
 while True:
   #message = b'Im Raspberry Pi Pico W, Whats u r name?'
+  count = 0
+  for i in range(0, 600):
+    valor = mq135.read()
+    Rs = Rl*(1023/valor)-Rl
+    count = Rs + count
+    #time.sleep_ms(1000)
+  Rs_Media = count/600
+  time.sleep_ms(1000)
+  ppm_CO2_actual = mq135.read()
+  Ro = Rs_Media/(a*ppm_CO2_actual**b)
 
-  rzero = mq135.get_rzero()
-  corrected_rzero = mq135.get_corrected_rzero(temperature, humidity)
-  resistance = mq135.get_resistance()
-  ppm = mq135.get_ppm()
-  corrected_ppm = mq135.get_corrected_ppm(temperature, humidity)
-
-  print("MQ135 RZero: " + str(rzero) +"\t Corrected RZero: "+ str(corrected_rzero)+
-  "\t Resistance: "+ str(resistance) +"\t PPM: "+str(ppm)+
-  "\t Corrected PPM: "+str(corrected_ppm)+"ppm")
-
-
-  #message = str(read_mq135())
+  #message = str(mq135.read())
   #print('Lectura del sensor MQ-135: ' + message + ' ppm')
+  print('Valor actual: ' + str(ppm_CO2_actual) + ' ppm')
+  print('Rs media: ' + str(Rs_Media))
+  print('Ro: ' + str(Ro))
   #print('Sending {!r}'.format(message))
-  #web_socket_sender.send_msg(message)
+  message = str(ppm_CO2_actual) + ' ' + str(Rs_Media) + ' ' + str(Ro)
+  web_socket_sender.send_msg(message)
+  
+  
   led.off()
   time.sleep_ms(500)
   led.on()
