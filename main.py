@@ -10,8 +10,11 @@ port = 10000
 led = machine.Pin('LED', machine.Pin.OUT)
 
 
-ssid = 'Totalplay-65A5'
-password = '65A52884MYHBTyWx'
+#ssid = 'Totalplay-65A5'
+#password = '65A52884MYHBTyWx'
+ssid = 'labred'
+password = 'labred2017'
+
 station = WLAN_connection.init_connection(ssid, password)
 
 while station.isconnected() == False:
