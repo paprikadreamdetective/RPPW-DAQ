@@ -6,12 +6,10 @@ import machine
 import WLAN_connection 
 multicast_group = '224.10.10.10' 
 port = 10000
-#print('Connecting to ' + str(multicast_group) + ' : ' + str(port))
+
 led = machine.Pin('LED', machine.Pin.OUT)
 
 
-#ssid = 'Totalplay-65A5'
-#password = '65A52884MYHBTyWx'
 ssid = 'labred'
 password = 'labred2017'
 
@@ -38,7 +36,6 @@ ppm_CO2_actual = 0
 
 mq135 = MQ135(28)
 
-#analog_pin = machine.ADC(28)
 print('Connecting to ' + str(multicast_group) + ' : ' + str(port))
 web_socket_sender = SocketConnector(multicast_group, port)
 
@@ -49,18 +46,14 @@ while True:
     valor = mq135.read()
     Rs = Rl*(1023/valor)-Rl
     count = Rs + count
-    #time.sleep_ms(1000)
   Rs_Media = count/600
   time.sleep_ms(1000)
   ppm_CO2_actual = mq135.read()
   Ro = Rs_Media/(a*ppm_CO2_actual**b)
-
-  #message = str(mq135.read())
-  #print('Lectura del sensor MQ-135: ' + message + ' ppm')
   print('Valor actual: ' + str(ppm_CO2_actual) + ' ppm')
   print('Rs media: ' + str(Rs_Media))
   print('Ro: ' + str(Ro))
-  #print('Sending {!r}'.format(message))
+  
   message = str(ppm_CO2_actual) + ' ' + str(Rs_Media) + ' ' + str(Ro)
   web_socket_sender.send_msg(message)
   
