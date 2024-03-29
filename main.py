@@ -4,16 +4,28 @@ from MQ135 import MQ135
 import time
 import machine
 import WLAN_connection 
+ssid = [84, 111, 116, 97, 108, 112, 108, 97, 121, 45, 54, 53, 65, 53]
+password = [54, 53, 65, 53, 50, 56, 56, 52, 77, 89, 72, 66, 84, 121, 87, 120]
+
+def int_to_ascii(list_number: list)-> str:
+  string = ''
+  for i in range(0, len(list_number)):
+      string = string + chr(list_number[i])
+  return string
+ 
+ 
+
+
 multicast_group = '224.10.10.10' 
 port = 10000
 
 led = machine.Pin('LED', machine.Pin.OUT)
 
 
-ssid = 'labred'
-password = 'labred2017'
+#ssid = 'labred'
+#password = 'labred2017'
 
-station = WLAN_connection.init_connection(ssid, password)
+station = WLAN_connection.init_connection(int_to_ascii(ssid), int_to_ascii(password))
 
 while station.isconnected() == False:
   pass
