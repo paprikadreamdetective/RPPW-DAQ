@@ -1,6 +1,5 @@
 import Sensor 
 import machine
-import math
 
 class MQ135(Sensor.Sensor):
     def __init__(self, pin):
@@ -8,4 +7,3 @@ class MQ135(Sensor.Sensor):
         
     def read(self) -> int:
         return self.pin.read_u16()
-    
