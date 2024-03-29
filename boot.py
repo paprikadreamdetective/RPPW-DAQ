@@ -1,37 +1,17 @@
-'''
-En el bloque try-except se intenta importar la libreria usocket
-bajo el alias socket. Esto se hace pues usocket es una
-version simplificada de socket, que a menudo se usa
-en sistemas embebidos. 
-'''
-try:
-    import usocket as socket 
-except:
-    import socket
-'''
-machine es un módulo en MicroPython que proporciona acceso 
-a características específicas de hardware, como pines 
-GPIO (General Purpose Input/Output).
-'''
+import WLAN_connection 
+#from model.WLAN_connection import init_connection
+#from model.MQTT_connection import init_connection_mqtt
+import MQTT_connection
+import time
 from machine import Pin
-import network
-'''
-gc es un módulo que proporciona funciones para controlar la recolección de basura, 
-útil para gestionar la memoria en sistemas con recursos limitados como 
-los microcontroladores.
-'''
-import gc
-
-gc.collect()
-
-
+topic = b'HelloMQTT/temp'
+PUBLISH_TOPIC = b"temp"
 ssid = 'Totalplay-65A5'
 password = '65A52884MYHBTyWx'
-
-station = network.WLAN(network.STA_IF)
-
-station.active(True)
-station.connect(ssid, password)
+msg = 'Im In'
+station = WLAN_connection.init_connection(ssid, password)
+last_publish = time.time()
+publish_interval = 5
 
 while station.isconnected() == False:
   pass
@@ -40,4 +20,31 @@ print('Connection successful')
 print(station.ifconfig())
 
 led = Pin("LED", Pin.OUT)
-led.on()
+
+def sub_cb(topic, msg):
+  print((topic, msg))
+  if msg.decode() == "ON":
+    led.value(1)
+  else:
+    led.value(0)
+
+try:
+  client = MQTT_connection.init_connection()
+  client.set_callback(sub_cb)
+  client.connect()
+  client.subscribe(topic)
+  print(f"Connected to MQTT  Broker :: {topic}, and waiting for callback function to be called!")
+except OSError as e:
+  print('Failed to connect to the MQTT Broker. Reconnecting...')
+  time.sleep(5)
+  #machine.reset()
+
+while True:
+  client.check_msg()
+  
+ 
+  if (time.time() - last_publish) >= publish_interval:
+    random_temp = "Hi"
+    client.publish(topic, str(random_temp).encode())
+    last_publish = time.time()
+    time.sleep(1)

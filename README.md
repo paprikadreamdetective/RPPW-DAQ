@@ -1,7 +1,2 @@
+# Usando MQTT en Raspberry Pi Pico
 
-
-
-RPP Web Server
-
-
-Web Server in pico using websockets
