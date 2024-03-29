@@ -1,6 +1,3 @@
-#from Sensor import Sensor
-#from .Sensor import Sensor
-#from Sensor import Sensor
 import Sensor 
 import machine
 import math

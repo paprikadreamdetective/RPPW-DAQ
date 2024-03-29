@@ -1,7 +1,7 @@
 import time
 import machine
 import WLAN_connection 
-from model.SocketConnector import SocketConnector 
+from SocketConnector import SocketConnector 
 from MQ135 import MQ135
 
 #ssid = 'labred'
