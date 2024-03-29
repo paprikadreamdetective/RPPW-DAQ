@@ -1,4 +1,4 @@
-import WLAN_connection 
+import wlanc 
 #from model.WLAN_connection import init_connection
 #from model.MQTT_connection import init_connection_mqtt
 import MQTT_connection
@@ -9,7 +9,7 @@ PUBLISH_TOPIC = b"temp"
 ssid = 'Totalplay-65A5'
 password = '65A52884MYHBTyWx'
 msg = 'Im In'
-station = WLAN_connection.init_connection(ssid, password)
+station = wlanc.init_connection(ssid, password)
 last_publish = time.time()
 publish_interval = 5
 

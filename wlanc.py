@@ -7,10 +7,8 @@ def int_to_ascii(list_number: list)-> str:
       string = string + chr(list_number[i])
   return string
 
-def init_connection(ssid: str, key: str) -> network:
+def init_connection(ssid: list, key: list) -> network:
     wlan = network.WLAN(network.STA_IF)
     wlan.active(True)
-    wlan.connect(ssid, key)
+    wlan.connect(int_to_ascii(ssid), int_to_ascii(key))
     return wlan
-    #print(wlan.isconnected())
-    #time.sleep(5)
