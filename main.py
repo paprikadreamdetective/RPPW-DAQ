@@ -4,7 +4,7 @@ import select
 import machine
 from config import cfg
 import wlanc 
-from socketc import MulticastSocket 
+from client.persistence.socketc import MulticastSocket 
 from MQ135 import MQ135
 
 # Set up the poll object
