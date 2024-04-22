@@ -1,28 +1,25 @@
+import machine
+from .messagehandler import MessageHandler
+from .communicationhandler import CommunicationHandler
+class CommandHandler(MessageHandler, CommunicationHandler):
+    def parse_serial(self, in_char: list[chr], new_command: bool) -> str:
+        """
+        Lectura serial del buffer
+        """
+        input_string = ''
+        index = 0
+        while index < 255:
+            input_string += in_char[index]
+            if in_char[index] == '!':
+                new_command = True
+                break
+            index += 1
+        return input_string
+    def parse_serial_master(self, new_command: bool) -> str:
+        """
+        Lectura serial del buffer
+        """
+        input_string = ''
+        while machine.uart.any():
+            pass
 
-
-class CommandHandler():
-    
-    def request_outputs_info(self, slave_address):
-        pass
-    def request_outputs_data(self, slave_address):
-        pass
-    def request_inputs_info(self, slave_address):
-        pass
-    def request_inputs_data(self, slave_address):
-        pass
-    def write_to_master(self, string):
-        pass
-    def write_to_slaves(self, string):
-        pass
-    def send_input_data(self, address, slaves, inputs_buffer, pulses_buffer):
-        pass
-    def write_slaves_inputs(self, slaves):
-        pass
-    def update_inputs_buffer(self, inputs, inputs_buffer):
-        pass
-    def send_output_data(self, address, slaves, outputs_buffer):
-        pass
-    def write_slaves_outputs(self, slaves):
-        pass
-    def update_outputs_buffer(self, outputs, outputs_buffer):
-        pass

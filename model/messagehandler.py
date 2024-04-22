@@ -1,9 +1,14 @@
-class MessageHandler:
-    def parse_serial(in_char: chr, new_command: bool):
+import abc
+class MessageHandler(abc.ABC):
+    @abc.abstractmethod
+    def parse_serial(self):
         pass
-    def parse_serial_master(new_command: bool):
+    @abc.abstractmethod
+    def parse_serial_master(self):
         pass
-    def parse_serial_slave(new_command):
+    @abc.abstractmethod
+    def parse_serial_slave(self):
         pass
-    def parse_slave_to_master():
+    @abc.abstractmethod
+    def parse_slave_to_master(self):
         pass
