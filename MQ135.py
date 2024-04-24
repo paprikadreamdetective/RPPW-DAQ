@@ -1,4 +1,4 @@
-import Sensor 
+import client.model.Sensor as Sensor 
 import machine
 
 class MQ135(Sensor.Sensor):

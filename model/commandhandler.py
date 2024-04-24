@@ -2,6 +2,7 @@ import machine
 import utime
 from .messagehandler import MessageHandler
 from .communicationhandler import CommunicationHandler
+from config import config_pins
 class CommandHandler(MessageHandler, CommunicationHandler):
     def parse_serial(self, in_char: list[chr], new_command: bool) -> str:
         """
