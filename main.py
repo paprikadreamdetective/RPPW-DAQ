@@ -33,7 +33,7 @@ def main():
   print('WiFi Connection is successful')
   print('Connecting to: 224.10.10.10 : 10000')
   socket_sender = Socket('224.10.10.10', 10000)
-  
+
   led = machine.Pin('LED', machine.Pin.OUT)
 
   read_adc_ch0_timer = machine.Timer()
@@ -48,9 +48,6 @@ def main():
   while True:
     start_time = utime.ticks_ms()
     led.toggle()
-    #measurements['Temp'] = thermistor_get_temperature(thermistor_get_resistance(ADC.read(0)))
-    #measurements['AQ'] = ADC.read(1)
-    #measurements['Hum'] = sensor_aht10.relative_humidity
     socket_sender.send_msg(json.dumps(measurements))
     print(measurements)
     time.sleep_ms(248)
@@ -60,4 +57,3 @@ def main():
 
 if __name__ == '__main__':
   main()
-
