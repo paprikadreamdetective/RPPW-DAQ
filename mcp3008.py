@@ -2,14 +2,6 @@
 MicroPython Library for MCP3008 8-channel ADC with SPI
 
 Datasheet for the MCP3008: https://www.microchip.com/datasheet/MCP3008
-
-This code makes much use of Adafruit's CircuitPython code at
-https://github.com/adafruit/Adafruit_CircuitPython_MCP3xxx
-adapted for MicroPython.
-
-Tested on the Raspberry Pi Pico.
-
-Thanks, @Raspberry_Pi and @Adafruit, for all you've given us!
 """
 
 import machine
