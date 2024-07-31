@@ -4,15 +4,27 @@ import machine
 import json
 import wlanc 
 import sensorutils
+import socket
+
 from config import cfg, data 
 from socketc import Socket 
 from mcp3008 import MCP3008
 from aht10 import AHT10
+import _thread
+
+def update_value():
+  addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
+  s = socket.socket()
+  s.bind(addr)
+  s.listen(1)
+  print('listening on', addr)
 
 def main():
   global ADC
   global sensor_aht10
   global socket_sender
+
+  _thread.start_new_thread(update_value, ())
   
   ADC = MCP3008(machine.SPI(0, sck=machine.Pin(2), mosi=machine.Pin(3), miso=machine.Pin(4), baudrate=100000), machine.Pin(22, machine.Pin.OUT))
   sensor_aht10 = AHT10(machine.I2C(1, scl=machine.Pin(27), sda=machine.Pin(26)))
