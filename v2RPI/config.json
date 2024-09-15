@@ -1,1 +1,14 @@
-
+{
+    "M0_0": {
+        "MODE" : 2,
+        "VALUE": 64,
+        "TIME_ON": null,
+        "TIME_OFF": null,
+        "PWM_CHANNEL" : 6,
+        "ADC_CHANNEL" : 0,
+        "VARIABLE": "M0_temp_ch0",
+        "SETPOINT": null,
+        "LOWER_BOUND": 0.1,
+        "UPPER_BOUND": 0.9
+    }
+}

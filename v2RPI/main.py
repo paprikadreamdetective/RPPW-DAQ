@@ -16,6 +16,8 @@ import json
 with open('daq_info.json', 'r') as archivo:
     daq_data = json.load(archivo)
 
+with open('config.json', 'r') as archivo:
+    config_data = json.load(archivo)
 
 A = 8.1197e-4
 B = 2.65207e-4
@@ -66,22 +68,83 @@ def thread_websocket():
         time.sleep(3)
 '''
 def thread_handle_commands():
+    '''
+        MANUAL:     "ADDR 1, 0, OUT_CHANNEL, PWM"
+        TIMER:      "ADDR 1, 1, OUT_CHANNEL, TIME_ON, TIME_OFF, PWM"
+        PID:        "ADDR 1, 2, OUT_CHANNEL, IN_CHANNEL, SETPOINT"
+        ONOFF:      "ADDR 1, 3, OUT_CHANNEL, IN_CHANNEL, LOWER_BOUND, UPPER_BOUND, PWM"
+    '''
     while 1:
         print('0 -> Obtener informacion del DAQ')
         print('1 -> Obtener datos')
         print('2 -> Cambiar modo de control de salida PWM')
-        print('3 -> ')
+        print('3 -> Ajustar el control PID')
+        print('4 -> Ajuste de limites de Apagado/Encendido')
         input_command = int(input('Ingrese un comando: '))
         if input_command == 0:
             print('address: ' + daq_data['address'] + ', ' + 'channels: ' + str(daq_data['inputs']) + ', ' + 'pwm outputs: ' + str(daq_data['outputs']))
         elif input_command == 1:
             print('address: ' + daq_data['address'] + ', ' + 'adc inputs: ' + str(adc_analog_inputs) + ', ' + 'i2c inputs: ' + str(i2c_inputs))
         elif input_command == 2:
-            print()
-        elif input_command == 3:
-            print()
+            print('Configuracion actual: ')
+            print(config_data)
+            mode = int(input('Ingrese un modo: '))
+            value = int(input('Ingrese un valor entre [0, 255]: '))
+            pwm_channel = int(input('Ingrese el canal PWM entre [0, 7]: '))
+            lower_bnd = float(input('Ingrese el limite inferior: '))
+            upper_bnd = float(input('Ingrese el limite superior: '))
             
-
+            new_config_data = config_data
+            
+            new_config_data['M0_0']['MODE'] = mode
+            new_config_data['M0_0']['VALUE'] = value
+            new_config_data['M0_0']['PWM_CHANNEL'] = pwm_channel
+            new_config_data['M0_0']['LOWER_BOUND'] = lower_bnd
+            new_config_data['M0_0']['UPPER_BOUND'] = upper_bnd
+            with open('config.json', 'w') as archivo:
+                json.dump(new_config_data, archivo, indent=4)  
+            print('Configuracion Actualizada!')
+        elif input_command == 3:
+            print('Configuracion de control PID: ')
+            print('Configuracion actual: ')
+            print(config_data)
+            mode = int(input('Ingrese un modo: '))
+            value = int(input('Ingrese el control PID: '))
+            pwm_channel = int(input('Ingrese el canal PWM entre [0, 7]: '))
+            adc_input = int(input('Ingrese el canal ADC [0, 7]: '))
+            set_point = float(input('Ingrese el setpoint: '))
+            
+            new_config_data = config_data
+            
+            new_config_data['M0_0']['MODE'] = mode
+            new_config_data['M0_0']['VALUE'] = value
+            new_config_data['M0_0']['PWM_CHANNEL'] = pwm_channel
+            new_config_data['M0_0']['ADC_CHANNEL'] = adc_input
+            new_config_data['M0_0']['SETPOINT'] = set_point
+            with open('config.json', 'w') as archivo:
+                json.dump(new_config_data, archivo, indent=4)
+            print('Configuracion Actualizada!')
+        elif input_command == 4:
+            print('Configuracion actual: ')
+            print(config_data)
+            mode = int(input('Ingrese un modo: '))
+            pwm_channel = int(input('Ingrese el canal PWM entre [0, 7]: '))
+            lower_bnd = float(input('Ingrese el limite inferior: '))
+            upper_bnd = float(input('Ingrese el limite superior: '))
+            value = int(input('Ingrese un valor entre [0, 255]: '))
+            
+            new_config_data = config_data
+            
+            new_config_data['M0_0']['MODE'] = mode
+            new_config_data['M0_0']['VALUE'] = value
+            new_config_data['M0_0']['PWM_CHANNEL'] = pwm_channel
+            new_config_data['M0_0']['ADC_CHANNEL'] = adc_input
+            new_config_data['M0_0']['LOWER_BOUND'] = lower_bnd
+            new_config_data['M0_0']['UPPER_BOUND'] = upper_bnd
+            with open('config.json', 'w') as archivo:
+                json.dump(new_config_data, archivo, indent=4)  
+            print('Configuracion Actualizada!')
+            
 
 def timer_1_callback():
     global TIMER_1
@@ -104,11 +167,8 @@ def init_timers():
 if __name__ == '__main__':
     #thread_ws = threading.Thread(target=thread_websocket)
     #thread_ws.start()
-    
     thread1 = threading.Thread(target=thread_handle_commands)
     thread1.start()
-    
-    
     try:
         init_timers()
         while 1:
