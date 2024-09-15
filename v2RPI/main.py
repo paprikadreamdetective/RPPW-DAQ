@@ -23,6 +23,15 @@ A = 8.1197e-4
 B = 2.65207e-4
 C = 1.272206e-7
 
+# PID Configuration
+Kp = 100
+Ki = 0.2
+Kd = 0.
+
+
+output_ch0 = Output(0, 18, "pwm", MANUAL, 0)
+
+
 adc_analog_inputs = []
 i2c_inputs = []
 
@@ -163,6 +172,13 @@ def timer_2_callback():
 def init_timers():
     timer_1_callback()
     timer_2_callback()
+
+def init_outputs():
+    output_ch0.set_output_limits(0, 255)
+    output_ch0.set_pid_tunings(Kp, Ki, Kd)
+    output_ch0.set_sample_time_us(cycle_time_timer_1)
+    output_ch0.set_gh_filter(0.7)
+    
 
 if __name__ == '__main__':
     #thread_ws = threading.Thread(target=thread_websocket)
