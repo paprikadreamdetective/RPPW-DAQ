@@ -1,3 +1,29 @@
+from threading import Timer
+from gpiozero import MCP3008
+import time
+
+def read_adc():
+  values = [MCP3008(channel=i).value for i in range(8)]
+
+def main():
+  Timer(250, read_adc).start()
+  while 1:
+    start = time.time()
+
+
+
+    end = time.time()
+    print('Time: ' + str(end - start))
+
+
+if __name__ == '__main__':
+  pass
+
+
+
+
+'''
+
 import time
 import utime
 import machine
@@ -12,14 +38,10 @@ from socketc import Socket
 from mcp3008 import MCP3008
 from aht10 import AHT10
 
-
-
 def main():
   global ADC
   global sensor_aht10
   global socket_connection
-
-  
 
   ADC = MCP3008(machine.SPI(0, sck=machine.Pin(2), mosi=machine.Pin(3), miso=machine.Pin(4), baudrate=100000), machine.Pin(22, machine.Pin.OUT))
   sensor_aht10 = AHT10(machine.I2C(1, scl=machine.Pin(27), sda=machine.Pin(26)))
@@ -45,8 +67,6 @@ def main():
   
   socket_sender_timer = machine.Timer()
   socket_sender_timer.init(period=250, mode=machine.Timer.PERIODIC, callback=lambda timer : socket_connection.send_msg(json.dumps(data)))
-  
-
 
   while True:
     data.update({'time' : time.time()})
@@ -60,3 +80,4 @@ def main():
 
 if __name__ == '__main__':
   main()
+'''

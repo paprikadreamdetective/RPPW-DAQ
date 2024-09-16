@@ -1,11 +1,4 @@
-"""
-MicroPython Library for MCP3008 8-channel ADC with SPI
-
-Datasheet for the MCP3008: https://www.microchip.com/datasheet/MCP3008
-"""
-
 import machine
-
 
 class MCP3008:
 
