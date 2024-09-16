@@ -135,7 +135,7 @@ def pwm_set_mode_manual():
         with open('config.json', 'w') as archivo:
             json.dump(new_config_data, archivo, indent=4)  
         print('Configuracion Actualizada!')
-        return jsonify({'success' : 200, 'message' : 'Configuracion Actualizada!'})
+        return jsonify({'success' : True, 'message' : 'Configuracion Actualizada!'})
         
 def thread_handle_commands():
     '''
