@@ -1,6 +1,9 @@
 from utilities import *
 from output_buffer import *
+from mcp3008 import ADC_MCP3008
 
+from flask_cors import CORS, cross_origin
+from flask import Flask, request, jsonify, session
 import time
 import board
 import busio
@@ -8,10 +11,21 @@ import os
 import digitalio
 from math import log
 import threading
-from mcp3008 import ADC_MCP3008
+
 import numpy as np
 from adafruit_ahtx0 import AHTx0
 import json
+
+
+def create_app():
+    app = Flask(__name__)  # flask app object
+    CORS(app, supports_credentials=True)
+    #app.config.from_object(ApplicationConfig)
+    #Bcrypt(app)
+    #Session(app)
+    return app
+  
+app = create_app()
 
 with open('daq_info.json', 'r') as archivo:
     daq_data = json.load(archivo)
@@ -77,6 +91,7 @@ def thread_websocket():
         time.sleep(3)
 '''
 
+
 def pwm_controller(config_data: dict, option: int) -> dict:
     new_config_data = config_data
     
@@ -109,6 +124,18 @@ def pwm_controller(config_data: dict, option: int) -> dict:
         temp_0 = convert_adc_to_temperature(ADC['CH0'].value)
         output_ch0.set_onoff(temp_0, 20, 30, 255)
         return new_config_data
+
+
+@app.route('/set_mode_manual', methods=['POST'])
+def pwm_set_mode_manual():
+        value = request.json['value']
+        mode_control = request.json['mode_control']
+        output_ch0.set_manual_output(value)
+        new_config_data = pwm_controller(config_data, mode_control)
+        with open('config.json', 'w') as archivo:
+            json.dump(new_config_data, archivo, indent=4)  
+        print('Configuracion Actualizada!')
+        return jsonify({'success' : 200, 'message' : 'Configuracion Actualizada!'})
         
 def thread_handle_commands():
     '''
@@ -144,48 +171,6 @@ def thread_handle_commands():
             with open('config.json', 'w') as archivo:
                 json.dump(new_config_data, archivo, indent=4)  
             print('Configuracion Actualizada!')
-        '''
-        elif input_command == 3:
-            print('Configuracion de control PID: ')
-            print('Configuracion actual: ')
-            print(config_data)
-            mode = int(input('Ingrese un modo: '))
-            value = int(input('Ingrese el control PID: '))
-            pwm_channel = int(input('Ingrese el canal PWM entre [0, 7]: '))
-            adc_input = int(input('Ingrese el canal ADC [0, 7]: '))
-            set_point = float(input('Ingrese el setpoint: '))
-            
-            new_config_data = config_data
-            
-            new_config_data['M0_0']['MODE'] = mode
-            new_config_data['M0_0']['VALUE'] = value
-            new_config_data['M0_0']['PWM_CHANNEL'] = pwm_channel
-            new_config_data['M0_0']['ADC_CHANNEL'] = adc_input
-            new_config_data['M0_0']['SETPOINT'] = set_point
-            with open('config.json', 'w') as archivo:
-                json.dump(new_config_data, archivo, indent=4)
-            print('Configuracion Actualizada!')
-        elif input_command == 4:
-            print('Configuracion actual: ')
-            print(config_data)
-            mode = int(input('Ingrese un modo: '))
-            pwm_channel = int(input('Ingrese el canal PWM entre [0, 7]: '))
-            lower_bnd = float(input('Ingrese el limite inferior: '))
-            upper_bnd = float(input('Ingrese el limite superior: '))
-            value = int(input('Ingrese un valor entre [0, 255]: '))
-            
-            new_config_data = config_data
-            
-            new_config_data['M0_0']['MODE'] = mode
-            new_config_data['M0_0']['VALUE'] = value
-            new_config_data['M0_0']['PWM_CHANNEL'] = pwm_channel
-            new_config_data['M0_0']['ADC_CHANNEL'] = adc_input
-            new_config_data['M0_0']['LOWER_BOUND'] = lower_bnd
-            new_config_data['M0_0']['UPPER_BOUND'] = upper_bnd
-            with open('config.json', 'w') as archivo:
-                json.dump(new_config_data, archivo, indent=4)  
-            print('Configuracion Actualizada!')
-        '''
 
 def timer_1_callback():
     global TIMER_1
@@ -210,14 +195,16 @@ def init_outputs():
     output_ch0.set_pid_tunings(Kp, Ki, Kd)
     output_ch0.set_sample_time_us(cycle_time_timer_1)
     output_ch0.set_gh_filter(0.7)
-    
 
 if __name__ == '__main__':
     #thread_ws = threading.Thread(target=thread_websocket)
     #thread_ws.start()
     thread1 = threading.Thread(target=thread_handle_commands)
     thread1.start()
+    
+    app.run(host='127.0.0.1', port=5000, debug=True)
     try:
+        
         init_timers()
         init_outputs()
         adc_inputs = adc_analog_inputs[0]

@@ -1,5 +1,14 @@
 from math import log
 
+'''
+PWM MODES:
+'''
+
+
+
+
+
+
 CONFIG_THERMISTOR_RESISTOR = 9900
 REF_VOLTAGE = 3.3
 thermistor = [8.1197E-4, 2.65207E-4, 1.272206E-7] # 103JT-025 semitec

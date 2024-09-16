@@ -73,16 +73,17 @@ class Output:
                 self.value = 0
         
         elif self.control_mode == PID:
-            self._filtered_input = self._alpha * self._input_value + (1 - self._alpha) * self._filtered_input
+            #self._filtered_input = self._alpha * self._input_value + (1 - self._alpha) * self._filtered_input
+            self._filtered_input = self._alpha * input_analog + (1 - self._alpha) * self._filtered_input
             self.value = self.compute_pid(self._filtered_input)
 
         elif self.control_mode == ONOFF:
-            #if self._input_value < self._input_value_lb:
-            if int(input_analog) > self._input_value_ub:
-                self.value = self.manual_value
-            #elif self._input_value > self._input_value_ub:
-            elif int(input_analog) < self._input_value_ub:
-                self.value = 0
+                #if self._input_value < self._input_value_lb:
+                if int(input_analog) > self._input_value_ub:
+                        self.value = self.manual_value
+                #elif self._input_value > self._input_value_ub:
+                elif int(input_analog) < self._input_value_ub:
+                        self.value = 0
         self.pwm.ChangeDutyCycle(self.map_value(self.value, 0, 255, 0, 100))
         #for i in range(100, -1, -1):
             #self.pwm.ChangeDutyCycle(self.value)
