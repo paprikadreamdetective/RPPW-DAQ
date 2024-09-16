@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 
+
 MANUAL = 0
 TIMER = 1
 PID = 2
@@ -15,6 +16,7 @@ class Output:
         self.control_mode = control_mode
         self.manual_value = value
         self.value = 0
+        
         # private:
         self._time_on = 1
         self._time_off = 2
@@ -40,17 +42,18 @@ class Output:
         self._last_time = 0.0
         self._output_min = 0
         self._output_max = 255
-
+        
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.OUT)
         GPIO.setwarnings(False)
         self.pwm = GPIO.PWM(self.pin, 500)  # PWM at 1kHz
-        self.pwm.start(100)
-
-    def write_output(self):
+        self.pwm.start(0)
+        
+    #def write_output(self):
+    def write_output(self, input_analog):
         if self.control_mode == MANUAL:
             self.value = self.manual_value
-            print("Value: " + str(self.value))
+            #print("Value: " + str(self.value))
         elif self.control_mode == TIMER:
             self._delta_time += 1
             if self._delta_time > self._current_timer:
@@ -68,48 +71,55 @@ class Output:
             else:
                 self._current_timer = self._time_off
                 self.value = 0
-
+        
         elif self.control_mode == PID:
             self._filtered_input = self._alpha * self._input_value + (1 - self._alpha) * self._filtered_input
             self.value = self.compute_pid(self._filtered_input)
-            print("Value: " + str(self.value))
 
         elif self.control_mode == ONOFF:
-            if self._input_value < self._input_value_lb:
+            #if self._input_value < self._input_value_lb:
+            if int(input_analog) > self._input_value_ub:
                 self.value = self.manual_value
-            elif self._input_value > self._input_value_ub:
+            #elif self._input_value > self._input_value_ub:
+            elif int(input_analog) < self._input_value_ub:
                 self.value = 0
-        for i in range(100, -1, -1):
-            self.pwm.ChangeDutyCycle(self.value)
-            time.sleep(0.01)
+        self.pwm.ChangeDutyCycle(self.map_value(self.value, 0, 255, 0, 100))
+        #for i in range(100, -1, -1):
+            #self.pwm.ChangeDutyCycle(self.value)
+            #time.sleep(0.01)
+    def map_value(self, input_value, in_min, in_max, out_min, out_max):
+        """Mapear un valor de un rango a otro."""
+        return (input_value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+    
     
     def set_manual_output(self, value):
         # self.control_mode = self.MANUAL
         self.control_mode = 0
         self.manual_value = value
-    '''
+    
     def set_timer(self, time_on, time_off, value):
-        self.control_mode = self.TIMER
+        #self.control_mode = self.TIMER
+        self.control_mode = 1   
         self._time_on = time_on
         self._time_off = time_off
         self.manual_value = value
-
         self._delta_time = 0
         self._current_timer = self._time_on
         self._is_on = True
 
     def set_pid(self, input_value, setpoint):
-        self.control_mode = self.PID
+        #self.control_mode = self.PID
+        self.control_mode = 2
         self._input_value = input_value
         self._setpoint = setpoint
 
     def set_onoff(self, input_value, lb, ub, value):
-        self.control_mode = self.ONOFF
+        self.control_mode = 3
         self._input_value = input_value
         self._input_value_lb = lb
         self._input_value_ub = ub
         self.manual_value = value
-    '''
+    
     def compute_pid(self, input_value):
         now = time.time()
         time_change = now - self._last_time

@@ -76,6 +76,40 @@ def thread_websocket():
             print("No hay datos para enviar.")
         time.sleep(3)
 '''
+
+def pwm_controller(config_data: dict, option: int) -> dict:
+    new_config_data = config_data
+    
+    if option == 0:
+        output_ch0.set_manual_output(3)
+        new_config_data['M0_0']['MODE'] = MANUAL
+        new_config_data['M0_0']['VALUE'] = 0.5
+        return new_config_data
+    elif option == 1:
+        new_config_data['M0_0']['MODE'] = TIMER
+        new_config_data['M0_0']['TIME_ON'] = 15
+        new_config_data['M0_0']['TIME_OFF'] = 30
+        new_config_data['M0_0']['VALUE'] = 23.3
+        output_ch0.set_timer(15, 30, 23.3)
+        return new_config_data
+    elif option == 2:
+        new_config_data['M0_0']['MODE'] = PID
+        new_config_data['M0_0']['SETPOINT'] = 48
+        new_config_data['M0_0']['VALUE'] = 0
+        output_ch0.set_pid(ADC['CH0'].value, 48)
+        output_ch0.initialize_pid()
+        return new_config_data
+    elif option == 3:
+        new_config_data['M0_0']['MODE'] = ONOFF
+        new_config_data['M0_0']['VALUE'] = 255
+        new_config_data['M0_0']['PWM_CHANNEL'] = 0
+        new_config_data['M0_0']['ADC_CHANNEL'] = 0
+        new_config_data['M0_0']['LOWER_BOUND'] = 20
+        new_config_data['M0_0']['UPPER_BOUND'] = 30
+        temp_0 = convert_adc_to_temperature(ADC['CH0'].value)
+        output_ch0.set_onoff(temp_0, 20, 30, 255)
+        return new_config_data
+        
 def thread_handle_commands():
     '''
         MANUAL:     "ADDR 1, 0, OUT_CHANNEL, PWM"
@@ -91,28 +125,26 @@ def thread_handle_commands():
         print('4 -> Ajuste de limites de Apagado/Encendido')
         input_command = int(input('Ingrese un comando: '))
         if input_command == 0:
+            print('---------------------- Informacion del DAQ ----------------------')
             print('address: ' + daq_data['address'] + ', ' + 'channels: ' + str(daq_data['inputs']) + ', ' + 'pwm outputs: ' + str(daq_data['outputs']))
         elif input_command == 1:
+            print('---------------------- Datos obtenidos ----------------------')
             print('address: ' + daq_data['address'] + ', ' + 'adc inputs: ' + str(adc_analog_inputs) + ', ' + 'i2c inputs: ' + str(i2c_inputs))
         elif input_command == 2:
+            print('---------------------- Control de salida PWM ----------------------')
+            print('MANUAL: 0')
+            print('TIMER: 1')
+            print('PID: 2')
+            print('ON / OFF: 3')
             print('Configuracion actual: ')
             print(config_data)
-            mode = int(input('Ingrese un modo: '))
-            value = int(input('Ingrese un valor entre [0, 255]: '))
-            pwm_channel = int(input('Ingrese el canal PWM entre [0, 7]: '))
-            lower_bnd = float(input('Ingrese el limite inferior: '))
-            upper_bnd = float(input('Ingrese el limite superior: '))
-            
-            new_config_data = config_data
-            
-            new_config_data['M0_0']['MODE'] = mode
-            new_config_data['M0_0']['VALUE'] = value
-            new_config_data['M0_0']['PWM_CHANNEL'] = pwm_channel
-            new_config_data['M0_0']['LOWER_BOUND'] = lower_bnd
-            new_config_data['M0_0']['UPPER_BOUND'] = upper_bnd
+            mode_control = int(input('Digite un modo de control: '))
+            print('---------------------------------------------------------------')
+            new_config_data = pwm_controller(config_data, mode_control)
             with open('config.json', 'w') as archivo:
                 json.dump(new_config_data, archivo, indent=4)  
             print('Configuracion Actualizada!')
+        '''
         elif input_command == 3:
             print('Configuracion de control PID: ')
             print('Configuracion actual: ')
@@ -153,13 +185,13 @@ def thread_handle_commands():
             with open('config.json', 'w') as archivo:
                 json.dump(new_config_data, archivo, indent=4)  
             print('Configuracion Actualizada!')
-            
+        '''
 
 def timer_1_callback():
     global TIMER_1
     global adc_analog_inputs
     TIMER_1 = True
-    adc_analog_inputs = [(channel, convert_adc_to_temperature(ADC[channel].value), ADC[channel].voltage) for channel in ADC]
+    adc_analog_inputs = [{ channel : convert_adc_to_temperature(ADC[channel].value) } for channel in ADC]
     threading.Timer(cycle_time_timer_1, timer_1_callback).start()
 
 def timer_2_callback():
@@ -187,10 +219,13 @@ if __name__ == '__main__':
     thread1.start()
     try:
         init_timers()
+        init_outputs()
+        adc_inputs = adc_analog_inputs[0]
         while 1:
             if TIMER_1:
                 #print("Timer 1 activado")
                 #print(adc_analog_inputs)
+                output_ch0.write_output(adc_analog_inputs[0]['CH0'])
                 TIMER_1 = False
             if TIMER_2:
                 #print("Timer 2 activado")
