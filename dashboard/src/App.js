@@ -34,19 +34,38 @@ function App() {
     };
 
     return (
-        <div>
-            <h1>Enviar Instrucción a la Raspberry Pi</h1>
+        <div className="container">
+          <div className="modal">
+            <h1 className="title">Enviar Instrucción a la Raspberry Pi</h1>
             <form onSubmit={handleSubmit}>
-                <textarea
-                    value={instruction}
-                    onChange={(e) => setInstruction(e.target.value)}
-                    placeholder="Escribe la instrucción aquí"
-                />
-                <button type="submit" >Enviar Instrucción</button>
+              <label>Valor PWM</label>
+              <input
+                type="number"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                placeholder="Ingrese el valor PWM"
+                className="input-field"
+              />
+              <label>Modo Control</label>
+              <input
+                type="text"
+                value={mode}
+                onChange={(e) => setMode(e.target.value)}
+                placeholder="Ingrese el modo de control"
+                className="input-field"
+              />
+              <label>Instrucción</label>
+              <textarea
+                value={instruction}
+                onChange={(e) => setInstruction(e.target.value)}
+                placeholder="Escribe la instrucción aquí"
+                className="textarea-field"
+              />
+              <button type="submit" className="submit-button">Enviar Instrucción</button>
             </form>
-            {/*!isConnected && <p>Conectando al WebSocket...</p>*/}
+          </div>
         </div>
-    );
+      );
 }
 
 export default App;
