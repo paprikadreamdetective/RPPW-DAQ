@@ -1,6 +1,6 @@
 {
     "M0_0": {
-        "MODE": 3,
+        "MODE": 0,
         "TIME_ON": 15,
         "TIME_OFF": 30,
         "VARIABLE": "M0_dissolved_oxygen",

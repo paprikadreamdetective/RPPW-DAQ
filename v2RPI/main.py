@@ -27,12 +27,14 @@ def create_app():
   
 app = create_app()
 
+
 with open('daq_info.json', 'r') as archivo:
     daq_data = json.load(archivo)
 
 with open('config.json', 'r') as archivo:
     config_data = json.load(archivo)
 
+print(config_data)
 A = 8.1197e-4
 B = 2.65207e-4
 C = 1.272206e-7
@@ -92,13 +94,13 @@ def thread_websocket():
 '''
 
 
-def pwm_controller(config_data: dict, option: int) -> dict:
-    new_config_data = config_data
+def pwm_controller(config_data: dict, option: int, value: int) -> dict:
+    new_config_data = config_data.copy()
     
     if option == 0:
-        output_ch0.set_manual_output(3)
+        output_ch0.set_manual_output(value)
         new_config_data['M0_0']['MODE'] = MANUAL
-        new_config_data['M0_0']['VALUE'] = 0.5
+        new_config_data['M0_0']['VALUE'] = value
         return new_config_data
     elif option == 1:
         new_config_data['M0_0']['MODE'] = TIMER
@@ -128,22 +130,29 @@ def pwm_controller(config_data: dict, option: int) -> dict:
 
 @app.route('/set_mode_manual', methods=['POST'])
 def pwm_set_mode_manual():
+        
         value = request.json['value']
         mode_control = request.json['mode_control']
-        output_ch0.set_manual_output(value)
-        new_config_data = pwm_controller(config_data, mode_control)
+        print(str(value)+ ' ' + str(mode_control))
+        
+        new_config_data = pwm_controller(config_data, int(mode_control), int(value))
+        print(new_config_data)
+        #new_config_data['M0_0']['MODE'] = value
+        #new_config_data['M0_0']['VALUE'] = mode_control
+        #output_ch0.set_manual_output(int(value))
+        #output_ch0.write_output(22.24)
         with open('config.json', 'w') as archivo:
             json.dump(new_config_data, archivo, indent=4)  
         print('Configuracion Actualizada!')
         return jsonify({'success' : True, 'message' : 'Configuracion Actualizada!'})
-        
+'''
 def thread_handle_commands():
-    '''
+    
         MANUAL:     "ADDR 1, 0, OUT_CHANNEL, PWM"
         TIMER:      "ADDR 1, 1, OUT_CHANNEL, TIME_ON, TIME_OFF, PWM"
         PID:        "ADDR 1, 2, OUT_CHANNEL, IN_CHANNEL, SETPOINT"
         ONOFF:      "ADDR 1, 3, OUT_CHANNEL, IN_CHANNEL, LOWER_BOUND, UPPER_BOUND, PWM"
-    '''
+    
     while 1:
         print('0 -> Obtener informacion del DAQ')
         print('1 -> Obtener datos')
@@ -172,6 +181,8 @@ def thread_handle_commands():
                 json.dump(new_config_data, archivo, indent=4)  
             print('Configuracion Actualizada!')
 
+'''
+
 def timer_1_callback():
     global TIMER_1
     global adc_analog_inputs
@@ -196,22 +207,47 @@ def init_outputs():
     output_ch0.set_sample_time_us(cycle_time_timer_1)
     output_ch0.set_gh_filter(0.7)
 
-if __name__ == '__main__':
-    #thread_ws = threading.Thread(target=thread_websocket)
-    #thread_ws.start()
-    thread1 = threading.Thread(target=thread_handle_commands)
-    thread1.start()
-    
-    app.run(host='127.0.0.1', port=5000, debug=True)
+def daq_task():
+    global TIMER_1
+    global TIMER_2
     try:
-        
         init_timers()
         init_outputs()
         adc_inputs = adc_analog_inputs[0]
         while 1:
             if TIMER_1:
                 #print("Timer 1 activado")
-                #print(adc_analog_inputs)
+                print(adc_analog_inputs)
+                output_ch0.write_output(adc_analog_inputs[0]['CH0'])
+                TIMER_1 = False
+            if TIMER_2:
+                #print("Timer 2 activado")
+                #print(i2c_inputs)
+                TIMER_2 = False        
+    except KeyboardInterrupt:
+        print("Programa detenido por el usuario.")
+
+if __name__ == '__main__':
+    #thread_ws = threading.Thread(target=thread_websocket)
+    #thread_ws.start()
+    #thread1 = threading.Thread(target=thread_handle_commands)
+    #thread1.start()
+    
+    # para ver la prueba
+    
+    thread1 = threading.Thread(target=daq_task)
+    thread1.start()
+    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+    '''
+    try:
+        init_timers()
+        init_outputs()
+        adc_inputs = adc_analog_inputs[0]
+        app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+        while 1:
+            if TIMER_1:
+                #print("Timer 1 activado")
+                print(adc_analog_inputs)
                 output_ch0.write_output(adc_analog_inputs[0]['CH0'])
                 TIMER_1 = False
             if TIMER_2:
@@ -221,5 +257,6 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
         #thread_ws.join()
-        thread1.join()
+        #thread1.join()
+    '''
         

@@ -50,7 +50,7 @@ class Output:
         self.pwm.start(0)
         
     #def write_output(self):
-    def write_output(self, input_analog):
+    def write_output(self, input_analog: float):
         if self.control_mode == MANUAL:
             self.value = self.manual_value
             #print("Value: " + str(self.value))
@@ -88,8 +88,9 @@ class Output:
         #for i in range(100, -1, -1):
             #self.pwm.ChangeDutyCycle(self.value)
             #time.sleep(0.01)
+            
+            
     def map_value(self, input_value, in_min, in_max, out_min, out_max):
-        """Mapear un valor de un rango a otro."""
         return (input_value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
     
     
