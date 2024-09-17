@@ -15,7 +15,9 @@ import threading
 import numpy as np
 from adafruit_ahtx0 import AHTx0
 import json
+import websocket
 
+ws = websocket.WebSocket()
 
 def create_app():
     app = Flask(__name__)  # flask app object
@@ -53,7 +55,7 @@ i2c_inputs = []
 
 adc = ADC_MCP3008(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D22))
 ch0 = adc.get_analog_input(0)
-ch2 = adc.get_analog_input(2)  
+#ch2 = adc.get_analog_input(2)  
 
 ADC = { 'CH0' : ch0 }
 
@@ -79,19 +81,20 @@ def convert_adc_to_temperature(adc_value):
     temperature = 1 / (A + B * (np.log(resistance)) + C * (np.log(resistance)) ** 3) - 273.15  # Kelvin to Celsius
     return temperature
 
-'''
+
 def thread_websocket():
     ws.connect('ws://192.168.100.164:1880/ws/example')
     while 1:    
-        print("Enviando medicion") 
-        if i2c_inputs:
-            data_to_send = {'temperature': i2c_inputs[0]['temperature']}
-            message = json.dumps(data_to_send)
-            ws.send(message)
-        else:
-            print("No hay datos para enviar.")
-        time.sleep(3)
-'''
+        data_to_send = convert_adc_to_temperature(ADC['CH0'].value)
+        print(data_to_send)
+        #ws.send(data_to_send)
+        
+        #message = json.dumps(data_to_send)
+        ws.send(str(data_to_send))
+        time.sleep(1)
+        
+        
+
 
 
 def pwm_controller(config_data: dict, option: int, value: int) -> dict:
@@ -237,6 +240,8 @@ if __name__ == '__main__':
     
     thread1 = threading.Thread(target=daq_task)
     thread1.start()
+    thread2 = threading.Thread(target=thread_websocket)
+    thread2.start()
     app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
     '''
     try:
