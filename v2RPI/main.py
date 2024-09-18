@@ -15,9 +15,9 @@ import threading
 import numpy as np
 from adafruit_ahtx0 import AHTx0
 import json
-import websocket
+#import websocket
 
-ws = websocket.WebSocket()
+#ws = websocket.WebSocket()
 
 def create_app():
     app = Flask(__name__)  # flask app object
@@ -35,7 +35,7 @@ with open('daq_info.json', 'r') as archivo:
 
 with open('config.json', 'r') as archivo:
     config_data = json.load(archivo)
-
+print("Configuracion actual")
 print(config_data)
 A = 8.1197e-4
 B = 2.65207e-4
@@ -81,7 +81,7 @@ def convert_adc_to_temperature(adc_value):
     temperature = 1 / (A + B * (np.log(resistance)) + C * (np.log(resistance)) ** 3) - 273.15  # Kelvin to Celsius
     return temperature
 
-
+'''
 def thread_websocket():
     ws.connect('ws://192.168.100.164:1880/ws/example')
     while 1:    
@@ -92,7 +92,7 @@ def thread_websocket():
         #message = json.dumps(data_to_send)
         ws.send(str(data_to_send))
         time.sleep(1)
-        
+'''     
         
 
 
@@ -139,7 +139,7 @@ def pwm_set_mode_manual():
         print(str(value)+ ' ' + str(mode_control))
         
         new_config_data = pwm_controller(config_data, int(mode_control), int(value))
-        print(new_config_data)
+        
         #new_config_data['M0_0']['MODE'] = value
         #new_config_data['M0_0']['VALUE'] = mode_control
         #output_ch0.set_manual_output(int(value))
@@ -147,6 +147,7 @@ def pwm_set_mode_manual():
         with open('config.json', 'w') as archivo:
             json.dump(new_config_data, archivo, indent=4)  
         print('Configuracion Actualizada!')
+        print(new_config_data)
         return jsonify({'success' : True, 'message' : 'Configuracion Actualizada!'})
 '''
 def thread_handle_commands():
@@ -220,7 +221,7 @@ def daq_task():
         while 1:
             if TIMER_1:
                 #print("Timer 1 activado")
-                print(adc_analog_inputs)
+                #print(adc_analog_inputs)
                 output_ch0.write_output(adc_analog_inputs[0]['CH0'])
                 TIMER_1 = False
             if TIMER_2:
@@ -240,8 +241,8 @@ if __name__ == '__main__':
     
     thread1 = threading.Thread(target=daq_task)
     thread1.start()
-    thread2 = threading.Thread(target=thread_websocket)
-    thread2.start()
+    #thread2 = threading.Thread(target=thread_websocket)
+    #thread2.start()
     app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
     '''
     try:
