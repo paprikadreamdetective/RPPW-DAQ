@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css'
 function App() {
+    const [pwmChannel, setPwmChannel] = useState(''); 
     const [value, setValue] = useState('');
     const [mode, setMode] = useState('');
     const [changeMode, setChangeMode] = useState(0);
+    const [upperBound, setUpperBound] = useState(null);
+    const [lowerBound, setLowerBound] = useState(null);
+    const [setpoint, setSetpoint] = useState(null);
+    const [adcChannel, setAdcChannel] = useState(null);
+    const [time_on, setTime_On] = useState(null);
+    const [time_off, setTime_Off] = useState(null);
 
     const [instruction, setIstruction] = useState('');
     //const iframeRef = useRenf(null);
@@ -18,8 +25,15 @@ function App() {
         e.preventDefault();
         try {
             const data = {
-                value: value,
+                pwm_channel: pwmChannel,
+                pwm_value: value,
                 mode_control: mode,
+                time_on: time_on,
+                time_on: time_off,
+                setpoint: setpoint,
+                adc_channel: adcChannel,
+                upper_bound: upperBound,
+                lower_bound: lowerBound
               };
             const response = await fetch('http://192.168.100.164:5000/set_mode_manual', {
             method: 'POST',
@@ -150,6 +164,12 @@ function App() {
         </>)}
         
          {changeMode === 3 && (<>
+
+          <div className="field-group">
+          <label htmlFor="adc-channel">ADC Channel</label>
+          <input type="text" id="adc-channel" />
+        </div>
+
         <div className="field-group">
           <label htmlFor="lower-bound">Lower Bound</label>
           <input type="text" id="lower-bound" />
