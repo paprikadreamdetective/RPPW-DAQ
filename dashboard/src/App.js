@@ -1,9 +1,18 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, useRef } from 'react';
+import './App.css'
 function App() {
-    const [value, setValue] = useState(null);
-    const [mode, setMode] = useState(null);
-    const [isConnected, setIsConnected] = useState(false);
+    const [value, setValue] = useState('');
+    const [mode, setMode] = useState('');
+    const [changeMode, setChangeMode] = useState(0);
+
+    const [instruction, setInstruction] = useState('');
+    const iframeRef = useRef(null);
+
+    const handleModeChange = (e) => {
+      e.preventDefault();
+      setChangeMode(e.target.value);
+      console.log(changeMode);
+    };
 
     const handle_pwm_set_mode = async (e) => {
         e.preventDefault();
@@ -33,11 +42,13 @@ function App() {
         }
     };
 
+    
     return (
-        <div className="container">
+      <>
+        {/*<div className="container">
           <div className="modal">
             <h1 className="title">Enviar Instrucción a la Raspberry Pi</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handle_pwm_set_mode}>
               <label>Valor PWM</label>
               <input
                 type="number"
@@ -48,24 +59,108 @@ function App() {
               />
               <label>Modo Control</label>
               <input
-                type="text"
+                type="number"
                 value={mode}
                 onChange={(e) => setMode(e.target.value)}
                 placeholder="Ingrese el modo de control"
                 className="input-field"
               />
-              <label>Instrucción</label>
-              <textarea
-                value={instruction}
-                onChange={(e) => setInstruction(e.target.value)}
-                placeholder="Escribe la instrucción aquí"
-                className="textarea-field"
-              />
               <button type="submit" className="submit-button">Enviar Instrucción</button>
             </form>
+
+
+
           </div>
+
+          <div >
+                <h2>Dashboard de Node-RED</h2>
+                <iframe
+                    ref={iframeRef}
+                    src="http://192.168.100.164:1880/ui/#/0" // Cambia esta URL a la de tu dashboard
+                    title="Node-RED Dashboard"
+                    width="600px"
+                    height="600px"
+                    style={{ border: 'none' }}
+                ></iframe>
+
+        
+            </div>
+
+        </div>*/}
+  
+  <div className="dashboard-container">
+    {/* Contenedor de DAQ */}
+    <div className="daq-info">
+      <h3>Contenedor 1: DAQ Description</h3>
+      <div className="daq-content"></div>
+    </div>
+
+    {/* Contenedor de Charts */}
+    <div className="dashboard-charts">
+      <h3>Contenedor 2: Charts</h3>
+      <div className="charts-content"></div>
+    </div>
+
+    {/* Contenedor de Control PWM */}
+    <div className="control-container">
+      <h3>PWM MODE CONTROL</h3>
+      <label htmlFor="mode">Mode</label>
+      <select id="mode" className="dropdown" onChange={handleModeChange}>
+        <option value={0}>MANUAL</option>
+        <option value={1}>TIMER</option>
+        <option value={2}>PID</option>
+        <option value={3}>ON / OFF</option>
+      </select>
+
+      <div className="fields-container">
+        
+        <div className={`field-group ${changeMode >= 0 && changeMode <= 3 ? 'visible' : ''}`}>
+          <label htmlFor="pwm-channel">PWM Channel</label>
+          <input type="number" id="pwm-channel" />
         </div>
-      );
+
+        <div className={`field-group ${changeMode >= 0 && changeMode <= 3 ? 'visible' : ''}`}>
+          <label htmlFor="pwm-value">PWM Value</label>
+          <input type="number" id="pwm-value" />
+        </div>
+
+          
+        <div className={`field-group ${changeMode === 1 ? 'visible' : ''}`}>
+          <label htmlFor="time-on">Time On</label>
+          <input type="text" id="time-on" />
+        </div>
+
+        <div className={`field-group ${changeMode === 1 ? 'visible' : ''}`}>
+          <label htmlFor="time-off">Time Off</label>
+          <input type="text" id="time-off" />
+        </div>
+        
+        <div className={`field-group ${changeMode === 2 ? 'visible' : ''}`}>
+          <label htmlFor="setpoint">Setpoint</label>
+          <input type="text" id="setpoint" />
+        </div>
+
+        <div className={`field-group ${changeMode === 2 ? 'visible' : ''}`}>
+          <label htmlFor="adc-channel">ADC Channel</label>
+          <input type="text" id="adc-channel" />
+        </div>
+
+        <div className={`field-group ${changeMode === 3 ? 'visible' : ''}`}>
+          <label htmlFor="lower-bound">Lower Bound</label>
+          <input type="text" id="lower-bound" />
+        </div>
+
+        <div className={`field-group ${changeMode === 3 ? 'visible' : ''}`}>
+          <label htmlFor="upper-bound">Upper Bound</label>
+          <input type="text" id="upper-bound" />
+        </div>
+
+            <button className="save-button">Save</button>
+      </div>
+    </div>
+  </div>
+  </>
+  );
 }
 
 export default App;
