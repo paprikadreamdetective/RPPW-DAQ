@@ -5,12 +5,12 @@ function App() {
     const [mode, setMode] = useState('');
     const [changeMode, setChangeMode] = useState(0);
 
-    const [instruction, setInstruction] = useState('');
-    const iframeRef = useRef(null);
+    const [instruction, setIstruction] = useState('');
+    //const iframeRef = useRenf(null);
 
     const handleModeChange = (e) => {
       e.preventDefault();
-      setChangeMode(e.target.value);
+      setChangeMode(Number(e.target.value));
       console.log(changeMode);
     };
 
@@ -124,37 +124,42 @@ function App() {
           <input type="number" id="pwm-value" />
         </div>
 
-          
-        <div className={`field-group ${changeMode === 1 ? 'visible' : ''}`}>
+        {changeMode === 1 && (
+          <>
+        <div className="field-group">
           <label htmlFor="time-on">Time On</label>
           <input type="text" id="time-on" />
         </div>
-
-        <div className={`field-group ${changeMode === 1 ? 'visible' : ''}`}>
+        
+        <div className="field-group">
           <label htmlFor="time-off">Time Off</label>
           <input type="text" id="time-off" />
         </div>
-        
-        <div className={`field-group ${changeMode === 2 ? 'visible' : ''}`}>
-          <label htmlFor="setpoint">Setpoint</label>
-          <input type="text" id="setpoint" />
-        </div>
+        </>
+        )}
+        {changeMode === 2 && (<>
+          <div className="field-group">
+            <label htmlFor="setpoint">Setpoint</label>
+            <input type="text" id="setpoint" />
+          </div>
 
-        <div className={`field-group ${changeMode === 2 ? 'visible' : ''}`}>
+        <div className="field-group">
           <label htmlFor="adc-channel">ADC Channel</label>
           <input type="text" id="adc-channel" />
         </div>
-
-        <div className={`field-group ${changeMode === 3 ? 'visible' : ''}`}>
+        </>)}
+        
+         {changeMode === 3 && (<>
+        <div className="field-group">
           <label htmlFor="lower-bound">Lower Bound</label>
           <input type="text" id="lower-bound" />
         </div>
 
-        <div className={`field-group ${changeMode === 3 ? 'visible' : ''}`}>
+        <div className="field-group">
           <label htmlFor="upper-bound">Upper Bound</label>
           <input type="text" id="upper-bound" />
         </div>
-
+        </>)}
             <button className="save-button">Save</button>
       </div>
     </div>
