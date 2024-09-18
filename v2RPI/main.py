@@ -97,13 +97,13 @@ def thread_websocket():
 
 
 
-def pwm_controller(config_data: dict, option: int, value: int) -> dict:
+def pwm_controller(request_data: dict, option: int, value: int) -> dict:
     new_config_data = config_data.copy()
     
-    if option == 0:
+    if option == request_data.json['mode']:
         output_ch0.set_manual_output(value)
         new_config_data['M0_0']['MODE'] = MANUAL
-        new_config_data['M0_0']['VALUE'] = value
+        new_config_data['M0_0']['VALUE'] = int(request_data.json['value'])
         return new_config_data
     elif option == 1:
         new_config_data['M0_0']['MODE'] = TIMER
