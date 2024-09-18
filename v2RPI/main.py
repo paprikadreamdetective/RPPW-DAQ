@@ -97,37 +97,41 @@ def thread_websocket():
 
 
 
-def pwm_controller(request_data: dict, option: int, value: int) -> dict:
+def pwm_controller(request_data: dict) -> dict:
     new_config_data = config_data.copy()
-    
-    if option == request_data.json['mode']:
-        output_ch0.set_manual_output(value)
+    mode = request_data.json['mode']
+    if 0 == mode:
+        output_ch0.set_manual_output(request_data.json['pwm_value'])
         new_config_data['M0_0']['MODE'] = MANUAL
-        new_config_data['M0_0']['VALUE'] = int(request_data.json['value'])
+        new_config_data['M0_0']['PWM_CHANNEL'] = int(request_data.json['pwm_channel'])
+        new_config_data['M0_0']['VALUE'] = int(request_data.json['pwm_value'])
         return new_config_data
-    elif option == 1:
+    elif 1 == mode:
         new_config_data['M0_0']['MODE'] = TIMER
-        new_config_data['M0_0']['TIME_ON'] = 15
-        new_config_data['M0_0']['TIME_OFF'] = 30
-        new_config_data['M0_0']['VALUE'] = 23.3
-        output_ch0.set_timer(15, 30, 23.3)
+        new_config_data['M0_0']['TIME_ON'] = int(request_data.json['time_on'])
+        new_config_data['M0_0']['TIME_OFF'] = int(request_data.json['time_on'])
+        new_config_data['M0_0']['VALUE'] = int(request_data.json['pwm_value'])
+        new_config_data['M0_0']['PWM_CHANNEL'] = int(request_data.json['pwm_channel'])
+        output_ch0.set_timer(int(request_data.json['time_on']), int(request_data.json['time_on']), int(request_data.json['pwm_value']))
         return new_config_data
-    elif option == 2:
+    elif 2 == mode:
         new_config_data['M0_0']['MODE'] = PID
-        new_config_data['M0_0']['SETPOINT'] = 48
-        new_config_data['M0_0']['VALUE'] = 0
-        output_ch0.set_pid(ADC['CH0'].value, 48)
+        new_config_data['M0_0']['PWM_CHANNEL'] = int(request_data.json['pwm_channel'])
+        new_config_data['M0_0']['SETPOINT'] = int(request_data.json['setpoint'])
+        new_config_data['M0_0']['VALUE'] = int(request_data.json['pwm_value'])
+        new_config_data['M0_0']['ADC_CHANNEL'] = int(request_data.json['adc_channel'])
+        output_ch0.set_pid(ADC['CH0'].value, int(request_data.json['setpoint']))
         output_ch0.initialize_pid()
         return new_config_data
-    elif option == 3:
+    elif 3 == mode:
         new_config_data['M0_0']['MODE'] = ONOFF
-        new_config_data['M0_0']['VALUE'] = 255
-        new_config_data['M0_0']['PWM_CHANNEL'] = 0
-        new_config_data['M0_0']['ADC_CHANNEL'] = 0
-        new_config_data['M0_0']['LOWER_BOUND'] = 20
-        new_config_data['M0_0']['UPPER_BOUND'] = 30
+        new_config_data['M0_0']['VALUE'] = int(request_data.json['pwm_value'])
+        new_config_data['M0_0']['PWM_CHANNEL'] = int(request_data.json['pwm_channel'])
+        new_config_data['M0_0']['ADC_CHANNEL'] = int(request_data.json['adc_channel'])
+        new_config_data['M0_0']['LOWER_BOUND'] = int(request_data.json['lower_bound'])
+        new_config_data['M0_0']['UPPER_BOUND'] = int(request_data.json['upper_bound'])
         temp_0 = convert_adc_to_temperature(ADC['CH0'].value)
-        output_ch0.set_onoff(temp_0, 20, 30, 255)
+        output_ch0.set_onoff(temp_0, int(request_data.json['lower_bound']), int(request_data.json['upper_bound']), int(request_data.json['pwm_value']))
         return new_config_data
 
 
@@ -137,8 +141,8 @@ def pwm_set_mode_manual():
         value = request.json['value']
         mode_control = request.json['mode_control']
         print(str(value)+ ' ' + str(mode_control))
-        
-        new_config_data = pwm_controller(config_data, int(mode_control), int(value))
+        request_data = request
+        new_config_data = pwm_controller(request_data)
         
         #new_config_data['M0_0']['MODE'] = value
         #new_config_data['M0_0']['VALUE'] = mode_control
