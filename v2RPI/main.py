@@ -99,7 +99,7 @@ def thread_websocket():
 
 def pwm_controller(request_data: dict) -> dict:
     new_config_data = config_data.copy()
-    mode = request_data.json['mode']
+    mode = request_data.json['mode_control']
     if 0 == mode:
         output_ch0.set_manual_output(request_data.json['pwm_value'])
         new_config_data['M0_0']['MODE'] = MANUAL
@@ -138,7 +138,7 @@ def pwm_controller(request_data: dict) -> dict:
 @app.route('/set_mode_manual', methods=['POST'])
 def pwm_set_mode_manual():
         
-        value = request.json['value']
+        value = request.json['pwm_value']
         mode_control = request.json['mode_control']
         print(str(value)+ ' ' + str(mode_control))
         request_data = request
