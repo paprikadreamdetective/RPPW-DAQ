@@ -27,7 +27,7 @@ function App() {
             const data = {
                 pwm_channel: pwmChannel,
                 pwm_value: value,
-                mode_control: mode,
+                mode_control: changeMode,
                 time_on: time_on,
                 time_on: time_off,
                 setpoint: setpoint,
@@ -130,36 +130,76 @@ function App() {
         
         <div className={`field-group ${changeMode >= 0 && changeMode <= 3 ? 'visible' : ''}`}>
           <label htmlFor="pwm-channel">PWM Channel</label>
-          <input type="number" id="pwm-channel" />
+          {/*<input type="number" id="pwm-channel" />*/}
+          <input
+                type="number"
+                value={pwmChannel}
+                onChange={(e) => setPwmChannel(e.target.value)}
+                placeholder="Ingrese el modo de control"
+                className="input-field"
+              />
         </div>
 
         <div className={`field-group ${changeMode >= 0 && changeMode <= 3 ? 'visible' : ''}`}>
           <label htmlFor="pwm-value">PWM Value</label>
-          <input type="number" id="pwm-value" />
+          {/*<input type="number" id="pwm-value" />*/}
+          <input
+                type="number"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                placeholder="Ingrese el modo de control"
+                className="input-field"
+              />
         </div>
 
         {changeMode === 1 && (
           <>
         <div className="field-group">
           <label htmlFor="time-on">Time On</label>
-          <input type="text" id="time-on" />
+          {/*<input type="text" id="time-on" />*/}
+          <input
+                type="number"
+                value={time_on}
+                onChange={(e) => setTime_On(e.target.value)}
+                placeholder="Ingrese el modo de control"
+                className="input-field"
+              />
         </div>
         
         <div className="field-group">
           <label htmlFor="time-off">Time Off</label>
-          <input type="text" id="time-off" />
+          {/*<input type="text" id="time-off" />*/}
+          <input
+                type="number"
+                value={time_off}
+                onChange={(e) => setTime_Off(e.target.value)}
+                
+                className="input-field"
+              />
         </div>
         </>
         )}
         {changeMode === 2 && (<>
           <div className="field-group">
             <label htmlFor="setpoint">Setpoint</label>
-            <input type="text" id="setpoint" />
+            {/*<input type="text" id="setpoint" />*/}
+            <input
+                type="number"
+                value={setpoint}
+                onChange={(e) => setSetpoint(e.target.value)}
+                className="input-field"
+              />
           </div>
 
         <div className="field-group">
           <label htmlFor="adc-channel">ADC Channel</label>
-          <input type="text" id="adc-channel" />
+          {/*<input type="text" id="adc-channel" />*/}
+          <input
+                type="number"
+                value={adcChannel}
+                onChange={(e) => setAdcChannel(e.target.value)}
+                className="input-field"
+              />
         </div>
         </>)}
         
@@ -167,20 +207,38 @@ function App() {
 
           <div className="field-group">
           <label htmlFor="adc-channel">ADC Channel</label>
-          <input type="text" id="adc-channel" />
+          {/*<input type="text" id="adc-channel" />*/}
+          <input
+                type="number"
+                value={adcChannel}
+                onChange={(e) => setAdcChannel(e.target.value)}
+                className="input-field"
+              />
         </div>
 
         <div className="field-group">
           <label htmlFor="lower-bound">Lower Bound</label>
-          <input type="text" id="lower-bound" />
+          {/*<input type="text" id="lower-bound" />*/}
+          <input
+                type="number"
+                value={lowerBound}
+                onChange={(e) => setLowerBound(e.target.value)}
+                className="input-field"
+              />
         </div>
 
         <div className="field-group">
           <label htmlFor="upper-bound">Upper Bound</label>
           <input type="text" id="upper-bound" />
+          <input
+                type="number"
+                value={upperBound}
+                onChange={(e) => setUpperBound(e.target.value)}
+                className="input-field"
+              />
         </div>
         </>)}
-            <button className="save-button">Save</button>
+            <button className="save-button" onClick={handle_pwm_set_mode}>Save</button>
       </div>
     </div>
   </div>
