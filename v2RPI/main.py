@@ -2,7 +2,7 @@ from utilities import *
 from output_buffer import *
 from mcp3008 import ADC_MCP3008
 from controller import *
-#from app import create_flask_app, daq_data, config_data
+
 
 import time
 import board
