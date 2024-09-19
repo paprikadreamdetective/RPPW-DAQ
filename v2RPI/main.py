@@ -109,10 +109,10 @@ def pwm_controller(request_data: dict) -> dict:
     elif 1 == mode:
         new_config_data['M0_0']['MODE'] = TIMER
         new_config_data['M0_0']['TIME_ON'] = int(request_data.json['time_on'])
-        new_config_data['M0_0']['TIME_OFF'] = int(request_data.json['time_on'])
+        new_config_data['M0_0']['TIME_OFF'] = int(request_data.json['time_off'])
         new_config_data['M0_0']['VALUE'] = int(request_data.json['pwm_value'])
         new_config_data['M0_0']['PWM_CHANNEL'] = int(request_data.json['pwm_channel'])
-        output_ch0.set_timer(int(request_data.json['time_on']), int(request_data.json['time_on']), int(request_data.json['pwm_value']))
+        output_ch0.set_timer(int(request_data.json['time_on']), int(request_data.json['time_off']), int(request_data.json['pwm_value']))
         return new_config_data
     elif 2 == mode:
         new_config_data['M0_0']['MODE'] = PID
@@ -141,8 +141,8 @@ def pwm_set_mode_manual():
         value = request.json['pwm_value']
         mode_control = request.json['mode_control']
         print(str(value)+ ' ' + str(mode_control))
-        request_data = request
-        new_config_data = pwm_controller(request_data)
+        commands = request
+        new_config_data = pwm_controller(commands)
         
         #new_config_data['M0_0']['MODE'] = value
         #new_config_data['M0_0']['VALUE'] = mode_control

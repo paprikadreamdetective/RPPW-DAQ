@@ -1,13 +1,13 @@
 {
     "M0_0": {
         "MODE": 2,
-        "TIME_ON": 15,
-        "TIME_OFF": 30,
+        "TIME_ON": 1,
+        "TIME_OFF": 1,
         "VARIABLE": "M0_dissolved_oxygen",
         "SETPOINT": 48,
-        "LOWER_BOUND": 20,
-        "UPPER_BOUND": 30,
-        "VALUE": 0,
+        "LOWER_BOUND": 11,
+        "UPPER_BOUND": 39,
+        "VALUE": 4,
         "PWM_CHANNEL": 0,
         "ADC_CHANNEL": 0
     }

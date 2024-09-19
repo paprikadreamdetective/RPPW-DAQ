@@ -84,14 +84,16 @@ class Output:
                 #elif self._input_value > self._input_value_ub:
                 elif int(input_analog) < self._input_value_ub:
                         self.value = 0
-        self.pwm.ChangeDutyCycle(self.map_value(self.value, 0, 255, 0, 100))
+        for i in range(100, -1, -1):
+            self.pwm.ChangeDutyCycle(self.map_value(self.value, 0, 255, 0, 100))
+            time.sleep(0.01)
         #for i in range(100, -1, -1):
             #self.pwm.ChangeDutyCycle(self.value)
             #time.sleep(0.01)
             
             
     def map_value(self, input_value, in_min, in_max, out_min, out_max):
-        return (input_value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+        return (int(input_value) - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
     
     
     def set_manual_output(self, value):
