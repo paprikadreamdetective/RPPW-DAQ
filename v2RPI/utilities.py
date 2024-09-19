@@ -5,10 +5,6 @@ PWM MODES:
 '''
 
 
-
-
-
-
 CONFIG_THERMISTOR_RESISTOR = 9900
 REF_VOLTAGE = 3.3
 thermistor = [8.1197E-4, 2.65207E-4, 1.272206E-7] # 103JT-025 semitec
@@ -16,16 +12,16 @@ thermistor = [8.1197E-4, 2.65207E-4, 1.272206E-7] # 103JT-025 semitec
 RESISTOR_DIVIDER = 5100000
 op_amp_resistors = [1500, 2200]
 
-a_temp = thermistor[0];
-b_temp = thermistor[1];
-c_temp = thermistor[2];
+a_temp = thermistor[0]
+b_temp = thermistor[1]
+c_temp = thermistor[2]
 # Set opamp resistors
 RESISTOR_FEEDBACK = op_amp_resistors[0]
 RESISTOR_REFERENCE = op_amp_resistors[1]
 
-R23 = RESISTOR_REFERENCE**2 / (2 * RESISTOR_REFERENCE);
-R43 = RESISTOR_FEEDBACK / RESISTOR_REFERENCE;
-GAIN = (R23 + RESISTOR_FEEDBACK) / R23;
+R23 = RESISTOR_REFERENCE**2 / (2 * RESISTOR_REFERENCE)
+R43 = RESISTOR_FEEDBACK / RESISTOR_REFERENCE
+GAIN = (R23 + RESISTOR_FEEDBACK) / R23
 
 def get_resistance(option: int, analog_value: float) -> float:
 	if option == 0:

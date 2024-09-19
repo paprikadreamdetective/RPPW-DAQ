@@ -1,29 +1,26 @@
 from config import ApplicationConfig
 
-from flask import Flask
+from flask import Flask, request, jsonify
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS, cross_origin
 from flask_session import Session
+import json
 
-def create_app():
-    app = Flask(__name__)  # flask app object
+
+def create_flask_app():
+    app = Flask(__name__) 
     CORS(app, supports_credentials=True)
-    app.config.from_object(ApplicationConfig)
-    #Bcrypt(app)
-    #Session(app)
     return app
+  
 
-app = create_app()  
+with open('daq_info.json', 'r') as archivo:
+    daq_data = json.load(archivo)
 
+with open('config.json', 'r') as archivo:
+    config_data = json.load(archivo)
 
-from main import *
-
-if __name__ == '__main__':  # Running the app
-    
-    app.run(host='127.0.0.1', port=5000, debug=True)
-    
-
-
+print("Configuracion actual")
+print(config_data)
 '''
 class User:
     def __init__(self):

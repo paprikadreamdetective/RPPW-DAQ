@@ -1,12 +1,10 @@
 import RPi.GPIO as GPIO
 import time
 
-
 MANUAL = 0
 TIMER = 1
 PID = 2
 ONOFF = 3
-
 
 class Output:
     def __init__(self, channel, pin, output_type, control_mode, value):
@@ -167,7 +165,6 @@ class Output:
         self._last_error = 0
         self._integral_sum = 0
         self._filtered_input = self._input_value
-    
     
     def cleanup(self):
         self.pwm.stop()

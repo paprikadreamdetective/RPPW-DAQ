@@ -1,8 +1,7 @@
 from utilities import *
 from output_buffer import *
 from mcp3008 import ADC_MCP3008
-from controller import *
-#from app import create_flask_app, daq_data, config_data
+from app import *
 
 import time
 import board
@@ -15,7 +14,7 @@ import threading
 import numpy as np
 from adafruit_ahtx0 import AHTx0
 import json
-'''
+
 app = create_flask_app() 
 
 A = 8.1197e-4
@@ -59,7 +58,18 @@ def convert_adc_to_temperature(adc_value):
     temperature = 1 / (A + B * (np.log(resistance)) + C * (np.log(resistance)) ** 3) - 273.15  # Kelvin to Celsius
     return temperature
 
-
+'''
+def thread_websocket():
+    ws.connect('ws://192.168.100.164:1880/ws/example')
+    while 1:    
+        data_to_send = convert_adc_to_temperature(ADC['CH0'].value)
+        print(data_to_send)
+        #ws.send(data_to_send)
+        
+        #message = json.dumps(data_to_send)
+        ws.send(str(data_to_send))
+        time.sleep(1)
+'''     
         
 
 
@@ -164,11 +174,5 @@ def daq_task():
                 TIMER_2 = False        
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
-'''
-if __name__ == '__main__':
-    thread1 = threading.Thread(target=daq_task)
-    thread1.start()
-    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+
     
-    
-        
