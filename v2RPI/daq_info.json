@@ -1,5 +1,8 @@
 {
+	"location" : "Bioprocess Lab",
+	"hardware" : "Raspberry PI 4",
 	"address" : "M0",
-	"inputs" : 8,
-	"outputs" : 8
+	"analog_inputs" : 8,
+	"pwm_outputs" : 8,
+	"i2c_address" : 0
 }

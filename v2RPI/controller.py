@@ -129,6 +129,14 @@ def pwm_set_mode():
         print(new_config_data)
         return jsonify({'success' : True, 'message' : 'Configuracion Actualizada!'})
 
+@app.route('/get_daq_info', methods=['GET'])
+def get_daq_info():
+    if not daq_data:
+        return jsonify({'success' : True, 'message' : 'Ha ocurrido un error'})
+        #return jsonify({"error": "No hay usuarios"}), 401
+    return jsonify(daq_data)
+
+
 def timer_1_callback():
     global TIMER_1
     global adc_analog_inputs
