@@ -82,11 +82,11 @@ class Output:
                 #elif self._input_value > self._input_value_ub:
                 elif int(input_analog) < self._input_value_ub:
                         self.value = 0
-        for i in range(100, -1, -1):
-            self.pwm.ChangeDutyCycle(self.map_value(self.value, 0, 255, 0, 100))
-            time.sleep(0.01)
         #for i in range(100, -1, -1):
-            #self.pwm.ChangeDutyCycle(self.value)
+        self.pwm.ChangeDutyCycle(self.map_value(self.value, 0, 255, 0, 100))
+        #    time.sleep(0.01)
+        #for i in range(100, -1, -1):
+        #self.pwm.ChangeDutyCycle(self.value)
             #time.sleep(0.01)
             
             

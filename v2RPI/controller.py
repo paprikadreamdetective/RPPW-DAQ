@@ -2,7 +2,6 @@ from utilities import *
 from output_buffer import *
 from mcp3008 import ADC_MCP3008
 from app import *
-
 import time
 import board
 import busio
@@ -10,7 +9,6 @@ import os
 import digitalio
 from math import log
 import threading
-
 import numpy as np
 from adafruit_ahtx0 import AHTx0
 import json
@@ -24,7 +22,7 @@ C = 1.272206e-7
 # PID Configuration
 Kp = 30
 Ki = 0.5
-Kd = 50
+Kd = 0.5
 
 output_ch0 = Output(0, 18, "pwm", MANUAL, 0)
 
