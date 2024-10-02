@@ -57,22 +57,6 @@ def convert_adc_to_temperature(adc_value):
     temperature = 1 / (A + B * (np.log(resistance)) + C * (np.log(resistance)) ** 3) - 273.15  # Kelvin to Celsius
     return temperature
 
-'''
-def thread_websocket():
-    ws.connect('ws://192.168.100.164:1880/ws/example')
-    while 1:    
-        data_to_send = convert_adc_to_temperature(ADC['CH0'].value)
-        print(data_to_send)
-        #ws.send(data_to_send)
-        
-        #message = json.dumps(data_to_send)
-        ws.send(str(data_to_send))
-        time.sleep(1)
-'''     
-        
-
-
-
 def pwm_controller(request_data: dict) -> dict:
     """
         MANUAL:     "ADDR 1, 0, OUT_CHANNEL, PWM"
@@ -119,24 +103,41 @@ def pwm_controller(request_data: dict) -> dict:
 
 @app.route('/set_mode_manual', methods=['POST'])
 def pwm_set_mode():
-        value = request.json['pwm_value']
-        mode_control = request.json['mode_control']
-        print(str(value)+ ' ' + str(mode_control))
-        commands = request
-        new_config_data = pwm_controller(commands)
-        with open('config.json', 'w') as archivo:
-            json.dump(new_config_data, archivo, indent=4)  
-        print('Configuracion Actualizada!')
-        print(new_config_data)
-        return jsonify({'success' : True, 'message' : 'Configuracion Actualizada!'})
+    value = request.json['pwm_value']
+    mode_control = request.json['mode_control']
+    print(str(value)+ ' ' + str(mode_control))
+    commands = request
+    new_config_data = pwm_controller(commands)
+    with open('config.json', 'w') as archivo:
+        json.dump(new_config_data, archivo, indent=4)  
+    print('Configuracion Actualizada!')
+    print(new_config_data)
+    return jsonify({'success' : True, 'message' : 'Configuracion Actualizada!'})
 
 @app.route('/get_daq_info', methods=['GET'])
 def get_daq_info():
     if not daq_data:
         return jsonify({'success' : True, 'message' : 'Ha ocurrido un error'})
-        #return jsonify({"error": "No hay usuarios"}), 401
     return jsonify(daq_data)
 
+@app.route('/set_config_pwm', methods=['POST'])
+def set_config_pwm():
+   
+    new_config_pwm = config_data.copy()
+    new_config_pwm['M0_0']['OUTPUT_LOWER_LIMIT'] = request.json['output_lower_limit']
+    new_config_pwm['M0_0']['OUTPUT_UPPER_LIMIT'] = request.json['output_upper_limit']
+    new_config_pwm['M0_0']['KP'] = request.json['kp_value']
+    new_config_pwm['M0_0']['KI'] = request.json['ki_value']
+    new_config_pwm['M0_0']['KD'] = request.json['kd_value']
+    new_config_pwm['M0_0']['SAMPLE_TIME_US'] = request.json['sample_time_us']
+    new_config_pwm['M0_0']['GH_FILTER'] = request.json['gh_filter']
+
+    #new_config_data = pwm_controller(commands)
+    with open('config.json', 'w') as archivo:
+        json.dump(new_config_pwm, archivo, indent=4)  
+    print('Configuracion Actualizada!')
+    print(new_config_pwm)
+    return jsonify({'success' : True, 'message' : 'Configuracion Actualizada!'})
 
 def timer_1_callback():
     global TIMER_1
@@ -182,7 +183,7 @@ def daq_task():
                 TIMER_1 = False
             if TIMER_2:
                 #print("Timer 2 activado")
-                #print(i2c_inputs)
+                print(i2c_inputs)
                 TIMER_2 = False        
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
