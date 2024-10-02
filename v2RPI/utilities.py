@@ -33,7 +33,7 @@ def get_steinhart_eq(resistance: float):
 	return a_temp + b_temp*log(resistance) + c_temp*log(resistance)**3
 
 def get_temp_voltage_divider(analog_value: float):
-	return (1 / get_steinhart_eq(get_resistance(0))) - 273.15;
+	return (1 / get_steinhart_eq(get_resistance(0))) - 273.15
 
 
 def get_temp_opamp(analog_value: float):

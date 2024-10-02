@@ -7,8 +7,15 @@
         "SETPOINT": 23,
         "LOWER_BOUND": 11,
         "UPPER_BOUND": 39,
-        "VALUE": 255,
+        "VALUE": 3,
         "PWM_CHANNEL": 0,
-        "ADC_CHANNEL": 0
+        "ADC_CHANNEL": 0,
+        "OUTPUT_LOWER_LIMIT" : 0,
+        "OUTPUT_UPPER_LIMIT" : 0,
+        "KP" : 0.0,
+        "KI" : 0.0,
+        "KD" : 0.0,
+        "SAMPLE_TIME_US" : 0.0,
+        "GH_FILTER" : 0.0
     }
 }

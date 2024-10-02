@@ -24,6 +24,7 @@ Kp = 30
 Ki = 0.5
 Kd = 0.5
 
+
 output_ch0 = Output(0, 18, "pwm", MANUAL, 0)
 
 adc_analog_inputs = []
@@ -141,7 +142,11 @@ def timer_1_callback():
     global TIMER_1
     global adc_analog_inputs
     TIMER_1 = True
-    adc_analog_inputs = [{ channel : convert_adc_to_temperature(ADC[channel].value) } for channel in ADC]
+    print()
+    analog_read = ADC['CH0'].value
+    print(analog_read)
+    adc_analog_inputs = [{ channel : convert_adc_to_temperature(analog_read) } for channel in ADC]
+    
     threading.Timer(cycle_time_timer_1, timer_1_callback).start()
 
 def timer_2_callback():
@@ -149,6 +154,7 @@ def timer_2_callback():
     global i2c_inputs
     TIMER_2 = True
     i2c_inputs = [{'temperature' : i2c_sensor[sensor].temperature, 'humidity' : i2c_sensor[sensor].relative_humidity} for sensor in i2c_sensor] 
+    print(i2c_inputs)
     threading.Timer(cycle_time_timer_2, timer_2_callback).start()
 
 def init_timers():
@@ -176,7 +182,7 @@ def daq_task():
                 TIMER_1 = False
             if TIMER_2:
                 #print("Timer 2 activado")
-                print(i2c_inputs)
+                #print(i2c_inputs)
                 TIMER_2 = False        
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
