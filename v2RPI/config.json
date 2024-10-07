@@ -4,18 +4,18 @@
         "TIME_ON": 15,
         "TIME_OFF": 30,
         "VARIABLE": "M0_dissolved_oxygen",
-        "SETPOINT": 23,
+        "SETPOINT": 30,
         "LOWER_BOUND": 11,
         "UPPER_BOUND": 39,
-        "VALUE": 3,
+        "VALUE": 44,
         "PWM_CHANNEL": 0,
         "ADC_CHANNEL": 0,
-        "OUTPUT_LOWER_LIMIT" : 0,
-        "OUTPUT_UPPER_LIMIT" : 0,
-        "KP" : 0.0,
-        "KI" : 0.0,
-        "KD" : 0.0,
-        "SAMPLE_TIME_US" : 0.0,
-        "GH_FILTER" : 0.0
+        "OUTPUT_LOWER_LIMIT": 0,
+        "OUTPUT_UPPER_LIMIT": 85,
+        "KP": 45.0,
+        "KI": 0.2,
+        "KD": 0.1,
+        "SAMPLE_TIME_US": 1.0,
+        "GH_FILTER": 0.7
     }
 }

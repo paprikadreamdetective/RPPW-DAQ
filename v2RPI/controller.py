@@ -86,8 +86,24 @@ def pwm_controller(request_data: dict) -> dict:
         new_config_data['M0_0']['SETPOINT'] = int(request_data.json['setpoint'])
         new_config_data['M0_0']['VALUE'] = int(request_data.json['pwm_value'])
         new_config_data['M0_0']['ADC_CHANNEL'] = int(request_data.json['adc_channel'])
+        
+        new_config_data['M0_0']['OUTPUT_LOWER_LIMIT'] = int(request.json['output_lower_limit'])
+        new_config_data['M0_0']['OUTPUT_UPPER_LIMIT'] = int(request.json['output_upper_limit'])
+        new_config_data['M0_0']['KP'] = float(request.json['kp_value'])
+        new_config_data['M0_0']['KI'] = float(request.json['ki_value'])
+        new_config_data['M0_0']['KD'] = float(request.json['kd_value'])
+        new_config_data['M0_0']['SAMPLE_TIME_US'] = float(request.json['sample_time_us'])
+        new_config_data['M0_0']['GH_FILTER'] = float(request.json['gh_filter'])
+
+
+        
         output_ch0.set_pid(ADC['CH0'].value, int(request_data.json['setpoint']))
+        output_ch0.set_output_limits(int(request.json['output_lower_limit']), int(request.json['output_upper_limit']))
+        output_ch0.set_pid_tunings(float(request.json['kp_value']), float(request.json['ki_value']), float(request.json['kd_value']))
+        output_ch0.set_sample_time_us(int(request.json['sample_time_us']))
+        output_ch0.set_gh_filter(float(request.json['gh_filter']))
         output_ch0.initialize_pid()
+        
         return new_config_data
     elif 3 == mode:
         new_config_data['M0_0']['MODE'] = ONOFF
@@ -120,6 +136,7 @@ def get_daq_info():
         return jsonify({'success' : True, 'message' : 'Ha ocurrido un error'})
     return jsonify(daq_data)
 
+'''
 @app.route('/set_config_pwm', methods=['POST'])
 def set_config_pwm():
    
@@ -138,7 +155,7 @@ def set_config_pwm():
     print('Configuracion Actualizada!')
     print(new_config_pwm)
     return jsonify({'success' : True, 'message' : 'Configuracion Actualizada!'})
-
+'''
 def timer_1_callback():
     global TIMER_1
     global adc_analog_inputs
