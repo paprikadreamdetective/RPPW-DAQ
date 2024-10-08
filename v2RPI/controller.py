@@ -30,10 +30,11 @@ output_ch0 = Output(0, 18, "pwm", MANUAL, 0)
 adc_analog_inputs = []
 i2c_inputs = []
 
-adc = ADC_MCP3008(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D22))
+adc = ADC_MCP3008(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D8))
 ch0 = adc.get_analog_input(0)
+ch2 = adc.get_analog_input(2)
 
-ADC = { 'CH0' : ch0 }
+ADC = { 'CH0' : ch0,  'CH2' : ch2}
 
 i2c = busio.I2C(board.SCL, board.SDA)
 sensor_aht10 = AHTx0(i2c)
@@ -100,7 +101,7 @@ def pwm_controller(request_data: dict) -> dict:
         output_ch0.set_pid(ADC['CH0'].value, int(request_data.json['setpoint']))
         output_ch0.set_output_limits(int(request.json['output_lower_limit']), int(request.json['output_upper_limit']))
         output_ch0.set_pid_tunings(float(request.json['kp_value']), float(request.json['ki_value']), float(request.json['kd_value']))
-        output_ch0.set_sample_time_us(int(request.json['sample_time_us']))
+        output_ch0.set_sample_time_us(float(request.json['sample_time_us']))
         output_ch0.set_gh_filter(float(request.json['gh_filter']))
         output_ch0.initialize_pid()
         
@@ -160,11 +161,8 @@ def timer_1_callback():
     global TIMER_1
     global adc_analog_inputs
     TIMER_1 = True
-    print()
-    analog_read = ADC['CH0'].value
-    print(analog_read)
-    adc_analog_inputs = [{ channel : convert_adc_to_temperature(analog_read) } for channel in ADC]
-    
+    adc_analog_inputs = [{ channel : convert_adc_to_temperature(ADC[channel].value) } for channel in ADC]
+    print(adc_analog_inputs)
     threading.Timer(cycle_time_timer_1, timer_1_callback).start()
 
 def timer_2_callback():
@@ -193,14 +191,18 @@ def daq_task():
         init_outputs()
         adc_inputs = adc_analog_inputs[0]
         while 1:
+            #print("Value: ", ADC['CH0'].value)
+            #print("Voltage: ", ADC['CH0'].voltage)
+            
             if TIMER_1:
                 #print("Timer 1 activado")
-                print(adc_analog_inputs)
+                #print(adc_analog_inputs)
+                
                 output_ch0.write_output(adc_analog_inputs[0]['CH0'])
                 TIMER_1 = False
             if TIMER_2:
                 #print("Timer 2 activado")
-                print(i2c_inputs)
+                #print(i2c_inputs)
                 TIMER_2 = False        
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
