@@ -48,9 +48,9 @@ class Output:
         self.pwm.start(0)
         
     #def write_output(self):
-    def write_output(self, input_analog: float):
+    def write_output(self, input_analog: float, pwm_value):
         if self.control_mode == MANUAL:
-            self.value = self.manual_value
+            self.value = pwm_value
             #print("Value: " + str(self.value))
         elif self.control_mode == TIMER:
             self._delta_time += 1
@@ -84,7 +84,7 @@ class Output:
                         self.value = 0
         #for i in range(100, -1, -1):
         self.pwm.ChangeDutyCycle(self.map_value(self.value, 0, 255, 0, 100))
-        #    time.sleep(0.01)
+            #time.sleep(0.01)
         #for i in range(100, -1, -1):
         #self.pwm.ChangeDutyCycle(self.value)
             #time.sleep(0.01)
