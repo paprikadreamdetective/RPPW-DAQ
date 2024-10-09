@@ -4,6 +4,17 @@ from math import log
 PWM MODES:
 '''
 
+A = 8.1197e-4
+B = 2.65207e-4
+C = 1.272206e-7
+
+def convert_adc_to_temperature(adc_value):
+    #print(adc_value)
+    resistance = (65535 / adc_value) - 1
+    # resistance = 10000 / resistance
+    resistance = 10000 / resistance
+    temperature = 1 / (A + B * (log(resistance)) + C * (log(resistance)) ** 3) - 273.15  # Kelvin to Celsius
+    return temperature
 
 CONFIG_THERMISTOR_RESISTOR = 9900
 REF_VOLTAGE = 3.3
