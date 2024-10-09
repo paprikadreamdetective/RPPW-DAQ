@@ -19,10 +19,21 @@
         "GH_FILTER": 0.7
     },
     "M0_1": {
-        "MODE": 1,
+        "MODE": 3,
         "PWM_CHANNEL": 1,
         "VALUE": 23,
         "TIME_ON": 0,
-        "TIME_OFF": 23
+        "TIME_OFF": 23,
+        "SETPOINT": 20.0,
+        "ADC_CHANNEL": 0,
+        "OUTPUT_LOWER_LIMIT": 0,
+        "OUTPUT_UPPER_LIMIT": 1,
+        "KP": 30.0,
+        "KI": 0.5,
+        "KD": 0.1,
+        "SAMPLE_TIME_US": 0.25,
+        "GH_FILTER": 0.7,
+        "LOWER_BOUND": 0,
+        "UPPER_BOUND": 23
     }
 }

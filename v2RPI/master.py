@@ -24,14 +24,6 @@ class MasterDAQ:
             print("No se pueden agregar más de 6 canales PWM.")
             return 
         channel = len(self._pwm_outputs) 
-
-        '''
-        pin = int(input("Introduce el número de pin GPIO: "))
-        output_type = "PWM"
-        control_mode = "manual"
-        value = int(input("Introduce el valor inicial de PWM (0-100): "))
-        '''
-
         new_pwm_output = Output(channel, pin, output_type, control_mode, value)
         self._pwm_outputs.append(new_pwm_output)
         print(f"Canal PWM {channel} agregado en el pin GPIO {pin} con valor inicial {value}%.")
@@ -45,17 +37,13 @@ class MasterDAQ:
         """
         mode_control = request_data['mode_control']
         channel = request_data['pwm_channel']
-        
         output = self._pwm_outputs[channel]
         new_config_data = config_data.copy()
-        
         if 0 == mode_control:
-            #output_ch0.set_manual_output(request_data.json['pwm_value'])
             output.set_manual_output(request_data['pwm_value'])
             new_config_data[f'M0_{channel}']['MODE'] = MANUAL
             new_config_data[f'M0_{channel}']['PWM_CHANNEL'] = int(request_data['pwm_channel'])
             new_config_data[f'M0_{channel}']['VALUE'] = int(request_data['pwm_value'])
-            #return new_config_data
         elif 1 == mode_control:
             output.set_timer(int(request_data['time_on']), int(request_data['time_off']), int(request_data['pwm_value']))
             new_config_data[f'M0_{channel}']['MODE'] = TIMER
@@ -63,17 +51,13 @@ class MasterDAQ:
             new_config_data[f'M0_{channel}']['TIME_OFF'] = int(request_data['time_off'])
             new_config_data[f'M0_{channel}']['VALUE'] = int(request_data['pwm_value'])
             new_config_data[f'M0_{channel}']['PWM_CHANNEL'] = int(request_data['pwm_channel'])
-            #output_ch0.set_timer(int(request_data.json['time_on']), int(request_data.json['time_off']), int(request_data.json['pwm_value']))
-            #return new_config_data
         elif 2 == mode_control:
-
             output.set_pid(25.25, float(request_data['setpoint']))
             output.set_output_limits(int(request_data['output_lower_limit']), int(request_data['output_upper_limit']))
             output.set_pid_tunings(float(request_data['kp_value']), float(request_data['ki_value']), float(request_data['kd_value']))
             output.set_sample_time_us(float(request_data['sample_time_us']))
             output.set_gh_filter(float(request_data['gh_filter']))
             output.initialize_pid()
-
             new_config_data[f'M0_{channel}']['MODE'] = PID
             new_config_data[f'M0_{channel}']['PWM_CHANNEL'] = int(request_data['pwm_channel'])
             new_config_data[f'M0_{channel}']['SETPOINT'] = float(request_data['setpoint'])
@@ -86,31 +70,15 @@ class MasterDAQ:
             new_config_data[f'M0_{channel}']['KD'] = float(request_data['kd_value'])
             new_config_data[f'M0_{channel}']['SAMPLE_TIME_US'] = float(request_data['sample_time_us'])
             new_config_data[f'M0_{channel}']['GH_FILTER'] = float(request_data['gh_filter'])
-            '''
-                output_ch0.set_pid(25.25, float(request_data.json['setpoint']))
-                output_ch0.set_output_limits(int(request.json['output_lower_limit']), int(request.json['output_upper_limit']))
-                output_ch0.set_pid_tunings(float(request.json['kp_value']), float(request.json['ki_value']), float(request.json['kd_value']))
-                output_ch0.set_sample_time_us(float(request.json['sample_time_us']))
-                output_ch0.set_gh_filter(float(request.json['gh_filter']))
-                output_ch0.initialize_pid()
-            '''
-            #return new_config_data
         elif 3 == mode_control:
-
             temp_0 = 25.25
-            output.set_onoff(temp_0, int(request_data['lower_bound']), int(request_data['upper_bound']), int(request_data.json['pwm_value']))
-            
+            output.set_onoff(temp_0, int(request_data['lower_bound']), int(request_data['upper_bound']), int(request_data['pwm_value']))
             new_config_data[f'M0_{channel}']['MODE'] = ONOFF
             new_config_data[f'M0_{channel}']['VALUE'] = int(request_data['pwm_value'])
             new_config_data[f'M0_{channel}']['PWM_CHANNEL'] = int(request_data['pwm_channel'])
             new_config_data[f'M0_{channel}']['ADC_CHANNEL'] = int(request_data['adc_channel'])
             new_config_data[f'M0_{channel}']['LOWER_BOUND'] = int(request_data['lower_bound'])
             new_config_data[f'M0_{channel}']['UPPER_BOUND'] = int(request_data['upper_bound'])
-            #temp_0 = convert_adc_to_temperature(ADC['CH0'].value)
-            temp_0 = 25.25
-            #output_ch0.set_onoff(temp_0, int(request_data.json['lower_bound']), int(request_data.json['upper_bound']), int(request_data.json['pwm_value']))
-            #return new_config_data
-
         with open('config.json', 'w') as archivo:
             json.dump(new_config_data, archivo, indent=4)  
         print('Configuracion Actualizada!')
@@ -123,7 +91,6 @@ class MasterDAQ:
             print("Canales PWM activos:")
             for pwm in self._pwm_outputs:
                 print(f"Canal {pwm.channel} - Pin GPIO {pwm.pin} - Valor: {pwm.manual_value}%")
-
 
     def writeAllOutputPWM(self, value):
         for output in self._pwm_outputs:
@@ -143,7 +110,7 @@ if __name__ == '__main__':
     master.enableOutputPWM(2, 20, "pwm", MANUAL, 75)
 
     values = {  
-        "mode_control" : 1, 
+        "mode_control" : 3, 
         "pwm_channel" : 1, 
         "pwm_value" : 23 ,
         'time_on' : 0,
