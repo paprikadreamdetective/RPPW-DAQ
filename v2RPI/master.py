@@ -7,14 +7,20 @@ import json
 from output_buffer import *
 
 
-with open('config.json', 'r') as archivo:
-    config_data = json.load(archivo)
+PWM_OUTPUT_GPIO = [18, 19, 20, 21, 22, 23]
+
+with open('config.json', 'w') as archivo:
+    json.dump(config_data, archivo, indent=4)  
+
 
 class MasterDAQ:
+    
     def __init__(self, adc, pwm_outputs: list, i2c_inputs):
         self._adc = adc
         self._pwm_outputs = pwm_outputs
         self._i2c_inputs = i2c_inputs
+        self._config_file = {} 
+        self._MAX_SIZE_OUTPUT_PWM = 6    
 
     def getAnalogChannelValues(self):
         return [{ channel : self._adc.get_analog_input(channel).value } for channel in range(0, 8)]
@@ -95,6 +101,59 @@ class MasterDAQ:
     def writeAllOutputPWM(self, value):
         for output in self._pwm_outputs:
             output.write_output(25.25, value)
+
+    # Método para leer el archivo JSON y crear los objetos Output
+    def loadConfig(self, json_file):
+        try:
+            with open(json_file, 'r') as file:
+                self._config_file = json.load(file)  # Cargar la configuración JSON
+                print(f"Configuración leída desde {json_file}:")
+                
+                for key, config in self._config_file.items():
+                    if len(self._pwm_outputs) >= self._MAX_SIZE_OUTPUT_PWM:
+                        print("Se alcanzó el número máximo de canales PWM.")
+                        break
+
+                    gpio_output = config['GPIO_OUTPUT']
+                    mode = config['MODE']
+                    time_on = config['TIME_ON']
+                    time_off = config['TIME_OFF']
+                    variable = config['VARIABLE']
+                    setpoint = config['SETPOINT']
+                    lower_bound = config['LOWER_BOUND']
+                    upper_bound = config['UPPER_BOUND']
+                    value = config['VALUE']
+                    pwm_channel = config['PWM_CHANNEL']
+                    adc_channel = config['ADC_CHANNEL']
+                    output_lower_limit = config['OUTPUT_LOWER_LIMIT']
+                    output_upper_limit = config['OUTPUT_UPPER_LIMIT']
+                    kp = config['KP']
+                    ki = config['KI']
+                    kd = config['KD']
+                    sample_time_us = config['SAMPLE_TIME_US']
+                    gh_filter = config['GH_FILTER']
+                    
+                    # Definir el canal PWM y el pin (puedes personalizar esto)
+                    pin = gpio_output  # Usamos GPIO 17+ como ejemplo de pin
+                    
+
+                    # Crear el objeto Output con la configuración
+                    self.enableOutputPWM(output_channel=key, pin=pin, output_type="PWM", control_mode=mode, value=value)
+                    
+                    # Asignar configuraciones adicionales
+                    pwm_output = self._pwm_outputs[-1]  # Último PWM agregado
+                    '''
+                    pwm_output._time_on = time_on if time_on is not None else pwm_output._time_on
+                    pwm_output._time_off = time_off if time_off is not None else pwm_output._time_off
+                    pwm_output._input_value_lb = lower_bound if lower_bound is not None else pwm_output._input_value_lb
+                    pwm_output._input_value_ub = upper_bound if upper_bound is not None else pwm_output._input_value_ub
+                    pwm_output._setpoint = setpoint if setpoint is not None else pwm_output._setpoint
+                    '''
+                    print(f"Canal {key} configurado: {config}")
+        except FileNotFoundError:
+            print(f"Error: No se encontró el archivo {json_file}")
+        except json.JSONDecodeError:
+            print(f"Error: No se pudo leer el archivo {json_file}, formato JSON inválido.")
 
 
 if __name__ == '__main__':
