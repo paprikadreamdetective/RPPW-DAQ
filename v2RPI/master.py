@@ -9,8 +9,8 @@ from output_buffer import *
 
 PWM_OUTPUT_GPIO = [18, 19, 20, 21, 22, 23]
 
-with open('config.json', 'w') as archivo:
-    json.dump(config_data, archivo, indent=4)  
+#with open('config.json', 'w') as archivo:
+#    json.dump(config_data, archivo, indent=4)  
 
 
 class MasterDAQ:
@@ -118,11 +118,11 @@ class MasterDAQ:
                     mode = config['MODE']
                     time_on = config['TIME_ON']
                     time_off = config['TIME_OFF']
-                    variable = config['VARIABLE']
+                    #variable = config['VARIABLE']
                     setpoint = config['SETPOINT']
                     lower_bound = config['LOWER_BOUND']
                     upper_bound = config['UPPER_BOUND']
-                    value = config['VALUE']
+                    pwm_value = config['VALUE']
                     pwm_channel = config['PWM_CHANNEL']
                     adc_channel = config['ADC_CHANNEL']
                     output_lower_limit = config['OUTPUT_LOWER_LIMIT']
@@ -138,10 +138,18 @@ class MasterDAQ:
                     
 
                     # Crear el objeto Output con la configuración
-                    self.enableOutputPWM(output_channel=key, pin=pin, output_type="PWM", control_mode=mode, value=value)
+                    self.enableOutputPWM(output_channel=key, pin=pin, output_type="PWM", control_mode=mode, value=pwm_value)
                     
                     # Asignar configuraciones adicionales
-                    pwm_output = self._pwm_outputs[-1]  # Último PWM agregado
+                    self._pwm_outputs[-1].set_manual_output(pwm_value)  # Último PWM agregado
+                    self._pwm_outputs[-1].set_timer(time_on, time_off, pwm_value)
+                    self._pwm_outputs[-1].set_pid(25.25, setpoint)
+                    self._pwm_outputs[-1].set_output_limits(output_lower_limit, output_upper_limit)
+                    self._pwm_outputs[-1].set_pid_tunings(kp, ki, kd)
+                    self._pwm_outputs[-1].set_sample_time_us(sample_time_us)
+                    self._pwm_outputs[-1].set_gh_filter(gh_filter)
+                    self._pwm_outputs[-1].initialize_pid()
+                    self._pwm_outputs[-1].set_onoff(25.25, lower_bound, upper_bound, pwm_value)
                     '''
                     pwm_output._time_on = time_on if time_on is not None else pwm_output._time_on
                     pwm_output._time_off = time_off if time_off is not None else pwm_output._time_off
@@ -161,13 +169,13 @@ if __name__ == '__main__':
     modes = [0,1,2,3]
     adc = ADC_MCP3008(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D8))
     master = MasterDAQ(adc, [], [])
-    
+    master.loadConfig('config.json')
     adc_channel_inputs = master.getAnalogChannelValues()
     
-    master.enableOutputPWM(0, 18, "pwm", MANUAL, 25)
-    master.enableOutputPWM(1, 19, "pwm", MANUAL, 50)
-    master.enableOutputPWM(2, 20, "pwm", MANUAL, 75)
-
+    #master.enableOutputPWM(0, 18, "pwm", MANUAL, 25)
+    #master.enableOutputPWM(1, 19, "pwm", MANUAL, 50)
+    #master.enableOutputPWM(2, 20, "pwm", MANUAL, 75)
+    '''
     values = {  
         "mode_control" : 3, 
         "pwm_channel" : 1, 
@@ -185,9 +193,9 @@ if __name__ == '__main__':
         'gh_filter' : 0.7,
         'lower_bound' : 0,
         'upper_bound' : 23 }
-
+    
     master.setControlModeOutputPWM(values)
-
+    '''
     while 1:
         print(master.getAnalogChannelValues())
         master.writeAllOutputPWM(255)
