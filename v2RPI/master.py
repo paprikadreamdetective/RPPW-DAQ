@@ -6,13 +6,6 @@ import digitalio
 import json
 from output_buffer import *
 
-
-PWM_OUTPUT_GPIO = [18, 19, 20, 21, 22, 23]
-
-#with open('config.json', 'w') as archivo:
-#    json.dump(config_data, archivo, indent=4)  
-
-
 class MasterDAQ:
     
     def __init__(self, adc, pwm_outputs: list, i2c_inputs):
@@ -43,8 +36,32 @@ class MasterDAQ:
         """
         mode_control = request_data['mode_control']
         channel = request_data['pwm_channel']
+        new_config_data = self._config_file.copy()
+        gpio_output = request_data['gpio_output']
+        # Verificar si el canal ya existe, si no, agregarlo con la plantilla predeterminada
+        if f'M0_{channel}' not in new_config_data:
+            new_config_data[f'M0_{channel}'] = {
+                "GPIO_OUTPUT": gpio_output,  # Puedes personalizar este valor o dejar uno por defecto
+                "MODE": None,
+                "PWM_CHANNEL": None,
+                "TIME_ON": 0,
+                "TIME_OFF": 0,
+                "SETPOINT": 0.1,
+                "VALUE": 0,
+                "ADC_CHANNEL": 0,
+                "OUTPUT_LOWER_LIMIT": 1,
+                "OUTPUT_UPPER_LIMIT": 1,
+                "KP": 0.1,
+                "KI": 0.1,
+                "KD": 0.1,
+                "SAMPLE_TIME_US": 0.1,
+                "GH_FILTER": 0.1,
+                "LOWER_BOUND": 1,
+                "UPPER_BOUND": 1
+            }
+            self.enableOutputPWM(output_channel=channel, pin=gpio_output, output_type="PWM", control_mode=mode_control, value=255)
+
         output = self._pwm_outputs[channel]
-        new_config_data = config_data.copy()
         if 0 == mode_control:
             output.set_manual_output(request_data['pwm_value'])
             new_config_data[f'M0_{channel}']['MODE'] = MANUAL
@@ -101,9 +118,9 @@ class MasterDAQ:
     def writeAllOutputPWM(self, value):
         for output in self._pwm_outputs:
             output.write_output(25.25, value)
+        print("Numero de salidas PWM: ", len(self._pwm_outputs))
 
-    # Método para leer el archivo JSON y crear los objetos Output
-    def loadConfig(self, json_file):
+    def initOutputs(self, json_file):
         try:
             with open(json_file, 'r') as file:
                 self._config_file = json.load(file)  # Cargar la configuración JSON
@@ -132,15 +149,10 @@ class MasterDAQ:
                     kd = config['KD']
                     sample_time_us = config['SAMPLE_TIME_US']
                     gh_filter = config['GH_FILTER']
+                    pin = gpio_output
                     
-                    # Definir el canal PWM y el pin (puedes personalizar esto)
-                    pin = gpio_output  # Usamos GPIO 17+ como ejemplo de pin
-                    
-
-                    # Crear el objeto Output con la configuración
                     self.enableOutputPWM(output_channel=key, pin=pin, output_type="PWM", control_mode=mode, value=pwm_value)
                     
-                    # Asignar configuraciones adicionales
                     self._pwm_outputs[-1].set_manual_output(pwm_value)  # Último PWM agregado
                     self._pwm_outputs[-1].set_timer(time_on, time_off, pwm_value)
                     self._pwm_outputs[-1].set_pid(25.25, setpoint)
@@ -150,13 +162,6 @@ class MasterDAQ:
                     self._pwm_outputs[-1].set_gh_filter(gh_filter)
                     self._pwm_outputs[-1].initialize_pid()
                     self._pwm_outputs[-1].set_onoff(25.25, lower_bound, upper_bound, pwm_value)
-                    '''
-                    pwm_output._time_on = time_on if time_on is not None else pwm_output._time_on
-                    pwm_output._time_off = time_off if time_off is not None else pwm_output._time_off
-                    pwm_output._input_value_lb = lower_bound if lower_bound is not None else pwm_output._input_value_lb
-                    pwm_output._input_value_ub = upper_bound if upper_bound is not None else pwm_output._input_value_ub
-                    pwm_output._setpoint = setpoint if setpoint is not None else pwm_output._setpoint
-                    '''
                     print(f"Canal {key} configurado: {config}")
         except FileNotFoundError:
             print(f"Error: No se encontró el archivo {json_file}")
@@ -164,42 +169,46 @@ class MasterDAQ:
             print(f"Error: No se pudo leer el archivo {json_file}, formato JSON inválido.")
 
 
+'''
 if __name__ == '__main__':
     num_channels_pwm = 6
     modes = [0,1,2,3]
     adc = ADC_MCP3008(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D8))
     master = MasterDAQ(adc, [], [])
-    master.loadConfig('config.json')
-    adc_channel_inputs = master.getAnalogChannelValues()
+    master.initOutputs('config.json')
+    #adc_channel_inputs = master.getAnalogChannelValues()
     
     #master.enableOutputPWM(0, 18, "pwm", MANUAL, 25)
     #master.enableOutputPWM(1, 19, "pwm", MANUAL, 50)
     #master.enableOutputPWM(2, 20, "pwm", MANUAL, 75)
-    '''
+    
     values = {  
+        "gpio_output" : 20,
         "mode_control" : 3, 
-        "pwm_channel" : 1, 
-        "pwm_value" : 23 ,
+        "pwm_channel" : 3, 
+        "pwm_value" :  100,
         'time_on' : 0,
         'time_off' : 23,
         'setpoint': 20,
         'adc_channel' : 0,
         'output_lower_limit' : 0,
         'output_upper_limit' : 1,
-        'kp_value' : 30,
-        'ki_value' : 0.5,
-        'kd_value' : 0.1,
+        'kp_value' : 100,
+        'ki_value' : 0.55,
+        'kd_value' : 0.11,
         'sample_time_us' : 0.25,
         'gh_filter' : 0.7,
         'lower_bound' : 0,
-        'upper_bound' : 23 }
+        'upper_bound' : 400 }
     
     master.setControlModeOutputPWM(values)
-    '''
+    
     while 1:
         print(master.getAnalogChannelValues())
         master.writeAllOutputPWM(255)
         master.writeAllOutputPWM(0)
         master.showStateOutputPWM()
+        time.sleep(2)
         
     # master.enableOutputPWM(1, 19, "pwm", MANUAL, 0)
+'''
