@@ -118,7 +118,7 @@ class MasterDAQ:
     def writeAllOutputPWM(self, value):
         for output in self._pwm_outputs:
             output.write_output(25.25, value)
-        print("Numero de salidas PWM: ", len(self._pwm_outputs))
+        #print("Numero de salidas PWM: ", len(self._pwm_outputs))
 
     def initOutputs(self, json_file):
         try:
