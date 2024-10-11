@@ -1,7 +1,131 @@
 # SNMP para el monitoreo de Agentes DAQ usando Raspberry Pi 4 
+
 Cada agente que es monitoreado a traves de el protocolo SNMP (simple network management protocol) contiene el codigo del controlador alojado en este repositorio, mas en concreto en la carpeta v2RPI. 
 
 # Configuracion de un agente SNMP.
+
+
+sh```
+PUEDES EXPLICAR TODA ESTA INFORMACION EN UN READ :
+###########################################################################
+#
+# snmpd.conf
+# An example configuration file for configuring the Net-SNMP agent ('snmpd')
+# See snmpd.conf(5) man page for details
+#
+###########################################################################
+# SECTION: System Information Setup
+#
+
+# syslocation: The [typically physical] location of the system.
+#   Note that setting this value here means that when trying to
+#   perform an snmp SET operation to the sysLocation.0 variable will make
+#   the agent return the "notWritable" error code.  IE, including
+#   this token in the snmpd.conf file will disable write access to
+#   the variable.
+#   arguments:  location_string
+sysLocation    Sitting on the Dock of the Bay
+sysContact     Me <me@example.org>
+
+# sysservices: The proper value for the sysServices object.
+#   arguments:  sysservices_number
+sysServices    72
+
+
+
+###########################################################################
+# SECTION: Agent Operating Mode
+#
+#   This section defines how the agent will operate when it
+#   is running.
+
+# master: Should the agent operate as a master agent or not.
+#   Currently, the only supported master agent type for this token
+#   is "agentx".
+#   
+#   arguments: (on|yes|agentx|all|off|no)
+
+master agentx
+
+# agentaddress: The IP address and port number that the agent will listen on.
+#   By default the agent listens to any and all traffic from any
+#   interface on the default SNMP port (161).  This allows you to
+#   specify which address, interface, transport type and port(s) that you
+#   want the agent to listen on.  Multiple definitions of this token
+#   are concatenated together (using ':'s).
+#   arguments: [transport:]port[@interface/address],...
+
+agentaddress udp:161
+#agentaddress  udp:161,127.0.0.1,[::1],192.168.100.164
+# Config SNMPv3
+createUser myUser MD5 myAuthPass DES myPrivPass
+rwuser myUser authPriv
+
+
+pass .1.3.6.1.2.1.25.1.8.1 /usr/bin/python3 /home/equipo10/Desktop/snmpCpuTemp.py -g 
+pass .1.3.6.1.2.1.25.1.8.2 /usr/bin/python3 /usr/local/bin/adc_ch1_snmp.py
+pass .1.3.6.1.2.1.25.1.8.3 /usr/bin/python3 /usr/local/bin/adc_ch2_snmp.py
+pass .1.3.6.1.2.1.25.1.8.4 /usr/bin/python3 /usr/local/bin/adc_ch3_snmp.py
+pass .1.3.6.1.2.1.25.1.8.5 /usr/bin/python3 /usr/local/bin/adc_ch4_snmp.py
+pass .1.3.6.1.2.1.25.1.8.6 /usr/bin/python3 /usr/local/bin/adc_ch5_snmp.py
+pass .1.3.6.1.2.1.25.1.8.7 /usr/bin/python3 /usr/local/bin/adc_ch6_snmp.py
+pass .1.3.6.1.2.1.25.1.8.8 /usr/bin/python3 /usr/local/bin/adc_ch7_snmp.py
+
+extend temp_ch0         /usr/bin/sudo /usr/bin/python3 /home/equipo10/Desktop/snmpCpuTemp.py -g  
+extend biomass_ch1      /usr/local/bin/adc_ch1_snmp.py
+extend temp_ch2         /usr/local/bin/adc_ch2_snmp.py
+extend biomass_ch3      /usr/local/bin/adc_ch3_snmp.py
+extend temp_ch4         /usr/local/bin/adc_ch4_snmp.py
+extend biomass_ch5      /usr/local/bin/adc_ch5_snmp.py
+extend temp_ch6         /usr/local/bin/adc_ch6_snmp.py
+extend biomass_ch7      /usr/local/bin/adc_ch7_snmp.py
+
+
+
+
+###########################################################################
+# SECTION: Access Control Setup
+#
+#   This section defines who is allowed to talk to your running
+#   snmp agent.
+
+# Views 
+#   arguments viewname included [oid]
+
+#  system + hrSystem groups only
+view   systemonly  included   .1.3.6.1.2.1.1
+view   systemonly  included   .1.3.6.1.2.1.25.1
+
+
+# rocommunity: a SNMPv1/SNMPv2c read-only access community name
+#   arguments:  community [default|hostname|network/bits] [oid | -V view]
+
+# Read-only access to everyone to the systemonly view
+rocommunity public 
+rocommunity  public default -V systemonly
+rocommunity6 public default -V systemonly
+
+# SNMPv3 doesn't use communities, but users with (optionally) an
+# authentication and encryption string. This user needs to be created
+# with what they can view with rouser/rwuser lines in this file.
+#
+# createUser username (MD5|SHA|SHA-512|SHA-384|SHA-256|SHA-224) authpassphrase [DES|AES] [privpassphrase]
+# e.g.
+# createuser authPrivUser SHA-512 myauthphrase AES myprivphrase
+#
+# This should be put into /var/lib/snmp/snmpd.conf 
+#
+# rouser: a SNMPv3 read-only access username
+#    arguments: username [noauth|auth|priv [OID | -V VIEW [CONTEXT]]]
+rouser myUser authPriv 
+
+# include a all *.conf files in a directory
+includeDir /etc/snmp/snmpd.conf.d
+#rouser snmpuser
+
+```
+
+
 Sección 1: Configuración de Información del Sistema
 sysLocation: Define la ubicación física del sistema. Al establecerlo en este archivo, el valor de sysLocation.0 será de solo lectura y no podrá modificarse a través de comandos SNMP SET.
 
