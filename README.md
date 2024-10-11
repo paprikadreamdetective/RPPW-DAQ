@@ -174,7 +174,9 @@ Cada agente ejecuta el controlador que destaca por:
 - El programa acepta peticiones a traves de un servidor Flask, el cual manda peticiones desde el front-end para poder cambiar aspectos de funcionamiento en el controlador PID, habilitar o deshabilitar un canal de salida, tambien brinda la funcionalidad de obtener los datos del agente daq que se esta gestionando.
 
 # 
-  
+# Sistema actual:
+![image](https://github.com/user-attachments/assets/edce40f4-6c06-4552-a72d-6fa72e9e1506)
+
 
 
 
