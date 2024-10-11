@@ -5,7 +5,7 @@ Cada agente que es monitoreado a traves de el protocolo SNMP (simple network man
 # Configuracion de un agente SNMP.
 
 
-sh```
+```sh
 PUEDES EXPLICAR TODA ESTA INFORMACION EN UN READ :
 ###########################################################################
 #
