@@ -35,9 +35,9 @@ class MasterDAQ:
             ONOFF:      "ADDR 1, 3, OUT_CHANNEL, IN_CHANNEL, LOWER_BOUND, UPPER_BOUND, PWM"
         """
         mode_control = request_data['mode_control']
-        channel = request_data['pwm_channel']
+        channel = int(request_data['pwm_channel'])
         new_config_data = self._config_file.copy()
-        gpio_output = request_data['gpio_output']
+        #gpio_output = request_data['gpio_output']
         # Verificar si el canal ya existe, si no, agregarlo con la plantilla predeterminada
         if f'M0_{channel}' not in new_config_data:
             new_config_data[f'M0_{channel}'] = {
@@ -61,6 +61,7 @@ class MasterDAQ:
             }
             self.enableOutputPWM(output_channel=channel, pin=gpio_output, output_type="PWM", control_mode=mode_control, value=255)
 
+        print(self._pwm_outputs[channel].channel)
         output = self._pwm_outputs[channel]
         if 0 == mode_control:
             output.set_manual_output(request_data['pwm_value'])
@@ -115,9 +116,9 @@ class MasterDAQ:
             for pwm in self._pwm_outputs:
                 print(f"Canal {pwm.channel} - Pin GPIO {pwm.pin} - Valor: {pwm.manual_value}%")
 
-    def writeAllOutputPWM(self, value):
+    def writeAllOutputPWM(self):
         for output in self._pwm_outputs:
-            output.write_output(25.25, value)
+            output.write_output(25.4)
         #print("Numero de salidas PWM: ", len(self._pwm_outputs))
 
     def initOutputs(self, json_file):

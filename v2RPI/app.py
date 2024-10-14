@@ -17,34 +17,3 @@ def create_master_daq(adc, outputs, i2c_inputs):
 
 with open('daq_info.json', 'r') as archivo:
     daq_data = json.load(archivo)
-
-#with open('config.json', 'r') as archivo:
-#    config_data = json.load(archivo)
-
-#print("Configuracion actual")
-#print(config_data)
-'''
-class User:
-    def __init__(self):
-        self._email = None
-        self._password = None
-        self._rol = None
-
-    def set_email(self, email: str):
-        self._email = email
-
-    def set_password(self, password: str):
-        self._password = password
-
-    def set_rol(self, rol: str):
-        self._rol = rol
-
-    def get_email(self):
-        return self._email
-
-    def get_password(self):
-        return self._password
-
-    def get_rol(self):
-        return self._rol
-'''
