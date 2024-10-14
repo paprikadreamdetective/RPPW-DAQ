@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './PwmControl.css';
 
 function PwmControl({ changeMode, setChangeMode }) {
   const [pwmChannel, setPwmChannel] = useState(null);

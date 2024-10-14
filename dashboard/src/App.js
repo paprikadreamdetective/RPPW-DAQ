@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PwmControl from './PwmControl';
+import PwmControl from './components/PwmControl';
+import DaqInfo from './components/DAQInfo';
 import './App.css'
 
 function App() {
@@ -95,7 +96,7 @@ function App() {
   return (
   <>
     <div className="dashboard-container">
-      <div className="daq-info">
+      {/*<div className="daq-info">
         <h3>Contenedor 1: DAQ Description</h3>
         {DAQInfo ? (
           <div className='daq-info-fields-container'>
@@ -109,7 +110,8 @@ function App() {
             ) : (
             <p>Loading hardware information...</p>
           )}
-      </div>
+      </div>*/}
+      <DaqInfo DAQInfo={DAQInfo} />
 
       <div className="dashboard-charts">
         <h3>Contenedor 2: Charts</h3>

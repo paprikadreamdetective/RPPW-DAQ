@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 function Graph({ graphUrl }) {
   return (
     <div className="dashboard-charts">

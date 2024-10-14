@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './DAQInfo.css';
 function DaqInfo({ DAQInfo }) {
   return (
     <div className="daq-info">
