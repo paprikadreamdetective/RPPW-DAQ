@@ -1,135 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import PwmControl from './PwmControl';
-import './App.css'
+import React, { useState } from 'react';
+import './App.css';
 
-function App() {
-  const graphUrl = "http://192.168.100.174/zabbix/index.php?name=Admin&password=&enter=Sign&action=dashboard.view&kiosk=1&dashboardid=47320";
-
-  //const [authToken, setAuthToken] = useState(null);
-  //const [graphUrl, setGraphUrl] = useState('');
-
-  const [changeMode, setChangeMode] = useState(0);
-  /*
-  const [showMoreConfig, setShowMoreConfig] = useState(false); 
-
-  const [pwmChannel, setPwmChannel] = useState(null); 
+function PwmControl({ changeMode, setChangeMode }) {
+  const [pwmChannel, setPwmChannel] = useState(null);
   const [value, setValue] = useState(null);
-  const [mode, setMode] = useState(null);
-  const [upperBound, setUpperBound] = useState(null);
-  const [lowerBound, setLowerBound] = useState(null);
-  const [setpoint, setSetpoint] = useState(null);
-  const [adcChannel, setAdcChannel] = useState(null);
   const [time_on, setTime_On] = useState(null);
   const [time_off, setTime_Off] = useState(null);
-
+  const [setpoint, setSetpoint] = useState(null);
+  const [adcChannel, setAdcChannel] = useState(null);
+  const [upperBound, setUpperBound] = useState(null);
+  const [lowerBound, setLowerBound] = useState(null);
   const [outputLowerLimit, setOutputLowerLimit] = useState(null);
   const [outputUpperLimit, setOutputUpperLimit] = useState(null);
-  const [pidKp, setPidKp] = useState(null); 
-  const [pidKi, setPidKi] = useState(null); 
-  const [pidKd, setPidKd] = useState(null); 
-
+  const [pidKp, setPidKp] = useState(null);
+  const [pidKi, setPidKi] = useState(null);
+  const [pidKd, setPidKd] = useState(null);
   const [sampleTimeUs, setSampleTimeUs] = useState(null);
-  const [ghFilter, setghFilter] = useState(null);*/
+  const [ghFilter, setghFilter] = useState(null);
 
-
-  const [DAQInfo, setDAQInfo] = useState(null);
-
-  /*const handleModeChange = (e) => {
+  const handleModeChange = (e) => {
     e.preventDefault();
     setChangeMode(Number(e.target.value));
-    console.log(changeMode);
   };
 
   const handle_pwm_set_mode = async (e) => {
     e.preventDefault();
+    const data = {
+      pwm_channel: pwmChannel,
+      pwm_value: value,
+      mode_control: changeMode,
+      time_on: time_on,
+      time_off: time_off,
+      setpoint: setpoint,
+      adc_channel: adcChannel,
+      upper_bound: upperBound,
+      lower_bound: lowerBound,
+      output_lower_limit: outputLowerLimit,
+      output_upper_limit: outputUpperLimit,
+      kp_value: pidKp,
+      ki_value: pidKi,
+      kd_value: pidKd,
+      sample_time_us: sampleTimeUs,
+      gh_filter: ghFilter
+    };
     try {
-      const data = {
-        pwm_channel: pwmChannel,
-        pwm_value: value,
-        mode_control: changeMode,
-        time_on: time_on,
-        time_off: time_off,
-        setpoint: setpoint,
-        adc_channel: adcChannel,
-        upper_bound: upperBound,
-        lower_bound: lowerBound,
-        output_lower_limit: outputLowerLimit,
-        output_upper_limit: outputUpperLimit,
-        kp_value: pidKp,
-        ki_value: pidKi,
-        kd_value: pidKd,
-        sample_time_us: sampleTimeUs,
-        gh_filter: ghFilter
-      };
       const response = await fetch('http://192.168.100.164:5000/set_mode_manual', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
       });
       const responseData = await response.json();
-      if (responseData.success) {
-          window.confirm(responseData.message);
-          //cerrarModalInsertar();
-      } else {
-          window.confirm(responseData.message);
-          //cerrarModalInsertar();
-      }
+      window.confirm(responseData.message);
     } catch (error) {
-        window.confirm(error);
-        //cerrarModalInsertar();
+      window.confirm(error);
     }
-  };*/
-
-  useEffect(() => {
-    fetch('http://192.168.100.164:5000/get_daq_info')  
-      .then(response => response.json())
-      .then(data => setDAQInfo(data))
-      .catch(error => console.error('Error fetching the data:', error));
-  }, []);
-
-
-  
+  };
 
   return (
-  <>
-    <div className="dashboard-container">
-      <div className="daq-info">
-        <h3>Contenedor 1: DAQ Description</h3>
-        {DAQInfo ? (
-          <div className='daq-info-fields-container'>
-            <p><strong>Location:</strong> {DAQInfo.location}</p>
-            <p><strong>Hardware:</strong> {DAQInfo.hardware}</p>
-            <p><strong>Address:</strong> {DAQInfo.address}</p>
-            <p><strong>Analog Inputs:</strong> {DAQInfo.analog_inputs}</p>
-            <p><strong>PWM Outputs:</strong> {DAQInfo.pwm_outputs}</p>
-            <p><strong>I2C Address:</strong> {DAQInfo.i2c_address}</p>
-          </div>
-            ) : (
-            <p>Loading hardware information...</p>
-          )}
-      </div>
-
-      <div className="dashboard-charts">
-        <h3>Contenedor 2: Charts</h3>
-        <div className="charts-content">
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <iframe
-              src={graphUrl}
-              title="Zabbix Graph"
-              width="1000"
-              height="200"
-              frameBorder="0"
-              allowFullScreen
-            />
-          </div>
-        </div>
-      </div>
-      
-      <PwmControl changeMode={changeMode} setChangeMode={setChangeMode} />
-
-      {/*<div className="control-container">
+    <div className="control-container">
         <h3>PWM MODE CONTROL</h3>
         <label htmlFor="mode">Mode</label>
         <select id="mode" className="dropdown" onChange={handleModeChange}>
@@ -143,7 +71,7 @@ function App() {
           
           <div className={`field-group ${changeMode >= 0 && changeMode <= 3 ? 'visible' : ''}`}>
             <label htmlFor="pwm-channel">PWM Channel</label>
-            
+            {/*<input type="number" id="pwm-channel" />*/}
             <input
                   type="number"
                   value={pwmChannel}
@@ -155,7 +83,7 @@ function App() {
 
           <div className={`field-group ${changeMode >= 0 && changeMode <= 3 ? 'visible' : ''}`}>
             <label htmlFor="pwm-value">PWM Value</label>
-            
+            {/*<input type="number" id="pwm-value" />*/}
             <input
                   type="number"
                   value={value}
@@ -169,7 +97,7 @@ function App() {
             <>
           <div className="field-group">
             <label htmlFor="time-on">Time On</label>
-            
+            {/*<input type="text" id="time-on" />*/}
             <input
                   type="number"
                   value={time_on}
@@ -181,7 +109,7 @@ function App() {
           
           <div className="field-group">
             <label htmlFor="time-off">Time Off</label>
-            
+            {/*<input type="text" id="time-off" />*/}
             <input
                   type="number"
                   value={time_off}
@@ -293,7 +221,7 @@ function App() {
                 />
               </div>
               
-              
+              {/*<button className="save-button" onClick={handle_pid_set_mode}>Save</button>*/}
               
               
             </>
@@ -304,7 +232,7 @@ function App() {
 
             <div className="field-group">
             <label htmlFor="adc-channel">ADC Channel</label>
-            
+            {/*<input type="text" id="adc-channel" />*/}
             <input
                   type="number"
                   value={adcChannel}
@@ -315,7 +243,7 @@ function App() {
 
           <div className="field-group">
             <label htmlFor="lower-bound">Lower Bound</label>
-            
+            {/*<input type="text" id="lower-bound" />*/}
             <input
                   type="number"
                   value={lowerBound}
@@ -326,7 +254,7 @@ function App() {
 
           <div className="field-group">
             <label htmlFor="upper-bound">Upper Bound</label>
-           
+            {/*<input type="text" id="upper-bound" />*/}
             <input
                   type="number"
                   value={upperBound}
@@ -340,12 +268,8 @@ function App() {
               
         </div>
        
-      </div>*/}
-    </div>
-  </>
+      </div>
   );
 }
 
-export default App;
-
-
+export default PwmControl;
