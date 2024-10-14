@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PwmControl from './components/PwmControl';
 import DaqInfo from './components/DAQInfo';
+import Graph from './components/Graph';
 import './App.css'
 
 function App() {
@@ -112,8 +113,9 @@ function App() {
           )}
       </div>*/}
       <DaqInfo DAQInfo={DAQInfo} />
-
-      <div className="dashboard-charts">
+      <Graph graphUrl={graphUrl} />
+      
+      {/*<div className="dashboard-charts">
         <h3>Contenedor 2: Charts</h3>
         <div className="charts-content">
           <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -127,7 +129,7 @@ function App() {
             />
           </div>
         </div>
-      </div>
+      </div>*/}
       
       <PwmControl changeMode={changeMode} setChangeMode={setChangeMode} />
 
