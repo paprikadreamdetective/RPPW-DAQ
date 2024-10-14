@@ -119,7 +119,6 @@ class MasterDAQ:
     def writeAllOutputPWM(self):
         for output in self._pwm_outputs:
             output.write_output(25.4)
-        #print("Numero de salidas PWM: ", len(self._pwm_outputs))
 
     def initOutputs(self, json_file):
         try:
@@ -168,48 +167,3 @@ class MasterDAQ:
             print(f"Error: No se encontró el archivo {json_file}")
         except json.JSONDecodeError:
             print(f"Error: No se pudo leer el archivo {json_file}, formato JSON inválido.")
-
-
-'''
-if __name__ == '__main__':
-    num_channels_pwm = 6
-    modes = [0,1,2,3]
-    adc = ADC_MCP3008(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D8))
-    master = MasterDAQ(adc, [], [])
-    master.initOutputs('config.json')
-    #adc_channel_inputs = master.getAnalogChannelValues()
-    
-    #master.enableOutputPWM(0, 18, "pwm", MANUAL, 25)
-    #master.enableOutputPWM(1, 19, "pwm", MANUAL, 50)
-    #master.enableOutputPWM(2, 20, "pwm", MANUAL, 75)
-    
-    values = {  
-        "gpio_output" : 20,
-        "mode_control" : 3, 
-        "pwm_channel" : 3, 
-        "pwm_value" :  100,
-        'time_on' : 0,
-        'time_off' : 23,
-        'setpoint': 20,
-        'adc_channel' : 0,
-        'output_lower_limit' : 0,
-        'output_upper_limit' : 1,
-        'kp_value' : 100,
-        'ki_value' : 0.55,
-        'kd_value' : 0.11,
-        'sample_time_us' : 0.25,
-        'gh_filter' : 0.7,
-        'lower_bound' : 0,
-        'upper_bound' : 400 }
-    
-    master.setControlModeOutputPWM(values)
-    
-    while 1:
-        print(master.getAnalogChannelValues())
-        master.writeAllOutputPWM(255)
-        master.writeAllOutputPWM(0)
-        master.showStateOutputPWM()
-        time.sleep(2)
-        
-    # master.enableOutputPWM(1, 19, "pwm", MANUAL, 0)
-'''

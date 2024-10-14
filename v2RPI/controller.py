@@ -188,6 +188,6 @@ def daq_task():
                 TIMER_2 = False    
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
-        output_ch0.cleanup()
+        
 
     
