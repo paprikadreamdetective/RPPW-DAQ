@@ -33,6 +33,17 @@ donde alfa [0, 1] controla la intensidad del suavizado. alfa = 1 sin suavizado e
 
 Los valores predeterminados se ajustaron para controlar la temperatura de un depósito de agua mediante una resistencia eléctrica externa y se probaron para calentar volúmenes de agua entre 50 ml y 2 l.
 
+# Descripcion del controlador que ejecuta cada Agente DAQ
+
+Cada agente ejecuta el controlador que destaca por:
+- Tener un controlador PID el cual puede ser manipulado de manera remota, es decir, no tiene que haber intervencion en el codigo fuente para poder cambiar ciertos parametros.
+- El programa acepta peticiones a traves de un servidor Flask, el cual manda peticiones desde el front-end para poder cambiar aspectos de funcionamiento en el controlador PID, habilitar o deshabilitar un canal de salida, tambien brinda la funcionalidad de obtener los datos del agente daq que se esta gestionando.
+
+# 
+# Sistema actual:
+![image](https://github.com/user-attachments/assets/edce40f4-6c06-4552-a72d-6fa72e9e1506)
+
+
 # Configuracion de un agente SNMP.
 
 
@@ -198,15 +209,7 @@ rouser: Para SNMPv3, define el usuario myUser con acceso de solo lectura, autent
 Sección 5: Inclusión de Archivos
 includeDir: Permite incluir todos los archivos .conf adicionales en el directorio /etc/snmp/snmpd.conf.d, facilitando una configuración modular del agente SNMP.
 
-# Descripcion del controlador que ejecuta cada Agente DAQ
 
-Cada agente ejecuta el controlador que destaca por:
-- Tener un controlador PID el cual puede ser manipulado de manera remota, es decir, no tiene que haber intervencion en el codigo fuente para poder cambiar ciertos parametros.
-- El programa acepta peticiones a traves de un servidor Flask, el cual manda peticiones desde el front-end para poder cambiar aspectos de funcionamiento en el controlador PID, habilitar o deshabilitar un canal de salida, tambien brinda la funcionalidad de obtener los datos del agente daq que se esta gestionando.
-
-# 
-# Sistema actual:
-![image](https://github.com/user-attachments/assets/edce40f4-6c06-4552-a72d-6fa72e9e1506)
 
 
 
