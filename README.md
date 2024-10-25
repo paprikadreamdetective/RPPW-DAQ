@@ -20,7 +20,8 @@ Control PID
 Este tipo de control automático que se usa para mantener una variable de proceso en un valor deseado (setpoint). El controlador PID tiene parámetros importantes que deben definirse durante la inicialización. 
 
 <p align="center">
-![PID_Compensation_Animated](https://github.com/user-attachments/assets/22418acc-f0f7-472d-8528-7b7bb9b0b08b)
+  <img src=![PID_Compensation_Animated](https://github.com/user-attachments/assets/22418acc-f0f7-472d-8528-7b7bb9b0b08b) alt="Descripción de la imagen" width="300">
+
 </p>
 
 Estos parámetros tienen valores predeterminados:
