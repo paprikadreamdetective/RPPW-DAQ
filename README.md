@@ -67,7 +67,7 @@ Cada agente ejecuta el controlador que destaca por:
 <table>
   <tr>
     <td align="center"><img src="https://github.com/user-attachments/assets/cb4ae5cb-1cb7-4002-b348-3ee209f7bd90" alt="Imagen 1" width="200"/></td>
-    <td align="center"><img src="URL_IMAGEN_2" alt="Imagen 2" width="200"/></td>
+    <td align="center"><img src="https://github.com/user-attachments/assets/d9a4a26a-db22-46c5-a4e3-0ca01649332b" alt="Imagen 2" width="200"/></td>
     <td align="center"><img src="URL_IMAGEN_3" alt="Imagen 3" width="200"/></td>
     <td align="center"><img src="URL_IMAGEN_4" alt="Imagen 4" width="200"/></td>
   </tr>
