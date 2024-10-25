@@ -63,7 +63,7 @@ Cada agente ejecuta el controlador que destaca por:
 
 ## Galería de Imágenes
 
-<p align="center">
+<div align="center">
 <table>
   <tr>
     <td align="center"><img src="URL_IMAGEN_1" alt="Imagen 1" width="200"/></td>
@@ -72,7 +72,7 @@ Cada agente ejecuta el controlador que destaca por:
     <td align="center"><img src="URL_IMAGEN_4" alt="Imagen 4" width="200"/></td>
   </tr>
 </table>
-</p>
+</div>
 
 # 
 # Sistema actual:
