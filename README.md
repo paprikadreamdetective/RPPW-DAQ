@@ -61,7 +61,7 @@ Cada agente ejecuta el controlador que destaca por:
 
 # Paneles de configuracion
 
-## Galería de Imágenes
+## Modos de control:
 
 <div align="center">
 <table>
