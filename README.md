@@ -23,6 +23,19 @@ Este tipo de control automático que se usa para mantener una variable de proces
   <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/PID_Compensation_Animated.gif" alt="Descripción de la imagen" width="300">
 
 </p>
+La ecuación general del control PID es:
+
+$$
+u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de(t)}{dt}
+$$
+
+donde:
+- \( u(t) \) es la señal de control.
+- \( e(t) \) es el error, definido como la diferencia entre el valor deseado y el valor real del proceso.
+- \( K_p \) es el coeficiente proporcional.
+- \( K_i \) es el coeficiente integral.
+- \( K_d \) es el coeficiente derivativo.
+
 
 Estos parámetros tienen valores predeterminados:
 
