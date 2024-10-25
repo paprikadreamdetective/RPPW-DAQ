@@ -30,11 +30,11 @@ u(t) = K_p e(t) + K_i \int_{0}^{t} e(\tau) d\tau + K_d \frac{de(t)}{dt}
 $$
 
 donde:
-- \( u(t) \) es la señal de control.
-- \( e(t) \) es el error, definido como la diferencia entre el valor deseado y el valor real del proceso.
-- \( K_p \) es el coeficiente proporcional.
-- \( K_i \) es el coeficiente integral.
-- \( K_d \) es el coeficiente derivativo.
+- $u(t)$ es la señal de control.
+- $e(t)$ es el error, definido como la diferencia entre el valor deseado y el valor real del proceso.
+- $K_p$  es el coeficiente proporcional.
+- $K_i$  es el coeficiente integral.
+- $K_d$  es el coeficiente derivativo.
 
 
 Estos parámetros tienen valores predeterminados:
