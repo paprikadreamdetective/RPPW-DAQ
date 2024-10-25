@@ -17,7 +17,10 @@ Los diferentes modos de control que se ofrecen son:
 - ON/OFF
 
 Control PID
-El controlador PID tiene parámetros importantes que deben definirse durante la inicialización. Estos parámetros tienen valores predeterminados:
+Este tipo de control automático que se usa para mantener una variable de proceso en un valor deseado (setpoint). El controlador PID tiene parámetros importantes que deben definirse durante la inicialización. 
+![image](https://github.com/user-attachments/assets/4bd1ed4f-4382-416c-9949-1d597a8a6aa6)
+
+Estos parámetros tienen valores predeterminados:
 
 Valor mínimo de PWM = 0
 Valor máximo de PWM = 255
