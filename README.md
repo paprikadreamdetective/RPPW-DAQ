@@ -18,7 +18,7 @@ Los diferentes modos de control que se ofrecen son:
 
 Control PID
 Este tipo de control automático que se usa para mantener una variable de proceso en un valor deseado (setpoint). El controlador PID tiene parámetros importantes que deben definirse durante la inicialización. 
-![image](https://github.com/user-attachments/assets/4bd1ed4f-4382-416c-9949-1d597a8a6aa6)
+![image]([https://github.com/user-attachments/assets/4bd1ed4f-4382-416c-9949-1d597a8a6aa6](https://upload.wikimedia.org/wikipedia/commons/3/33/PID_Compensation_Animated.gif))
 
 Estos parámetros tienen valores predeterminados:
 
