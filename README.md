@@ -59,6 +59,22 @@ Cada agente ejecuta el controlador que destaca por:
 - Tener un controlador PID el cual puede ser manipulado de manera remota, es decir, no tiene que haber intervencion en el codigo fuente para poder cambiar ciertos parametros.
 - El programa acepta peticiones a traves de un servidor Flask, el cual manda peticiones desde el front-end para poder cambiar aspectos de funcionamiento en el controlador PID, habilitar o deshabilitar un canal de salida, tambien brinda la funcionalidad de obtener los datos del agente daq que se esta gestionando.
 
+# Paneles de configuracion
+
+## Galería de Imágenes
+
+<table>
+  <tr>
+    <td align="center"><img src="URL_IMAGEN_1" alt="Imagen 1" width="200"/></td>
+    <td align="center"><img src="URL_IMAGEN_2" alt="Imagen 2" width="200"/></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="URL_IMAGEN_3" alt="Imagen 3" width="200"/></td>
+    <td align="center"><img src="URL_IMAGEN_4" alt="Imagen 4" width="200"/></td>
+  </tr>
+</table>
+
+
 # 
 # Sistema actual:
 ![image](https://github.com/user-attachments/assets/edce40f4-6c06-4552-a72d-6fa72e9e1506)
