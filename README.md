@@ -16,8 +16,22 @@ Los diferentes modos de control que se ofrecen son:
 - PID
 - ON/OFF
 
+Control PID
+El controlador PID tiene parámetros importantes que deben definirse durante la inicialización. Estos parámetros tienen valores predeterminados:
 
+Valor mínimo de PWM = 0
+Valor máximo de PWM = 255
+Tiempo de muestreo en microsegundos = 250000 (0,250 s)
+Constantes PID:
+Kp = 100, Ki = 0,2, Kd = 0.
+El controlador PID utiliza un filtro gh simple para suavizar las señales muy ruidosas. 
 
+```c
+filtered_input[k] = alpha * current_input + (1 - alpha) * filtered_input[k - 1]
+```
+donde alfa [0, 1] controla la intensidad del suavizado. alfa = 1 sin suavizado en absoluto , alfa cerca de 0 suavizado muy fuerte . Por defecto alfa = 0,01.
+
+Los valores predeterminados se ajustaron para controlar la temperatura de un depósito de agua mediante una resistencia eléctrica externa y se probaron para calentar volúmenes de agua entre 50 ml y 2 l.
 
 # Configuracion de un agente SNMP.
 
