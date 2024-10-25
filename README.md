@@ -2,6 +2,23 @@
 
 Cada agente que es monitoreado a traves de el protocolo SNMP (simple network management protocol) contiene el codigo del controlador alojado en este repositorio, mas en concreto en la carpeta v2RPI. 
 
+# ¿Que es lo que captan los sensores del DAQ actualmente?
+
+Capturan mediciones como la temperatura, las cuales son captadas a traves de un ADC (convertidor analogico-digital) la cual se usa para los modos de control PID y ON/OFF. 
+
+# Modos de control del DAQ
+
+El DAQ provee una configuracion que nos ayuda a controlar el ancho de pulso (PWM) de los pines que estan configurados como salidas las cuales sirven para poder mandar una señal a un actuador, en este caso valvulas solenoides que se usan para controlar la temperatura de un depósito de agua mediante una resistencia eléctrica externa y se probaron para calentar volúmenes de agua entre 50 ml y 2 l.
+
+Los diferentes modos de control que se ofrecen son:
+- MANUAL
+- TIMER
+- PID
+- ON/OFF
+
+
+
+
 # Configuracion de un agente SNMP.
 
 
