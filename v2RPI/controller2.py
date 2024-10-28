@@ -33,7 +33,8 @@ def get_daq_info():
 def timer_1_callback(): 
     global adc_analog_inputs
     adc_analog_inputs = master.getAnalogChannelValues() 
-    #print(adc_analog_inputs)
+    converted_data = [{key: convert_adc_to_temperature(value)} for item in adc_analog_inputs for key, value in item.items()]
+    print(converted_data)
     #print("TIMER 1: ", time.ctime())
     #print(adc_analog_inputs)
     threading.Timer(0.25, timer_1_callback).start()
@@ -61,12 +62,12 @@ def daq_task():
      
     init_timers()
     
-    #try:
-    while 1:
-        master.writeAllOutputPWM(adc_analog_inputs)
-        master.showStateOutputPWM()
+    try:
+        while 1:
+            master.writeAllOutputPWM(adc_analog_inputs)
+            master.showStateOutputPWM()
         
-        time.sleep(3)
-    #except KeyboardInterrupt:
-        #print("Programa detenido por el usuario.")
+            time.sleep(3)
+    except KeyboardInterrupt:
+        print("Programa detenido por el usuario.")
         #output_ch0.cleanup()

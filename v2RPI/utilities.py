@@ -10,6 +10,11 @@ C = 1.272206e-7
 
 def convert_adc_to_temperature(adc_value):
     #print(adc_value)
+    if adc_value == 0:
+    # Manejo para el caso en que adc_value es cero
+        return float('inf')  # O devuelve un valor específico, por ejemplo, `None` o `0`
+
+
     resistance = (65535 / adc_value) - 1
     # resistance = 10000 / resistance
     resistance = 10000 / resistance
