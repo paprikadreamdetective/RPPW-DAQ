@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
 import './DAQInfo.css';
-function DaqInfo({ DAQInfo }) {
+function DaqInfo() {
+  const [DAQInfo, setDAQInfo] = useState(null);
+  useEffect(() => {
+    fetch('http://192.168.100.164:5000/get_daq_info')  
+      .then(response => response.json())
+      .then(data => setDAQInfo(data))
+      .catch(error => console.error('Error fetching the data:', error));
+  }, []);
   return (
     <div className="daq-info">
       <h3>Contenedor 1: DAQ Description</h3>

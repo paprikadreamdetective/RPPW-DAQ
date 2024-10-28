@@ -59,7 +59,7 @@ function PwmControl({ changeMode, setChangeMode }) {
   return (
     <div className="control-container">
         <h3>PWM MODE CONTROL</h3>
-        <label htmlFor="mode">Mode</label>
+        <label htmlFor="mode">Mode </label>
         <select id="mode" className="dropdown" onChange={handleModeChange}>
           <option value={0}>MANUAL</option>
           <option value={1}>TIMER</option>
@@ -69,8 +69,12 @@ function PwmControl({ changeMode, setChangeMode }) {
 
         <div className="fields-container">
           
-          <div className={`field-group ${changeMode >= 0 && changeMode <= 3 ? 'visible' : ''}`}>
-            <label htmlFor="pwm-channel">PWM Channel</label>
+        {changeMode >= 0 && changeMode <= 3 && (
+          <>
+          <div className="field-group">
+          
+          {/*<div className={`field-group ${changeMode >= 0 && changeMode <= 3 ? 'visible' : ''}`}>*/}
+            <label htmlFor="pwm-channel">PWM Channel </label>
             {/*<input type="number" id="pwm-channel" />*/}
             <input
                   type="number"
@@ -79,10 +83,12 @@ function PwmControl({ changeMode, setChangeMode }) {
                   placeholder="Ingrese el modo de control"
                   className="input-field"
                 />
+          {/*</div>*/}
           </div>
 
-          <div className={`field-group ${changeMode >= 0 && changeMode <= 3 ? 'visible' : ''}`}>
-            <label htmlFor="pwm-value">PWM Value</label>
+          <div className="field-group">
+            {/*<div className={`field-group ${changeMode >= 0 && changeMode <= 3 ? 'visible' : ''}`}>*/}
+            <label htmlFor="pwm-value">PWM Value </label>
             {/*<input type="number" id="pwm-value" />*/}
             <input
                   type="number"
@@ -91,8 +97,11 @@ function PwmControl({ changeMode, setChangeMode }) {
                   placeholder="Ingrese el modo de control"
                   className="input-field"
                 />
+            {/*</div>*/}
           </div>
-
+          </>
+          )}
+          
           {changeMode === 1 && (
             <>
           <div className="field-group">
