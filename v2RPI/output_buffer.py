@@ -14,7 +14,7 @@ class Output:
         self.control_mode = control_mode
         self.manual_value = value
         self.value = 0
-        
+        self.adc_input = 0
         # private:
         self._time_on = 1
         self._time_off = 2
@@ -48,7 +48,7 @@ class Output:
         self.pwm.start(0)
         
     #def write_output(self):
-    def write_output(self, input_analog: float):
+    def write_output(self, input_analog):
         if self.control_mode == MANUAL:
             self.value = self.manual_value
             #print("Value: " + str(self.value))
@@ -77,10 +77,13 @@ class Output:
 
         elif self.control_mode == ONOFF:
                 #if self._input_value < self._input_value_lb:
+                analog_value = input_analog
+
                 if int(input_analog) > self._input_value_ub:
+                #if int(analog_value) > self._input_value_ub:
                         self.value = self.manual_value
-                #elif self._input_value > self._input_value_ub:
-                elif int(input_analog) < self._input_value_ub:
+                elif self._input_value > self._input_value_ub:
+                #elif int(analog_value) < self._input_value_ub:
                         self.value = 0
         #for i in range(100, -1, -1):
         self.pwm.ChangeDutyCycle(self.map_value(self.value, 0, 255, 0, 100))
@@ -93,7 +96,9 @@ class Output:
     def map_value(self, input_value, in_min, in_max, out_min, out_max):
         return (int(input_value) - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
     
-    
+    def set_adc_input_channel(self, input_channel):
+        self.adc_input = input_channel
+
     def set_manual_output(self, value):
         # self.control_mode = self.MANUAL
         self.control_mode = 0

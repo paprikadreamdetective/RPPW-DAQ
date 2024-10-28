@@ -76,7 +76,8 @@ class MasterDAQ:
             new_config_data[f'M0_{channel}']['VALUE'] = int(request_data['pwm_value'])
             new_config_data[f'M0_{channel}']['PWM_CHANNEL'] = int(request_data['pwm_channel'])
         elif 2 == mode_control:
-            output.set_pid(25.25, float(request_data['setpoint']))
+            # output.set_pid(25.25, float(request_data['setpoint']))
+            output.set_pid(0, float(request_data['setpoint']))
             output.set_output_limits(int(request_data['output_lower_limit']), int(request_data['output_upper_limit']))
             output.set_pid_tunings(float(request_data['kp_value']), float(request_data['ki_value']), float(request_data['kd_value']))
             output.set_sample_time_us(float(request_data['sample_time_us']))
@@ -116,9 +117,12 @@ class MasterDAQ:
             for pwm in self._pwm_outputs:
                 print(f"Canal {pwm.channel} - Pin GPIO {pwm.pin} - Valor: {pwm.manual_value}%")
 
-    def writeAllOutputPWM(self):
+    def writeAllOutputPWM(self, adc_inputs):
         for output in self._pwm_outputs:
-            output.write_output(25.4)
+            
+            input_value = adc_inputs[output.adc_input][output.adc_input]
+            #print("INPUT_VALUE: ", input_value)
+            output.write_output(input_value)
 
     def initOutputs(self, json_file):
         try:
@@ -153,6 +157,7 @@ class MasterDAQ:
                     
                     self.enableOutputPWM(output_channel=key, pin=pin, output_type="PWM", control_mode=mode, value=pwm_value)
                     
+                    self._pwm_outputs[-1].set_adc_input_channel(adc_channel)
                     self._pwm_outputs[-1].set_manual_output(pwm_value)  # Último PWM agregado
                     self._pwm_outputs[-1].set_timer(time_on, time_off, pwm_value)
                     self._pwm_outputs[-1].set_pid(25.25, setpoint)
