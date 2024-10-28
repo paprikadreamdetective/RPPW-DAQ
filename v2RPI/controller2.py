@@ -33,7 +33,7 @@ def get_daq_info():
 def timer_1_callback(): 
     global adc_analog_inputs
     adc_analog_inputs = master.getAnalogChannelValues() 
-    print(adc_analog_inputs)
+    #print(adc_analog_inputs)
     #print("TIMER 1: ", time.ctime())
     #print(adc_analog_inputs)
     threading.Timer(0.25, timer_1_callback).start()
@@ -63,8 +63,8 @@ def daq_task():
     
     try:
         while 1:
-            
             master.writeAllOutputPWM(adc_analog_inputs)
+            time.sleep(1)
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
         #output_ch0.cleanup()

@@ -119,9 +119,10 @@ class MasterDAQ:
 
     def writeAllOutputPWM(self, adc_inputs):
         for output in self._pwm_outputs:
-            
+            print(adc_inputs)
+            print(output.adc_input)
             input_value = adc_inputs[output.adc_input][output.adc_input]
-            #print("INPUT_VALUE: ", input_value)
+            print("INPUT_VALUE: ", input_value)
             output.write_output(input_value)
 
     def initOutputs(self, json_file):

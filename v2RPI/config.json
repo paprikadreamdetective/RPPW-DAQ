@@ -1,13 +1,13 @@
 {
     "M0_0": {
         "GPIO_OUTPUT": 18,
-        "MODE": 2,
+        "MODE": 3,
         "PWM_CHANNEL": 0,
         "TIME_ON": 5,
         "TIME_OFF": 15,
         "SETPOINT": 5.0,
-        "VALUE": 127,
-        "ADC_CHANNEL": 0,
+        "VALUE": 23,
+        "ADC_CHANNEL": 1,
         "OUTPUT_LOWER_LIMIT": 0,
         "OUTPUT_UPPER_LIMIT": 255,
         "KP": 0.1,
@@ -15,18 +15,18 @@
         "KD": 1.0,
         "SAMPLE_TIME_US": 0.25,
         "GH_FILTER": 0.7,
-        "LOWER_BOUND": 0,
-        "UPPER_BOUND": 23
+        "LOWER_BOUND": 23,
+        "UPPER_BOUND": 30
     },
     "M0_1": {
         "GPIO_OUTPUT": 19,
-        "MODE": 1,
+        "MODE": 3,
         "PWM_CHANNEL": 1,
         "TIME_ON": 5,
         "TIME_OFF": 15,
         "SETPOINT": 0.1,
-        "VALUE": 3,
-        "ADC_CHANNEL": 0,
+        "VALUE": 23,
+        "ADC_CHANNEL": 2,
         "OUTPUT_LOWER_LIMIT": 1,
         "OUTPUT_UPPER_LIMIT": 1,
         "KP": 0.1,
@@ -34,8 +34,8 @@
         "KD": 0.1,
         "SAMPLE_TIME_US": 0.1,
         "GH_FILTER": 0.1,
-        "LOWER_BOUND": 1,
-        "UPPER_BOUND": 1
+        "LOWER_BOUND": 23,
+        "UPPER_BOUND": 30
     },
     "M0_2": {
         "GPIO_OUTPUT": 20,
