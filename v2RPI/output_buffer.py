@@ -14,8 +14,9 @@ class Output:
         self.control_mode = control_mode
         self.manual_value = value
         self.value = 0
-        self.adc_input = 0
+        
         # private:
+        self._adc_input = 0
         self._time_on = 1
         self._time_off = 2
         self._delta_time = 0
@@ -97,7 +98,7 @@ class Output:
         return (int(input_value) - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
     
     def set_adc_input_channel(self, input_channel):
-        self.adc_input = input_channel
+        self._adc_input = input_channel
 
     def set_manual_output(self, value):
         # self.control_mode = self.MANUAL

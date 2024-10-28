@@ -61,10 +61,12 @@ def daq_task():
      
     init_timers()
     
-    try:
-        while 1:
-            master.writeAllOutputPWM(adc_analog_inputs)
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("Programa detenido por el usuario.")
+    #try:
+    while 1:
+        master.writeAllOutputPWM(adc_analog_inputs)
+        master.showStateOutputPWM()
+        
+        time.sleep(3)
+    #except KeyboardInterrupt:
+        #print("Programa detenido por el usuario.")
         #output_ch0.cleanup()

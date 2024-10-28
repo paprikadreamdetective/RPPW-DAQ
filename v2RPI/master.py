@@ -13,13 +13,13 @@ class MasterDAQ:
         self._pwm_outputs = pwm_outputs
         self._i2c_inputs = i2c_inputs
         self._config_file = {} 
-        self._MAX_SIZE_OUTPUT_PWM = 6    
+        self._MAX_SIZE_OUTPUT_PWM = 8    
 
     def getAnalogChannelValues(self):
         return [{ channel : self._adc.get_analog_input(channel).value } for channel in range(0, 8)]
 
     def enableOutputPWM(self, output_channel, pin, output_type, control_mode, value):
-        if len(self._pwm_outputs) >= 6:
+        if len(self._pwm_outputs) >= 8:
             print("No se pueden agregar más de 6 canales PWM.")
             return 
         channel = len(self._pwm_outputs) 
@@ -78,6 +78,7 @@ class MasterDAQ:
         elif 2 == mode_control:
             # output.set_pid(25.25, float(request_data['setpoint']))
             output.set_pid(0, float(request_data['setpoint']))
+            output.set_adc_input_channel(int(request_data['adc_channel']))
             output.set_output_limits(int(request_data['output_lower_limit']), int(request_data['output_upper_limit']))
             output.set_pid_tunings(float(request_data['kp_value']), float(request_data['ki_value']), float(request_data['kd_value']))
             output.set_sample_time_us(float(request_data['sample_time_us']))
@@ -96,8 +97,8 @@ class MasterDAQ:
             new_config_data[f'M0_{channel}']['SAMPLE_TIME_US'] = float(request_data['sample_time_us'])
             new_config_data[f'M0_{channel}']['GH_FILTER'] = float(request_data['gh_filter'])
         elif 3 == mode_control:
-            temp_0 = 25.25
-            output.set_onoff(temp_0, int(request_data['lower_bound']), int(request_data['upper_bound']), int(request_data['pwm_value']))
+            output.set_adc_input_channel(int(request_data['adc_channel']))
+            output.set_onoff(0, int(request_data['lower_bound']), int(request_data['upper_bound']), int(request_data['pwm_value']))
             new_config_data[f'M0_{channel}']['MODE'] = ONOFF
             new_config_data[f'M0_{channel}']['VALUE'] = int(request_data['pwm_value'])
             new_config_data[f'M0_{channel}']['PWM_CHANNEL'] = int(request_data['pwm_channel'])
@@ -106,6 +107,7 @@ class MasterDAQ:
             new_config_data[f'M0_{channel}']['UPPER_BOUND'] = int(request_data['upper_bound'])
         with open('config.json', 'w') as archivo:
             json.dump(new_config_data, archivo, indent=4)  
+        
         print('Configuracion Actualizada!')
         print(new_config_data)
     
@@ -115,15 +117,16 @@ class MasterDAQ:
         else:
             print("Canales PWM activos:")
             for pwm in self._pwm_outputs:
-                print(f"Canal {pwm.channel} - Pin GPIO {pwm.pin} - Valor: {pwm.manual_value}%")
+                print(f"Canal {pwm.channel} - Pin GPIO {pwm.pin} - Valor: {pwm.manual_value} - ADC Channel: {pwm._adc_input}")
 
     def writeAllOutputPWM(self, adc_inputs):
         for output in self._pwm_outputs:
-            print(adc_inputs)
-            print(output.adc_input)
-            input_value = adc_inputs[output.adc_input][output.adc_input]
-            print("INPUT_VALUE: ", input_value)
+            print(output)
+            #print("PWM CH: " + str(output.channel) + " ADC CH: " + str(output._adc_input))
+            input_value = adc_inputs[output._adc_input][output._adc_input]
+            #print("INPUT_VALUE: ", input_value)
             output.write_output(input_value)
+        #print("-----------------")
 
     def initOutputs(self, json_file):
         try:
@@ -131,44 +134,44 @@ class MasterDAQ:
                 self._config_file = json.load(file)  # Cargar la configuración JSON
                 print(f"Configuración leída desde {json_file}:")
                 
-                for key, config in self._config_file.items():
-                    if len(self._pwm_outputs) >= self._MAX_SIZE_OUTPUT_PWM:
-                        print("Se alcanzó el número máximo de canales PWM.")
-                        break
+            for key, config in self._config_file.items():
+                if len(self._pwm_outputs) >= self._MAX_SIZE_OUTPUT_PWM:
+                    print("Se alcanzó el número máximo de canales PWM.")
+                    break
 
-                    gpio_output = config['GPIO_OUTPUT']
-                    mode = config['MODE']
-                    time_on = config['TIME_ON']
-                    time_off = config['TIME_OFF']
-                    #variable = config['VARIABLE']
-                    setpoint = config['SETPOINT']
-                    lower_bound = config['LOWER_BOUND']
-                    upper_bound = config['UPPER_BOUND']
-                    pwm_value = config['VALUE']
-                    pwm_channel = config['PWM_CHANNEL']
-                    adc_channel = config['ADC_CHANNEL']
-                    output_lower_limit = config['OUTPUT_LOWER_LIMIT']
-                    output_upper_limit = config['OUTPUT_UPPER_LIMIT']
-                    kp = config['KP']
-                    ki = config['KI']
-                    kd = config['KD']
-                    sample_time_us = config['SAMPLE_TIME_US']
-                    gh_filter = config['GH_FILTER']
-                    pin = gpio_output
-                    
-                    self.enableOutputPWM(output_channel=key, pin=pin, output_type="PWM", control_mode=mode, value=pwm_value)
-                    
-                    self._pwm_outputs[-1].set_adc_input_channel(adc_channel)
-                    self._pwm_outputs[-1].set_manual_output(pwm_value)  # Último PWM agregado
-                    self._pwm_outputs[-1].set_timer(time_on, time_off, pwm_value)
-                    self._pwm_outputs[-1].set_pid(25.25, setpoint)
-                    self._pwm_outputs[-1].set_output_limits(output_lower_limit, output_upper_limit)
-                    self._pwm_outputs[-1].set_pid_tunings(kp, ki, kd)
-                    self._pwm_outputs[-1].set_sample_time_us(sample_time_us)
-                    self._pwm_outputs[-1].set_gh_filter(gh_filter)
-                    self._pwm_outputs[-1].initialize_pid()
-                    self._pwm_outputs[-1].set_onoff(25.25, lower_bound, upper_bound, pwm_value)
-                    print(f"Canal {key} configurado: {config}")
+                gpio_output = config['GPIO_OUTPUT']
+                mode = config['MODE']
+                time_on = config['TIME_ON']
+                time_off = config['TIME_OFF']
+                #variable = config['VARIABLE']
+                setpoint = config['SETPOINT']
+                lower_bound = config['LOWER_BOUND']
+                upper_bound = config['UPPER_BOUND']
+                pwm_value = config['VALUE']
+                pwm_channel = config['PWM_CHANNEL']
+                adc_channel = config['ADC_CHANNEL']
+                output_lower_limit = config['OUTPUT_LOWER_LIMIT']
+                output_upper_limit = config['OUTPUT_UPPER_LIMIT']
+                kp = config['KP']
+                ki = config['KI']
+                kd = config['KD']
+                sample_time_us = config['SAMPLE_TIME_US']
+                gh_filter = config['GH_FILTER']
+                pin = gpio_output
+                
+                self.enableOutputPWM(output_channel=key, pin=pin, output_type="PWM", control_mode=mode, value=pwm_value)
+                
+                self._pwm_outputs[-1].set_adc_input_channel(adc_channel)
+                self._pwm_outputs[-1].set_manual_output(pwm_value)  # Último PWM agregado
+                self._pwm_outputs[-1].set_timer(time_on, time_off, pwm_value)
+                self._pwm_outputs[-1].set_pid(25.25, setpoint)
+                self._pwm_outputs[-1].set_output_limits(output_lower_limit, output_upper_limit)
+                self._pwm_outputs[-1].set_pid_tunings(kp, ki, kd)
+                self._pwm_outputs[-1].set_sample_time_us(sample_time_us)
+                self._pwm_outputs[-1].set_gh_filter(gh_filter)
+                self._pwm_outputs[-1].initialize_pid()
+                self._pwm_outputs[-1].set_onoff(25.25, lower_bound, upper_bound, pwm_value)
+                print(f"Canal {key} configurado: {config}")
         except FileNotFoundError:
             print(f"Error: No se encontró el archivo {json_file}")
         except json.JSONDecodeError:
