@@ -80,7 +80,7 @@ function PwmControl({ changeMode, setChangeMode }) {
                   type="number"
                   value={pwmChannel}
                   onChange={(e) => setPwmChannel(e.target.value)}
-                  placeholder="Ingrese el modo de control"
+                  placeholder="Channel in 0-7"
                   className="input-field"
                 />
           {/*</div>*/}
@@ -94,7 +94,7 @@ function PwmControl({ changeMode, setChangeMode }) {
                   type="number"
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
-                  placeholder="Ingrese el modo de control"
+                  placeholder="Value in 0-255"
                   className="input-field"
                 />
             {/*</div>*/}
