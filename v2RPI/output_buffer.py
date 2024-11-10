@@ -45,7 +45,7 @@ class Output:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.OUT)
         GPIO.setwarnings(False)
-        self.pwm = GPIO.PWM(self.pin, 500)  # PWM at 1kHz
+        self.pwm = GPIO.PWM(self.pin, 100)  # PWM at 1kHz
         self.pwm.start(0)
         
     #def write_output(self):
