@@ -9,6 +9,7 @@ from output_buffer import *
 class MasterDAQ:
     
     def __init__(self, adc, pwm_outputs: list, i2c_inputs):
+        
         self._adc = adc
         self._pwm_outputs = pwm_outputs
         self._i2c_inputs = i2c_inputs

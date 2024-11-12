@@ -1,3 +1,8 @@
+import pika
+import json
+from datetime import datetime
+from bson import ObjectId  # Para simular el formato de _id en MongoDB
+
 class RabbitMQProducer:
     def __init__(self, host, port, username, password, exchange_name):
         """
@@ -16,34 +21,77 @@ class RabbitMQProducer:
         self.exchange_name = exchange_name
         self.connection = None  # Aquí se almacenará la conexión a RabbitMQ
         self.channel = None  # Aquí se almacenará el canal de comunicación
-
+        
     def connect(self):
         """
         Conecta al servidor RabbitMQ y crea un canal de comunicación.
         """
-        # Código para conectarse a RabbitMQ e inicializar self.connection y self.channel
-        pass
+        credentials = pika.PlainCredentials(self.username, self.password)
+        parameters = pika.ConnectionParameters(self.host, self.port, '/', credentials)
+        self.connection = pika.BlockingConnection(parameters)
+        self.channel = self.connection.channel()
+        print("Connected to RabbitMQ")
 
     def declare_exchange(self):
         """
         Declara el intercambio de tipo topic en el servidor RabbitMQ.
         """
-        # Código para declarar el intercambio de tipo topic
-        pass
+        self.channel.exchange_declare(exchange=self.exchange_name, exchange_type=pika.ExchangeType.topic)
+        print(f"Exchange '{self.exchange_name}' declared.")
 
-    def publish_message(self, routing_key, message):
+    def publish_message(self, routing_key, configuration=None, metrics=None):
         """
         Publica un mensaje en el intercambio especificado usando la clave de enrutamiento.
 
         :param routing_key: Clave de enrutamiento para el mensaje.
-        :param message: Mensaje a enviar.
+        :param configuration: Objeto JSON opcional con configuración del sensor.
+        :param metrics: Objeto JSON con métricas del sensor.
         """
-        # Código para publicar el mensaje en el intercambio de tipo topic
-        pass
+        # Generar el mensaje en formato measurements
+        message = {
+            "_id": str(ObjectId()),  # ID único simulado
+            "schema": "1.0.0",
+            "timestamp": datetime.utcnow().isoformat(),  # Timestamp en UTC
+            "sensor": str(ObjectId()),  # Referencia a un sensor por su _id
+            "configuration": configuration if configuration else {},  # Configuración opcional
+            "metrics": metrics if metrics else {}
+        }
+
+        try:
+            # Enviar el mensaje
+            self.channel.basic_publish(
+                exchange=self.exchange_name,
+                routing_key=routing_key,
+                body=json.dumps(message),
+                mandatory=True  # Activa el manejo de mensajes no enrutables
+            )
+            print(f"Sent message: {message}")
+
+        except pika.exceptions.UnroutableError:
+            print('Message could not be routed to any queue')
 
     def close_connection(self):
         """
         Cierra la conexión con RabbitMQ.
         """
-        # Código para cerrar la conexión y el canal de RabbitMQ
-        pass
+        if self.connection:
+            self.connection.close()
+            print("Connection closed")
+
+
+'''
+Ejemplo:
+
+producer = RabbitMQProducer(host="ip_address", port=5672, username="admin", password="admin", exchange_name="mytopic")
+
+producer.connect()
+producer.declare_exchange()
+
+configuration = {"sampling_rate": "1s"}
+metrics = {"temperature": 25.5, "unit": "Celsius"}
+
+producer.publish_message(routing_key="sensor.data.temperature", configuration=configuration, metrics=metrics)
+
+producer.close_connection()
+
+'''
