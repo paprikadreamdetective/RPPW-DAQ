@@ -1,6 +1,11 @@
-# DAQ: Dispositivo de Adquisicion de datos
+# Hardware de recoleccion de datos
 
-Raspberry Pi 4: Dispositivo encargado de obtener los datos medidos por los sensores y publicarlos en la fila del agente de mensajes asi como recibir peticiones de cambio de configuracion. Este dispositivo obtiene las mediciones mediante un convertidor analogico-digital (ADC) MCP3008 el cual tiene una resolucion de 10 bits (valores entre 0 - 1023). 
+Este dispositivo es capaz de tomar mediciones y poderlas mandar mediante la red haciendo uso de un productor de mensajes RabbitMQ, en donde las mediciones que se toman se envian en un cierto formato JSON para posteriormente almacenarlos en una base de datos. 
+
+### Diagrama de contexto: 
+
+![ARCH_LA-Página-6](https://github.com/user-attachments/assets/abeda79b-778c-4bf0-a6b2-c8876a18cb18)
+
 
 ## Peticiones de configuracion
 
