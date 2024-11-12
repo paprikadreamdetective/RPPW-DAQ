@@ -70,4 +70,5 @@ def daq_task():
             time.sleep(3)
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
+        master.cleanupOutputs()
         #output_ch0.cleanup()

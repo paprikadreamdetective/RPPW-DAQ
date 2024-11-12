@@ -9,7 +9,7 @@ from output_buffer import *
 class MasterDAQ:
     
     def __init__(self, adc, pwm_outputs: list, i2c_inputs):
-        
+
         self._adc = adc
         self._pwm_outputs = pwm_outputs
         self._i2c_inputs = i2c_inputs
@@ -122,7 +122,7 @@ class MasterDAQ:
 
     def writeAllOutputPWM(self, adc_inputs):
         for output in self._pwm_outputs:
-            print(output)
+            #print(output)
             #print("PWM CH: " + str(output.channel) + " ADC CH: " + str(output._adc_input))
             input_value = adc_inputs[output._adc_input][output._adc_input]
             #print("INPUT_VALUE: ", input_value)
@@ -177,3 +177,11 @@ class MasterDAQ:
             print(f"Error: No se encontró el archivo {json_file}")
         except json.JSONDecodeError:
             print(f"Error: No se pudo leer el archivo {json_file}, formato JSON inválido.")
+    
+    def cleanupOutputs(self):
+        for output in self._pwm_outputs:
+            #print(output)
+            #print("PWM CH: " + str(output.channel) + " ADC CH: " + str(output._adc_input))
+            #input_value = adc_inputs[output._adc_input][output._adc_input]
+            #print("INPUT_VALUE: ", input_value)
+            output.cleanup()
