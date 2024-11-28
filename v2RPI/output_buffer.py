@@ -45,13 +45,14 @@ class Output:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.pin, GPIO.OUT)
         GPIO.setwarnings(False)
-        self.pwm = GPIO.PWM(self.pin, 100)  # PWM at 1kHz
+        self.pwm = GPIO.PWM(self.pin, 500)  # PWM at 1kHz
         self.pwm.start(0)
         
     #def write_output(self):
     def write_output(self, input_analog):
         if self.control_mode == MANUAL:
             self.value = self.manual_value
+            
             #print("Value: " + str(self.value))
         elif self.control_mode == TIMER:
             self._delta_time += 1
@@ -75,7 +76,7 @@ class Output:
             #self._filtered_input = self._alpha * self._input_value + (1 - self._alpha) * self._filtered_input
             self._filtered_input = self._alpha * input_analog + (1 - self._alpha) * self._filtered_input
             self.value = self.compute_pid(self._filtered_input)
-
+            
         elif self.control_mode == ONOFF:
                 #if self._input_value < self._input_value_lb:
                 analog_value = input_analog
