@@ -28,7 +28,7 @@ const MotorControl = () => {
 
   return (
     <div className="container">
-      <h1>Controlador de Arduino</h1>
+      <h1>Stepper Motor Peristaltic Liquid Pump Control</h1>
       <form className="form" onSubmit={handleSubmit}>
         <input
           type="number"
