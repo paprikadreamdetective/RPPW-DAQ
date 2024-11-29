@@ -16,7 +16,7 @@ import serial
 app = create_flask_app()
 
 # Configurar el puerto serial
-arduino_port = 'COM3'  # Cambia a tu puerto serial
+arduino_port = '/dev/ttyACM0'  # Cambia a tu puerto serial
 baud_rate = 9600
 @app.route('/control_motor', methods=['POST'])
 def control_motor():
@@ -91,7 +91,7 @@ def timer_2_callback():
 '''
 def init_timers():
     timer_1_callback()
-    timer_2_callback()
+    # timer_2_callback()
 
 
 def send_command(command):
