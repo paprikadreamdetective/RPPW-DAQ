@@ -126,3 +126,19 @@
   .visible {
     display: block;
   }
+
+  .slider-container-graph {
+    width: 300px;
+    margin: auto;
+  }
+  
+  .dashboard-panel-graph {
+    background-color: green; /* Color de fondo verde */
+    color: white;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    margin: 10px 0;
+  }
