@@ -23,6 +23,7 @@ def control_motor():
     try:
         # Obtener datos de la solicitud
         data = request.get_json()
+        print(data)
         if not data:
             return jsonify({'success': False, 'message': 'No data provided'}), 400
 
@@ -93,12 +94,6 @@ def init_timers():
     timer_1_callback()
     # timer_2_callback()
 
-
-def send_command(command):
-    slave_arduino_mega.write(f"{command}\n".encode())  # Enviar comando
-    response = slave_arduino_mega.readline().decode().strip()  # Leer respuesta
-    if response:
-        print(f"Arduino: {response}")
 
 def daq_task():
     global master

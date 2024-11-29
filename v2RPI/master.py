@@ -62,7 +62,7 @@ class MasterDAQ:
             }
             self.enableOutputPWM(output_channel=channel, pin=gpio_output, output_type="PWM", control_mode=mode_control, value=255)
 
-        print(self._pwm_outputs[channel].channel)
+        # print(self._pwm_outputs[channel].channel)
         output = self._pwm_outputs[channel]
         if 0 == mode_control:
             output.set_manual_output(request_data['pwm_value'])
@@ -115,11 +115,12 @@ class MasterDAQ:
     def showStateOutputPWM(self):
         if len(self._pwm_outputs) == 0:
             print("No hay canales PWM activos.")
+        '''
         else:
             print("Canales PWM activos:")
             for pwm in self._pwm_outputs:
                 print(f"Canal {pwm.channel} - Pin GPIO {pwm.pin} - Valor: {pwm.manual_value} - ADC Channel: {pwm._adc_input}")
-
+        '''
     def writeAllOutputPWM(self, adc_inputs):
         for output in self._pwm_outputs:
             #print(output)

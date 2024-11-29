@@ -49,7 +49,7 @@ class RabbitMQProducer:
         """
         # Generar el mensaje en formato measurements
         message = {
-            "_id": str(ObjectId()),  # ID único simulado
+              # ID único simulado
             "schema": "1.0.0",
             "timestamp": datetime.utcnow().isoformat(),  # Timestamp en UTC
             "sensor": str(ObjectId()),  # Referencia a un sensor por su _id
@@ -80,7 +80,7 @@ class RabbitMQProducer:
 
 
 '''
-Ejemplo:
+Ejemplo 1 (deprecated):
 
 producer = RabbitMQProducer(host="ip_address", port=5672, username="admin", password="admin", exchange_name="mytopic")
 
@@ -94,4 +94,38 @@ producer.publish_message(routing_key="sensor.data.temperature", configuration=co
 
 producer.close_connection()
 
+'''
+
+'''
+# Ejemplo de uso:
+if __name__ == "__main__":
+    producer = RabbitMQProducer(
+        host="ip_address", 
+        port=5672, 
+        username="admin", 
+        password="admin", 
+        exchange_name="mytopic"
+    )
+
+    try:
+        producer.connect()
+        producer.declare_exchange()
+
+        
+        configuration = {"sampling_rate": "1s"}
+        
+        metrics = {
+            "temperature": {
+                "value": 25.5,
+                "unit": "Celsius"
+            }
+        }
+
+        producer.publish_message(
+            routing_key="sensor.data.temperature",
+            configuration={},
+            metrics=metrics
+        )
+    finally:
+        producer.close_connection()
 '''
