@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./MotorControl.css";
 
-const MotorControl = () => {
+const BioMotor = () => {
   const [speed, setSpeed] = useState("");
   const [revolutions, setRevolutions] = useState("");
   const [error, setError] = useState("");
@@ -34,7 +34,7 @@ const MotorControl = () => {
         body: JSON.stringify({ command }),
       });
       const responseData = await response.json();
-      window.confirm(responseData.message);
+      //window.confirm(responseData.message);
     } catch (error) {
       setError("Error al enviar el comando de encendido/apagado.");
     }
@@ -43,7 +43,7 @@ const MotorControl = () => {
 
   return (
     <div className="container">
-      <h3>Stepper Motor Peristaltic Liquid Pump Control</h3>
+      <h3>Stirring Motor Control</h3>
       <form className="form" onSubmit={handleSubmit}>
         <input
           type="number"
@@ -86,4 +86,4 @@ const MotorControl = () => {
   );
 };
 
-export default MotorControl;
+export default BioMotor;

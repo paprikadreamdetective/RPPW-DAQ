@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import PwmControl from './components/PwmControl';
 import DaqInfo from './components/DAQInfo';
 import Graph from './components/Graph';
+import BioMotor from './components/BioMotor';
 import './App.css';
 
 function App() {
@@ -84,6 +85,9 @@ function App() {
               </div>
               <div className="dashboard-panel">
                 <PwmControl changeMode={changeMode} setChangeMode={setChangeMode} />
+              </div >
+              <div className="dashboard-panel">
+                <BioMotor/>
               </div>
             </Slider>
           </div>

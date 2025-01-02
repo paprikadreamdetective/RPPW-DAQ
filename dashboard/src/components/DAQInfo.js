@@ -4,7 +4,7 @@ import './DAQInfo.css';
 function DaqInfo() {
   const [DAQInfo, setDAQInfo] = useState(null);
   useEffect(() => {
-    fetch('http://192.168.100.164:5000/get_daq_info')  
+    fetch('http://192.168.100.164:5001/get_daq_info')  
       .then(response => response.json())
       .then(data => setDAQInfo(data))
       .catch(error => console.error('Error fetching the data:', error));
