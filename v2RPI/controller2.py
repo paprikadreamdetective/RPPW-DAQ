@@ -1,5 +1,8 @@
+from serialhandler import SerialCommunicator
+from mcp3008 import ADC_MCP3008
 from utilities import *
 from app import *
+
 import time
 import board
 import busio
@@ -10,71 +13,12 @@ import threading
 import numpy as np
 from adafruit_ahtx0 import AHTx0
 import json
-from mcp3008 import ADC_MCP3008
-import serial
-
-from serialhandler import SerialCommunicator
 
 app = create_flask_app()
 
 # Configurar el puerto serial
 arduino_port = '/dev/ttyACM0'  # Cambia a tu puerto serial
 baud_rate = 9600
-
-'''
-@app.route('/control_motor', methods=['POST'])
-def control_motor():
-    try:
-        # Obtener datos de la solicitud
-        data = request.get_json()
-        print(data)
-        if not data:
-            return jsonify({'success': False, 'message': 'No data provided'}), 400
-
-        arduino_responses = {}
-
-        # Comando de encendido/apagado del motor
-        if 'command' in data:
-            command = data['command']
-            if command in ["POWER ON", "POWER OFF"]:
-                slave_arduino_mega.write(f"{command}\n".encode())
-                response = slave_arduino_mega.readline().decode().strip()
-                arduino_responses['power'] = response
-                #print(response)
-            else:
-                return jsonify({'success': False, 'message': 'Invalid command'}), 400
-
-
-        # Validar y enviar comando de velocidad
-        if 'speed' in data:
-            speed = int(data['speed'])
-            command = f"SPEED {speed}"
-            slave_arduino_mega.write(f"{command}\n".encode())
-            arduino_response_speed = slave_arduino_mega.readline().decode().strip()
-        else:
-            arduino_response_speed = None
-
-        # Validar y enviar comando de revoluciones
-        if 'revolutions' in data:
-            revolutions = int(data['revolutions'])
-            command = f"REV {revolutions}"
-            slave_arduino_mega.write(f"{command}\n".encode())
-            arduino_response_revolutions = slave_arduino_mega.readline().decode().strip()
-        else:
-            arduino_response_revolutions = None
-
-        return jsonify({
-            'success': True,
-            'message': 'Commands sent successfully',
-            'responses': {
-                'speed': arduino_response_speed,
-                'revolutions': arduino_response_revolutions
-            }
-        })
-
-    except Exception as e:
-        return jsonify({'success': False, 'message': f'Error: {str(e)}'}), 500
-'''
 
 @app.route('/control_motor', methods=['POST'])
 def control_motor():
@@ -142,31 +86,6 @@ def get_daq_info():
         return jsonify({'success' : True, 'message' : 'Ha ocurrido un error'})
     return jsonify(daq_data)
 
-'''
-def timer_1_callback(): 
-    global adc_analog_inputs
-    adc_analog_inputs = master.getAnalogChannelValues() 
-    converted_data = [{key: convert_adc_to_temperature(value)} for item in adc_analog_inputs for key, value in item.items()]
-    
-    print(converted_data)
-    #print("TIMER 1: ", time.ctime())
-    #print(adc_analog_inputs)
-    threading.Timer(1, timer_1_callback).start()
-'''
-
-'''
-def timer_2_callback():
-    i2c_inputs = [{'temperature' : i2c_sensor[sensor].temperature, 'humidity' : i2c_sensor[sensor].relative_humidity} for sensor in i2c_sensor] 
-    #print("TIMER 2: ", time.ctime())
-    #print(i2c_inputs)
-    threading.Timer(1, timer_2_callback).start()
-'''
-'''
-def init_timers():
-    timer_1_callback()
-    # timer_2_callback()
-'''
-
 def daq_task():
     global master
     #global adc_analog_inputs
@@ -190,9 +109,6 @@ def daq_task():
             print(converted_data)
             time.sleep(1)
             print("TIME: ", time.ctime())
-            #master.writeAllOutputPWM(adc_analog_inputs)
-            #master.showStateOutputPWM()
-        
             
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
