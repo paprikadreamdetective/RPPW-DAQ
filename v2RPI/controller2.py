@@ -99,8 +99,6 @@ def daq_task():
     # master.initOutputs('config.json')  
     # Conectar con el Arduino
     slave_arduino_mega = SerialCommunicator(arduino_port, baud_rate)
-    #slave_arduino_mega = serial.Serial(arduino_port, baud_rate, timeout=1)
-    #init_timers()
     
     try:
         while 1:
@@ -112,5 +110,4 @@ def daq_task():
             
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
-        master.cleanupOutputs()
-        #output_ch0.cleanup()
+        slave_arduino_mega.close_connection()
