@@ -80,23 +80,6 @@ class RabbitMQProducer:
 
 
 '''
-Ejemplo 1 (deprecated):
-
-producer = RabbitMQProducer(host="ip_address", port=5672, username="admin", password="admin", exchange_name="mytopic")
-
-producer.connect()
-producer.declare_exchange()
-
-configuration = {"sampling_rate": "1s"}
-metrics = {"temperature": 25.5, "unit": "Celsius"}
-
-producer.publish_message(routing_key="sensor.data.temperature", configuration=configuration, metrics=metrics)
-
-producer.close_connection()
-
-'''
-
-'''
 # Ejemplo de uso:
 if __name__ == "__main__":
     producer = RabbitMQProducer(

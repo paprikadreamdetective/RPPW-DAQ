@@ -1,4 +1,5 @@
 from serialhandler import SerialCommunicator
+from RMQProducer import RabbitMQProducer
 from mcp3008 import ADC_MCP3008
 from utilities import *
 from app import *
@@ -88,7 +89,6 @@ def get_daq_info():
 
 def daq_task():
     global master
-    #global adc_analog_inputs
     global i2c_sensor
     global slave_arduino_mega
     # i2c = busio.I2C(board.SCL, board.SDA)
@@ -96,8 +96,6 @@ def daq_task():
     # i2c_sensor = {'aht10' : sensor_aht10} 
     adc = ADC_MCP3008(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D8))
     master = create_master_daq(adc, [], [])
-    # master.initOutputs('config.json')  
-    # Conectar con el Arduino
     slave_arduino_mega = SerialCommunicator(arduino_port, baud_rate)
     
     try:
