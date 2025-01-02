@@ -27,6 +27,20 @@ def control_motor():
         if not data:
             return jsonify({'success': False, 'message': 'No data provided'}), 400
 
+        arduino_responses = {}
+
+        # Comando de encendido/apagado del motor
+        if 'command' in data:
+            command = data['command']
+            if command in ["POWER ON", "POWER OFF"]:
+                slave_arduino_mega.write(f"{command}\n".encode())
+                response = slave_arduino_mega.readline().decode().strip()
+                arduino_responses['power'] = response
+                #print(response)
+            else:
+                return jsonify({'success': False, 'message': 'Invalid command'}), 400
+
+
         # Validar y enviar comando de velocidad
         if 'speed' in data:
             speed = int(data['speed'])
@@ -60,12 +74,14 @@ def control_motor():
 
 @app.route('/set_mode_manual', methods=['POST'])
 def pwm_set_mode():
+    '''
     value = request.json['pwm_value']
     mode_control = request.json['mode_control']
     adc_channel = request.json['adc_channel']
     print(str(value)+ ' ' + str(mode_control))
     data = request.get_json()
     master.setControlModeOutputPWM(data)
+    '''
     return jsonify({'success' : True, 'message' : 'Configuracion Actualizada!'})
 
 @app.route('/get_daq_info', methods=['GET'])
@@ -74,14 +90,17 @@ def get_daq_info():
         return jsonify({'success' : True, 'message' : 'Ha ocurrido un error'})
     return jsonify(daq_data)
 
+'''
 def timer_1_callback(): 
     global adc_analog_inputs
     adc_analog_inputs = master.getAnalogChannelValues() 
     converted_data = [{key: convert_adc_to_temperature(value)} for item in adc_analog_inputs for key, value in item.items()]
-    #print(converted_data)
+    
+    print(converted_data)
     #print("TIMER 1: ", time.ctime())
     #print(adc_analog_inputs)
-    threading.Timer(0.25, timer_1_callback).start()
+    threading.Timer(1, timer_1_callback).start()
+'''
 
 '''
 def timer_2_callback():
@@ -90,14 +109,15 @@ def timer_2_callback():
     #print(i2c_inputs)
     threading.Timer(1, timer_2_callback).start()
 '''
+'''
 def init_timers():
     timer_1_callback()
     # timer_2_callback()
-
+'''
 
 def daq_task():
     global master
-    global adc_analog_inputs
+    #global adc_analog_inputs
     global i2c_sensor
     global slave_arduino_mega
     # i2c = busio.I2C(board.SCL, board.SDA)
@@ -105,15 +125,19 @@ def daq_task():
     # i2c_sensor = {'aht10' : sensor_aht10} 
     adc = ADC_MCP3008(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D8))
     master = create_master_daq(adc, [], [])
-    master.initOutputs('config.json')  
+    # master.initOutputs('config.json')  
     # Conectar con el Arduino
     slave_arduino_mega = serial.Serial(arduino_port, baud_rate, timeout=1)
-    init_timers()
+    #init_timers()
     
     try:
         while 1:
-            master.writeAllOutputPWM(adc_analog_inputs)
-            master.showStateOutputPWM()
+            adc_analog_inputs = master.getAnalogChannelValues() 
+            converted_data = [{key: convert_adc_to_temperature(value)} for item in adc_analog_inputs for key, value in item.items()]
+            print(converted_data)
+            time.sleep(1)
+            #master.writeAllOutputPWM(adc_analog_inputs)
+            #master.showStateOutputPWM()
         
             
     except KeyboardInterrupt:
