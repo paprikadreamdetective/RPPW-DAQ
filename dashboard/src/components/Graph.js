@@ -1,7 +1,7 @@
 import React from 'react';
 import './Graph.css';
 import MotorControl from './MotorControl';
-
+import VerticalSwipeToSlide from './VerticalPanel';
 function Graph({ graphUrl }) {
   return (
     <div className="dashboard-charts">
@@ -21,6 +21,7 @@ function Graph({ graphUrl }) {
           
         </div>*/}
         <MotorControl></MotorControl>
+        
       </div>
       
     </div>

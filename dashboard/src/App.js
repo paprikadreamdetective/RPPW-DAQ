@@ -5,6 +5,7 @@ import PwmControl from './components/PwmControl';
 import DaqInfo from './components/DAQInfo';
 import Graph from './components/Graph';
 import BioMotor from './components/BioMotor';
+import VerticalSwipeToSlide from './components/VerticalPanel';
 import './App.css';
 
 function App() {
@@ -135,6 +136,9 @@ function App() {
               </div >
               <div className="dashboard-panel">
                 <BioMotor/>
+              </div>
+              <div className="dashboard-panel">
+                <VerticalSwipeToSlide/>
               </div>
             </Slider>
           </div>

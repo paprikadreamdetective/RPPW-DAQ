@@ -1,45 +1,42 @@
 import React, { Component } from "react";
 import Slider from "react-slick";
+import "./VerticalPanel.css";
 
 function VerticalSwipeToSlide() {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     vertical: true,
     verticalSwiping: true,
     swipeToSlide: true,
-    beforeChange: function(currentSlide, nextSlide) {
+    arrows: true // Activa las flechas de navegación
+    /*beforeChange: function(currentSlide, nextSlide) {
       console.log("before change", currentSlide, nextSlide);
     },
     afterChange: function(currentSlide) {
       console.log("after change", currentSlide);
-    }
+    }*/
   };
   return (
-    <div className="slider-container-graph">
+    <>
+    {/*<div className="slider-container">*/}
+    
+    <div className="vertical-panel-slider">
       <Slider {...settings}>
-        <div className="dashboard-panel-graph">
+        <div className="vertical-panel-container">
           <h3>1</h3>
         </div>
-        <div className="dashboard-panel-graph">
+        <div className="vertical-panel-container">
           <h3>2</h3>
         </div >
-        <div className="dashboard-panel-graph">
+        <div className="vertical-panel-container">
           <h3>3</h3>
-        </div>
-        <div className="dashboard-panel-graph">
-          <h3>4</h3>
-        </div>
-        <div className="dashboard-panel-graph">
-          <h3>5</h3>
-        </div>
-        <div className="dashboard-panel-graph">
-          <h3>6</h3>
         </div>
       </Slider>
     </div>
+    </>
   );
 }
 
