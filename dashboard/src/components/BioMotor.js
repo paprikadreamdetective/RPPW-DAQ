@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./MotorControl.css";
+import "./BioMotor.css";
 
 const BioMotor = () => {
   const [speed, setSpeed] = useState("");
   const [revolutions, setRevolutions] = useState("");
   const [error, setError] = useState("");
-
+  const [isMotorOn, setIsMotorOn] = useState(false); // Estado del toggle switch
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -40,6 +42,11 @@ const BioMotor = () => {
     }
   };
 
+  const toggleMotor = () => {
+    const command = isMotorOn ? "POWER OFF" : "POWER ON";
+    setIsMotorOn(!isMotorOn);
+    handlePowerCommand(command);
+  };
 
   return (
     <div className="container">
@@ -65,7 +72,20 @@ const BioMotor = () => {
         {error && <p className="error">{error}</p>}
       </form>
 
-      <div className="button-group">
+      <div className="toggle-switch-container">
+        <label className="toggle-switch">
+          <input
+            type="checkbox"
+            checked={isMotorOn}
+            onChange={toggleMotor}
+          />
+          <span className="slider"></span>
+        </label>
+        <p>{isMotorOn ? "Motor Encendido" : "Motor Apagado"}</p>
+      </div>
+
+
+      {/*<div className="button-group">
         <button
           className="button power-button on"
           onClick={() => handlePowerCommand("POWER ON")}
@@ -78,7 +98,7 @@ const BioMotor = () => {
         >
           Apagar Motor
         </button>
-      </div>
+      </div>*/}
 
 
 
