@@ -29,13 +29,60 @@ function App() {
 
 
   const settings = {
-    dots: true,
+    /*dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1,
+    slidesToScroll: 1,*/
+    dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  swipe: false, // Deshabilita el deslizamiento con el mouse o touch
+  draggable: false, // Deshabilita arrastrar el slider
+  //nextArrow: <CustomNextArrow />, // Botón personalizado de siguiente
+  //prevArrow: <CustomPrevArrow />, // Botón personalizado de anterior
   };
 
+  function CustomNextArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "block",
+          background: "black",
+          width: "50px",
+          height: "50px",
+          borderRadius: "50%",
+          color: "white",
+        }}
+        onClick={onClick}
+      />
+    );
+  }
+  
+  function CustomPrevArrow(props) {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "block",
+          background: "black",
+          width: "50px",
+          height: "50px",
+          borderRadius: "50%",
+          color: "white",
+        }}
+        onClick={onClick}
+      />
+    );
+  }
+  
   return (
     <div className="app-container">
       <div className="devices-list">
