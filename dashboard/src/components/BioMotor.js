@@ -1,8 +1,11 @@
 import React, { useState } from "react";
+import { Slider, Typography, Button, Switch, FormControlLabel } from "@mui/material";
 import "./MotorControl.css";
 import "./BioMotor.css";
+//mport "./SliderControl.css";
 
 const BioMotor = () => {
+    const [sliderValue, setSliderValue] = useState(0); // Valor del slider
   const [speed, setSpeed] = useState("");
   const [revolutions, setRevolutions] = useState("");
   const [error, setError] = useState("");
@@ -28,6 +31,7 @@ const BioMotor = () => {
     }
   };
 
+  
   const handlePowerCommand = async (command) => {
     try {
       const response = await fetch("http://192.168.100.164:5001/control_motor", {
@@ -52,7 +56,7 @@ const BioMotor = () => {
     <div className="stirring-container">
       <h3>Stirring Motor Control</h3>
       <form className="form" onSubmit={handleSubmit}>
-        <input
+        {/*<input
           type="number"
           className="input"
           placeholder="Velocidad (RPM)"
@@ -65,12 +69,37 @@ const BioMotor = () => {
           placeholder="Revoluciones"
           value={revolutions}
           onChange={(e) => setRevolutions(e.target.value)}
-        />
-        <button type="submit" className="button">
+        />*/}
+
+<div className="slider-container-speed">
+<Typography gutterBottom>Velocidad (RPM): {speed}</Typography>
+          <Slider
+            value={speed}
+            min={0}
+            max={2000}
+            step={10}
+            onChange={(e, newValue) => setSpeed(newValue)}
+            valueLabelDisplay="auto"
+          />
+        </div>
+        <div className="slider-container-rpm">
+        <Typography gutterBottom>Revoluciones: {revolutions}</Typography>
+          <Slider
+            value={revolutions}
+            min={0}
+            max={2000}
+            step={10}
+            onChange={(e, newValue) => setRevolutions(newValue)}
+            valueLabelDisplay="auto"
+          />
+        </div>
+        <Button variant="contained" type="submit" className="button">
           Enviar Comando
-        </button>
+        </Button>
         {error && <p className="error">{error}</p>}
       </form>
+
+      
 
       <div className="toggle-switch-container">
         <label className="toggle-switch">
@@ -83,25 +112,6 @@ const BioMotor = () => {
         </label>
         <p>{isMotorOn ? "Motor Encendido" : "Motor Apagado"}</p>
       </div>
-
-
-      {/*<div className="button-group">
-        <button
-          className="button power-button on"
-          onClick={() => handlePowerCommand("POWER ON")}
-        >
-          Encender Motor
-        </button>
-        <button
-          className="button power-button off"
-          onClick={() => handlePowerCommand("POWER OFF")}
-        >
-          Apagar Motor
-        </button>
-      </div>*/}
-
-
-
     </div>
   );
 };
