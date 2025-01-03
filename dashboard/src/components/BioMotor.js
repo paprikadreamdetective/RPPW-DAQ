@@ -7,7 +7,7 @@ const BioMotor = () => {
   const [revolutions, setRevolutions] = useState("");
   const [error, setError] = useState("");
   const [isMotorOn, setIsMotorOn] = useState(false); // Estado del toggle switch
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = {
@@ -49,7 +49,7 @@ const BioMotor = () => {
   };
 
   return (
-    <div className="container">
+    <div className="stirring-container">
       <h3>Stirring Motor Control</h3>
       <form className="form" onSubmit={handleSubmit}>
         <input

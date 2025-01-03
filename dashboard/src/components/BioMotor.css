@@ -1,3 +1,11 @@
+.stirring-container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 350px;
+}
+
 .toggle-switch-container {
     display: flex;
     align-items: center;
