@@ -1,9 +1,11 @@
 .container {
   display: flex;
-  flex-wrap: wrap;
+  /*flex-wrap: wrap;*/
+  flex-wrap: nowrap;
   gap: 20px;
   padding: 20px;
   background-color: #f5f5f5;
+  overflow: auto;
 }
 
 .stirring-container {
@@ -129,11 +131,14 @@
   
   @media (max-width: 768px) {
     .container {
-      flex-direction: column;
+      /*flex-direction: column;*/
+      flex-wrap: nowrap; /* Mantén el diseño en una fila */
+      overflow-x: scroll; /* Habilita desplazamiento horizontal */
     }
   
     .motor-control, .heating-pad {
-      max-width: 100%;
+      /*max-width: 100%;*/
+      flex: 0 0 auto; /* Previene el cambio de tamaño automático en pantallas pequeñas */
     }
   }
   

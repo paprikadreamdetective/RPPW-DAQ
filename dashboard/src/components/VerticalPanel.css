@@ -65,12 +65,12 @@
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 350px;
-    margin: 0 auto;
+    
+    /*margin: 0 auto;*/
     display: flex;
     flex-direction: column;
-    max-width: 1000px;
-    height: 100%; /* Ajusta al contenedor padre */
+    max-width: 1500px;
+    height: 350; /* Ajusta al contenedor padre */
   }
 
 /* Contenedor general del panel */
@@ -101,7 +101,6 @@
   max-height: 500px; /* Ajusta la altura máxima según necesidad */
   padding-right: 10px; /* Espacio para scrollbar */
   background-color: #D5D3E0;
-  border-radius: 10px;
 }
 
 /* Item de la lista */
@@ -123,8 +122,12 @@
   border-radius: 5px;*/
   padding: 15px;
   /*margin-bottom: 15px;*/
-  /*display: flex;
-  flex-direction: column;*/
+  /*max-height: 500px;*/
+  display: flex;
+  flex-direction: column;
+  max-height: 350px;
+  /*
+  
   /*justify-content: center;
   align-items: center;*/
 }

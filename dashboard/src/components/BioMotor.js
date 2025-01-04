@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Slider, Typography, Button, Switch, FormControlLabel } from "@mui/material";
 import "./MotorControl.css";
-import "./BioMotor.css";import Thermometer from "react-thermometer-component";
+import "./BioMotor.css";
+import Thermometer from "react-thermometer-component";
 
 //mport "./SliderControl.css";
 
