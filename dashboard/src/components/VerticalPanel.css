@@ -96,6 +96,7 @@
 
 /* Lista de items con scrollbar */
 .vertical-panel-list {
+ 
   overflow-y: auto;
   max-height: 500px; /* Ajusta la altura máxima según necesidad */
   padding-right: 10px; /* Espacio para scrollbar */

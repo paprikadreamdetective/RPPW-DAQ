@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Slider, Typography, Button, Switch, FormControlLabel } from "@mui/material";
 import "./MotorControl.css";
-import "./BioMotor.css";
+//import "./BioMotor.css";
 //mport "./SliderControl.css";
 
 const MotorControl = ({ titleMotor }) => {
