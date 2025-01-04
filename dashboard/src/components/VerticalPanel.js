@@ -47,16 +47,16 @@ function VerticalSwipeToSlide() {
       <h2>Motor Control Panel</h2>
       <div className="vertical-panel-list">
         <div className="vertical-panel-item">
-          <h3>Motor X</h3>
-          <MotorControl />
+          
+          <MotorControl titleMotor={"Peristaltic Liquid Pump Control (Motor X)"}/>
         </div>
         <div className="vertical-panel-item">
-          <h3>Motor Y</h3>
-          <MotorControl />
+          
+          <MotorControl titleMotor={"Peristaltic Liquid Pump Control (Motor Y)"}/>
         </div>
         <div className="vertical-panel-item">
-          <h3>Motor Z</h3>
-          <MotorControl />
+          
+          <MotorControl titleMotor={"Peristaltic Liquid Pump Control (Motor Z)"}/>
         </div>
       </div>
     </div>
