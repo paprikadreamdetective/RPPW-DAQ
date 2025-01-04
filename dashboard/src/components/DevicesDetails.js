@@ -1,7 +1,7 @@
 // src/components/DeviceDetails.js
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+import './DevicesDetails.css';
 const devices = [
   // Misma lista de dispositivos que en DevicesList
   { id: 1, name: "Device1", hardware: "Raspberry PI 4", ip: "192.168.100.164", location: "Biprocess Lab", i2c: 0, pwmOutputs: 8, analogInputs: 8, description: "Device description here..." },
@@ -28,7 +28,7 @@ function DeviceDetails() {
         <p><strong>Description:</strong></p>
         <div className="device-description">{device.description}</div>
       </div>
-      <button onClick={() => navigate("/dashboard")}>Use DAQ</button>
+      <button className="use-daq-button" onClick={() => navigate("/dashboard")}>Use DAQ</button>
     </div>
   );
 }

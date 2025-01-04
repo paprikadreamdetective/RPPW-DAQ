@@ -154,7 +154,7 @@ export default App;*/
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DevicesList from "./components/DevicesList";
-import DeviceDetails from "./components/DeviceDetails";
+import DeviceDetails from "./components/DevicesDetails";
 import Dashboard from "./components/Dashboard";
 //import NotFound from "./components/NotFound";
 import "./App.css";
@@ -162,14 +162,14 @@ import "./App.css";
 function App() {
   return (
     <Router>
-      <div className="app-container">
+      {/*<div className="app-container">*/}
         <Routes>
-          <Route path="/" element={<DevicesList />} />
-          <Route path="/device/:deviceId" element={<DeviceDetails />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/*<Route path="/" element={<DevicesList />} />*/}
+          {/*<Route path="/device/:deviceId" element={<DeviceDetails />} />*/}
+          <Route path="/" element={<Dashboard />} />
           {/*<Route path="*" element={<NotFound />} />*/}
         </Routes>
-      </div>
+      {/*</div>*/}
     </Router>
   );
 }
