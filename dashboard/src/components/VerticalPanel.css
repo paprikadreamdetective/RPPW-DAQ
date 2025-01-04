@@ -1,7 +1,11 @@
 /* Contenedor del slider */
+
 .vertical-panel-slider {
     position: relative;
-    max-width: 1000px; /* Ajusta según tus necesidades */
+    
+   
+    max-width: 100%; 
+    height: 100%; 
     margin: 0 auto;
   }
   
