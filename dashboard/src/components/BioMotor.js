@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Slider, Typography, Button, Switch, FormControlLabel } from "@mui/material";
 import "./MotorControl.css";
-import "./BioMotor.css";
+import "./BioMotor.css";import Thermometer from "react-thermometer-component";
+
 //mport "./SliderControl.css";
 
 const BioMotor = () => {
     const [sliderValue, setSliderValue] = useState(0); // Valor del slider
   const [speed, setSpeed] = useState("");
   const [revolutions, setRevolutions] = useState("");
+  const [temperature, setTemperature] = useState(20);
   const [error, setError] = useState("");
   const [isMotorOn, setIsMotorOn] = useState(false); // Estado del toggle switch
 
@@ -52,25 +54,18 @@ const BioMotor = () => {
     handlePowerCommand(command);
   };
 
+  const handleTemperatureChange = (e) => {
+    const temp = Math.min(100, Math.max(0, parseInt(e.target.value, 10) || 0));
+    setTemperature(temp);
+  };
+
   return (
-    <div className="stirring-container">
+    <div className="container">
+      <div className="motor-control">
+    {/*<div className="stirring-container">*/}
       <h3>Stirring Motor Control</h3>
       <form className="form" onSubmit={handleSubmit}>
-        {/*<input
-          type="number"
-          className="input"
-          placeholder="Velocidad (RPM)"
-          value={speed}
-          onChange={(e) => setSpeed(e.target.value)}
-        />
-        <input
-          type="number"
-          className="input"
-          placeholder="Revoluciones"
-          value={revolutions}
-          onChange={(e) => setRevolutions(e.target.value)}
-        />*/}
-
+       
 <div className="slider-container-speed">
 <Typography gutterBottom>Velocidad (RPM): {speed}</Typography>
           <Slider
@@ -111,6 +106,29 @@ const BioMotor = () => {
           <span className="slider"></span>
         </label>
         <p>{isMotorOn ? "Motor Encendido" : "Motor Apagado"}</p>
+      </div>
+    </div>
+
+    <div className="heating-pad">
+        <h3>Heating Pad Control</h3>
+        <Thermometer
+          theme="light"
+          value={temperature}
+          max="100"
+          steps="3"
+          format="°C"
+          size="large"
+          height="300"
+        />
+        <form>
+          <Typography gutterBottom>Set Temperature (°C):</Typography>
+          <input
+            type="number"
+            value={temperature}
+            onChange={handleTemperatureChange}
+            className="temperature-input"
+          />
+        </form>
       </div>
     </div>
   );

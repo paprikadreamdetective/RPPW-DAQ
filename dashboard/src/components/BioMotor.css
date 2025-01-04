@@ -1,11 +1,18 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
 .stirring-container {
     background-color: white;
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 350px;
+    height: 550px;
 }
-
 .toggle-switch-container {
     display: flex;
     align-items: center;
@@ -92,5 +99,49 @@
   input:checked + .slider:before {
     transform: translateX(26px);
   }
+  
+  
+  .motor-control, .heating-pad {
+    flex: 1;
+    min-width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .motor-control {
+    max-width: 60%;
+  }
+  
+  .heating-pad {
+    max-width: 40%;
+    text-align: center;
+  }
+  
+  .temperature-input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+  
+    .motor-control, .heating-pad {
+      max-width: 100%;
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
   
   
