@@ -101,6 +101,7 @@
   max-height: 500px; /* Ajusta la altura máxima según necesidad */
   padding-right: 10px; /* Espacio para scrollbar */
   background-color: #D5D3E0;
+  border-radius: 10px;
 }
 
 /* Item de la lista */
