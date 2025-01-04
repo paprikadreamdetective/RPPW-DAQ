@@ -1,4 +1,4 @@
-
+/*
 import React, { useState } from 'react';
 import Slider from 'react-slick';
 import PwmControl from './components/PwmControl';
@@ -34,7 +34,7 @@ function App() {
     infinite: true,
     speed: 500,
     slidesToShow: 1,
-    slidesToScroll: 1,*/
+    slidesToScroll: 1,
     dots: true,
   infinite: true,
   speed: 500,
@@ -122,7 +122,7 @@ function App() {
             <DaqInfo />
             <Graph graphUrl={graphUrl} />
             <PwmControl changeMode={changeMode} setChangeMode={setChangeMode}/>
-          </div>*/
+          </div>
           <div className="slider-container">
             <Slider {...settings}>
               <div className="dashboard-panel">
@@ -145,6 +145,32 @@ function App() {
         )}
       </div>
     </div>
+  );
+}
+
+export default App;*/
+
+// src/App.js
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import DevicesList from "./components/DevicesList";
+import DeviceDetails from "./components/DeviceDetails";
+import Dashboard from "./components/Dashboard";
+//import NotFound from "./components/NotFound";
+import "./App.css";
+
+function App() {
+  return (
+    <Router>
+      <div className="app-container">
+        <Routes>
+          <Route path="/" element={<DevicesList />} />
+          <Route path="/device/:deviceId" element={<DeviceDetails />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          {/*<Route path="*" element={<NotFound />} />*/}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
