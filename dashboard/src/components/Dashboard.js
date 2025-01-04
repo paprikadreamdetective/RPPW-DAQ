@@ -77,11 +77,7 @@ function Dashboard() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    dots: true,
-  infinite: true,
   speed: 500,
-  slidesToShow: 1,
-  slidesToScroll: 1,
   swipe: false, // Deshabilita el deslizamiento con el mouse o touch
   draggable: false, // Deshabilita arrastrar el slider
   //nextArrow: <CustomNextArrow />, // Botón personalizado de siguiente

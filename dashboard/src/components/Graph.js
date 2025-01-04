@@ -20,7 +20,7 @@ function Graph({ graphUrl }) {
           
           
         </div>*/}
-        <MotorControl></MotorControl>
+        
         
       </div>
       
