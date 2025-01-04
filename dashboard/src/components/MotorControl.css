@@ -1,5 +1,5 @@
 /* General styling for the container */
-/*
+
 .container {
     display: flex;
     flex-direction: column;
@@ -8,8 +8,8 @@
     padding: 20px;
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
-    min-height: 100vh;
-  }*/
+   
+  }
   
   /* Styling for the title */
   h1 {

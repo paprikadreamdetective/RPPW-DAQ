@@ -1,5 +1,5 @@
 /* Contenedor del slider */
-
+/*
 .vertical-panel-slider {
     position: relative;
     
@@ -7,7 +7,7 @@
     max-width: 100%; 
     height: 100%; 
     margin: 0 auto;
-  }
+  }*/
   
 /* Panel dentro del slider */
 /*.vertical-panel-container {
@@ -25,39 +25,39 @@
 
 
 /* Ajusta las flechas del slider vertical */
-.vertical-panel-slider .slick-prev,
+/*.vertical-panel-slider .slick-prev,
 .vertical-panel-slider .slick-next {
   position: absolute;
-  left: 50%; /* Centra horizontalmente las flechas */
+  left: 50%; 
   transform: translateX(-50%);
   z-index: 2;
-}
+}*/
 
 /* Flecha superior */
-.vertical-panel-slider .slick-prev {
-  top: 10px; /* Arriba del slider */
-}
-
+/*.vertical-panel-slider .slick-prev {
+  top: 10px; 
+}*/
+/*
 .vertical-panel-slider .slick-prev::before {
   font-size: 24px;
   color: black;
-  /*content: "↑";*/ /* Flecha hacia arriba */
-  transform: rotate(90deg); /* Rotar 90 grados */
+  
+  transform: rotate(90deg); 
   display: inline-block;
-}
+}*/
 
 /* Flecha inferior */
-.vertical-panel-slider .slick-next {
-  top: 340px; /* Debajo del slider */
-}
-
+/*.vertical-panel-slider .slick-next {
+  top: 340px; 
+}*/
+/*
 .vertical-panel-slider .slick-next::before {
   font-size: 24px;
   color: black;
-  transform: rotate(90deg); /* Rotar 90 grados */
-  display: inline-block; /* Asegura que el transform funcione correctamente */
-  /*content: "↓";*/ /* Flecha hacia abajo */
-}
+  transform: rotate(90deg); 
+  display: inline-block; 
+  
+}*/
 
 
 .vertical-panel-container {
@@ -66,4 +66,56 @@
     padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     height: 350px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 1000px;
+    height: 100%; /* Ajusta al contenedor padre */
+  }
+
+/* Contenedor general del panel */
+.vertical-panel {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: 0 auto;
+  height: 100%; /* Ajusta al contenedor padre */
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título del panel */
+.vertical-panel h2 {
+  margin-bottom: 15px;
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Lista de items con scrollbar */
+.vertical-panel-list {
+  overflow-y: auto;
+  max-height: 500px; /* Ajusta la altura máxima según necesidad */
+  padding-right: 10px; /* Espacio para scrollbar */
+}
+
+/* Item de la lista */
+.vertical-panel-item {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilo del título de cada motor */
+.vertical-panel-item h3 {
+  margin-bottom: 10px;
+  color: #555;
 }

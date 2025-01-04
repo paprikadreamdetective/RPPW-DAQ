@@ -25,7 +25,7 @@ function VerticalSwipeToSlide() {
     <>
     {/*<div className="slider-container">*/}
     
-    <div className="vertical-panel-slider">
+    {/*<div className="vertical-panel-slider">
     <div className="slider-container">
       <Slider {...settings}>
         <div className="vertical-panel-container">
@@ -42,6 +42,23 @@ function VerticalSwipeToSlide() {
         </div>
       </Slider>
     </div>
+    </div>*/}
+    <div className="vertical-panel-container">
+      <h2>Motor Control Panel</h2>
+      <div className="vertical-panel-list">
+        <div className="vertical-panel-item">
+          <h3>Motor X</h3>
+          <MotorControl />
+        </div>
+        <div className="vertical-panel-item">
+          <h3>Motor Y</h3>
+          <MotorControl />
+        </div>
+        <div className="vertical-panel-item">
+          <h3>Motor Z</h3>
+          <MotorControl />
+        </div>
+      </div>
     </div>
     </>
   );
