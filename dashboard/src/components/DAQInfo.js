@@ -11,7 +11,7 @@ function DaqInfo() {
   }, []);
   return (
     <div className="daq-info">
-      <h3>Contenedor 1: DAQ Description</h3>
+      <h2>DAQ Description</h2>
       {DAQInfo ? (
         <div className="daq-info-fields-container">
           <p><strong>Location:</strong> {DAQInfo.location}</p>

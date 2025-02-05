@@ -142,3 +142,81 @@
     border-radius: 5px;
     margin: 10px 0;
   }
+
+
+
+  
+.vertical-panel-container {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+  /*margin: 0 auto;*/
+  display: flex;
+  flex-direction: column;
+  max-width: 2000px;
+  height: 550px; /* Ajusta al contenedor padre */
+}
+
+/* Contenedor general del panel */
+.vertical-panel {
+background-color: white;
+border-radius: 10px;
+padding: 20px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+max-width: 1000px;
+margin: 0 auto;
+height: 100%; /* Ajusta al contenedor padre */
+display: flex;
+flex-direction: column;
+}
+
+/* Título del panel */
+.vertical-panel h2 {
+margin-bottom: 15px;
+text-align: center;
+font-size: 24px;
+color: #333;
+}
+
+/* Lista de items con scrollbar */
+.vertical-panel-list {
+
+overflow-y: auto;
+max-height: 600px; /* Ajusta la altura máxima según necesidad */
+padding-right: 10px; /* Espacio para scrollbar */
+background-color: #D5D3E0;
+
+}
+
+
+.vertical-panel-item {
+  /*background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;*/
+  padding: 15px;
+  /*margin-bottom: 15px;*/
+  /*max-height: 500px;*/
+  display: flex;
+  flex-direction: column;
+  max-height: 350px;
+  /*
+  
+  /*justify-content: center;
+  align-items: center;*/
+}
+
+
+.stirring-container {
+  /*background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 300px;*/
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 550px;
+}

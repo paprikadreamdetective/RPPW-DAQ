@@ -28,12 +28,20 @@ function Graph({ graphUrl }) {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className="dashboard-charts">
-      <h3>Temperatur Graphs</h3>
-      <div className="charts-grid">
+    <>
+    {/*<div className="dashboard-charts">*/}
+    
+    <div className="vertical-panel-container">
+      <h3>Temperature Graphs</h3>
+      {/*<div className="charts-grid">*/}
+      <div className="vertical-panel-list">
         {[1, 2, 3, 4].map((i) => (
-          <div className="chart-container" key={i}>
-            <h4>Sensor {i}</h4>
+          <>
+          {/*<div className="chart-container" key={i}>*/}
+          <div className="vertical-panel-item" key={i}>
+            
+            <div className="stirring-container">
+            <h2>Thermistor {i}</h2>
             <ResponsiveContainer width="100%" height={150}>
               <LineChart data={data}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -43,13 +51,16 @@ function Graph({ graphUrl }) {
                 <Line type="monotone" dataKey={`temp${i}`} stroke="#8884d8" strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
+            </div>
           </div>
+        </>
         ))}
       </div>
       {/*<div className="charts-content">
       </div>*/}
       
     </div>
+  </>
   );
 }
 
