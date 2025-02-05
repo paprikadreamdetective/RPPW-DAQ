@@ -1,5 +1,5 @@
 from utilities import *
-from mcp3008 import ADC_MCP3008
+from mcp3208 import ADC_MCP3208
 import busio
 import board
 import digitalio
@@ -15,7 +15,8 @@ class MasterDAQ:
         self._MAX_SIZE_OUTPUT_PWM = 8    
 
     def getAnalogChannelValues(self):
-        return [{ channel : self._adc.get_analog_input(channel).value } for channel in range(0, 8)]
+        return [{ channel : self._adc.read_channel(channel) } for channel in range(0, 8)]
+        #return [{ channel : self._adc.get_analog_input(channel).value } for channel in range(0, 8)]
 
     def enableOutputPWM(self, output_channel, pin, output_type, control_mode, value):
         if len(self._pwm_outputs) >= 8:
