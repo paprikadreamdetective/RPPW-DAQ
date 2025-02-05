@@ -1,6 +1,6 @@
 from serialhandler import SerialCommunicator
 from RMQProducer import RabbitMQProducer
-from mcp3008 import ADC_MCP3008
+from mcp3208 import ADC_MCP3208
 from utilities import *
 from app import *
 
@@ -94,15 +94,17 @@ def daq_task():
     # i2c = busio.I2C(board.SCL, board.SDA)
     # sensor_aht10 = AHTx0(i2c)
     # i2c_sensor = {'aht10' : sensor_aht10} 
-    adc = ADC_MCP3008(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D8))
+    #adc = ADC_MCP3208(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D8))
+    adc = ADC_MCP3208()
     master = create_master_daq(adc, [], [])
     slave_arduino_mega = SerialCommunicator(arduino_port, baud_rate)
     
     try:
         while 1:
             adc_analog_inputs = master.getAnalogChannelValues() 
-            converted_data = [{f'temp{key}': convert_adc_to_temperature(value)} for item in adc_analog_inputs for key, value in item.items()]
-            print(converted_data)
+            #converted_data = [{f'temp{key}': convert_adc_to_temperature(value)} for item in adc_analog_inputs for key, value in item.items()]
+            #print(converted_data)
+            print(adc_analog_inputs)
             time.sleep(1)
             print("TIME: ", time.ctime())
             
