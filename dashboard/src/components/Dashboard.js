@@ -72,6 +72,8 @@ function Dashboard() {
 
 
   const settings = {
+    centerMode: true, // Habilita el modo centrado
+  centerPadding: "0px", // Espaciado entre slides
     dots: true,
     infinite: true,
     speed: 500,
