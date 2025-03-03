@@ -264,7 +264,7 @@ h3 {
 }
 
 .app-container.sidebar-open {
-  margin-left: 30px; /* Mueve el contenido cuando el sidebar se abre */
+  margin-left: 10px; /* Mueve el contenido cuando el sidebar se abre */
 }
 
 .devices-list {

@@ -241,6 +241,10 @@ function Dashboard() {
         <button className="menu-button" onClick={toggleSidebar}>
           <FontAwesomeIcon icon={faBars} />
         </button>
+
+        <br/>
+        <br/>
+        <hr/>
         
         <div className="sidebar-options">
         
