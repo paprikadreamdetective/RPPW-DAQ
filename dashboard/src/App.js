@@ -151,28 +151,78 @@ function App() {
 export default App;*/
 
 // src/App.js
-import React from "react";
+/*import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DevicesList from "./components/DevicesList";
 import DeviceDetails from "./components/DevicesDetails";
 import Dashboard from "./components/Dashboard";
 //import NotFound from "./components/NotFound";
+import "./App.css";*/
+/*
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthProvider, AuthContext } from "./components/AuthContext";
+import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
 import "./App.css";
+
+function AppRoutes() {
+  const { user } = useContext(AuthContext);
+
+  return (
+    <Routes>
+      <Route path="/" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+      <Route path="/login" element={user ? <Navigate to="/" /> : <Login />} />
+    </Routes>
+  );
+}
 
 function App() {
   return (
-    <Router>
-      {/*<div className="app-container">*/}
-        <Routes>
-          {/*<Route path="/" element={<DevicesList />} />*/}
-          {/*<Route path="/device/:deviceId" element={<DeviceDetails />} />*/}
-          <Route path="/" element={<Dashboard />} />
-          {/*<Route path="*" element={<NotFound />} />*/}
-        </Routes>
-      {/*</div>*/}
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
+  );
+}
+
+export default App;*/
+
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthProvider, AuthContext } from "./components/AuthContext";
+import Dashboard from "./components/Dashboard";
+import AuthUserForm from "./components/AuthForm";
+import "./App.css";
+
+function AppRoutes() {
+  const { user } = useContext(AuthContext);
+  
+  return (
+    <>
+    {/*<Routes>
+      <Route path="/" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+      <Route path="/login" element={user ? <Navigate to="/" /> : <AuthUserForm />} />
+    </Routes>*/}
+    <Routes>
+      <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+      <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <AuthUserForm />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/dashboard/:deviceName" element={<Dashboard />} /> {/* Ruta para dispositivos */}
+    </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
   );
 }
 
 export default App;
-

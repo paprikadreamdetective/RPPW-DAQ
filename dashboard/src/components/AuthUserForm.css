@@ -1,0 +1,48 @@
+.sign-in-title  {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.sign-in-label  {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.sign-in-username-field[type="text"],
+.sign-in-password-field[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.sign-in-button  {
+    width: 100%;
+    padding: 10px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.sign-in-button:hover {
+    background-color: #732bde;
+}
+
+.sign-in-button-register-now {
+    text-align: center;
+    margin-top: 10px;
+    display: block;
+    color: #007BFF;
+    text-decoration: none;
+}
+
+.sign-in-button-register-now:hover {
+    text-decoration: underline;
+}

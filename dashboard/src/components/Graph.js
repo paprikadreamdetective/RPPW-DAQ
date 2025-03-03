@@ -32,7 +32,7 @@ function Graph({ graphUrl }) {
     {/*<div className="dashboard-charts">*/}
     
     <div className="vertical-panel-container">
-      <h3>Temperature Graphs</h3>
+      <h2>Temperature Graphs</h2>
       {/*<div className="charts-grid">*/}
       <div className="vertical-panel-list">
         {[1, 2, 3, 4].map((i) => (

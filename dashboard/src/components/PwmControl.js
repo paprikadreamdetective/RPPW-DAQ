@@ -58,7 +58,7 @@ function PwmControl({ changeMode, setChangeMode }) {
 
   return (
     <div className="control-container">
-        <h3>PWM MODE CONTROL</h3>
+        <h2>PWM Mode Control</h2>
         <label htmlFor="mode">Mode </label>
         <select id="mode" className="dropdown" onChange={handleModeChange}>
           <option value={0}>MANUAL</option>

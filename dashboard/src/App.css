@@ -260,6 +260,11 @@ h3 {
   height: 100vh;
   padding: 20px;
   background-color: #f5f5f5;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.app-container.sidebar-open {
+  margin-left: 30px; /* Mueve el contenido cuando el sidebar se abre */
 }
 
 .devices-list {

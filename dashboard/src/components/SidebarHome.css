@@ -1,0 +1,101 @@
+
+/* Sidebar */
+
+/*
+.sidebar {
+    position: fixed;
+    
+    left: -150px;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background: #333;
+    color: white;
+    transition: left 0.3s ease-in-out;
+    
+    flex-direction:column;
+    align-items: center;
+    padding-top: 50px;
+  }*/
+  /* Sidebar */
+  .sidebar {
+    top: 0;
+    /*position: relative;*/
+    position: relative;
+    left: -25px;
+    width: 100px;
+    height: 100vh;
+    background-color: #333;
+    /*transition: left 0.3s ease-in-out;*/
+    transition: width 0.3s ease-in-out;
+    border-radius: 10px;
+    flex-direction: column;
+    display: flex;
+    padding: 10px;
+    
+    
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .sidebar.open {
+    width: 450px; /* Se expande cuando está abierto */
+  }
+  
+  .sidebar-options {
+    /*display: flex;
+    flex-direction: column;
+    gap: 20px;*/
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    /*align-items: center;*/
+    opacity: 0; /* Oculta las opciones cuando está cerrado */
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .sidebar.open .sidebar-options {
+    opacity: 1; /* Muestra las opciones cuando se expande */
+}
+  
+.sidebar-item {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    transition: background 0.3s;
+    
+  }
+  
+  .sidebar-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Botón para abrir el menú */
+  .menu-button {
+    /*position: relative;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;*/
+    width: 100%;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  /* Botón para cerrar el Sidebar */
+  .close-sidebar {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
