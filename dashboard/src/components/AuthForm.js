@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext"; // Importa el contexto
 import React from "react";
+import img1 from "../assets/imagen1.jpg";
+import img2 from "../assets/imagen2.jpg";
+import img3 from "../assets/imagen3.jpg";
+import logo from "../assets/LOGO.png";
 import "./AuthUserForm.css";
 
 const users = [
@@ -10,7 +14,12 @@ const users = [
   { username: "usuario", password: "user123", role: "Usuario" }
 ];
 
+const images = [img1, img2, img3];
+
 const AuthUserForm = () => {
+
+  const [index, setIndex] = useState(0);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -37,11 +46,33 @@ const AuthUserForm = () => {
     }
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 10000); // Cambia cada 4 segundos
+
+    return () => clearInterval(interval);
+  }, []);
+
+
   return (
+    <div className="background-container">
+    {images.map((src, i) => (
+      <div
+        key={i}
+        className={`slide ${i === index ? "active" : ""}`}
+        style={{ backgroundImage: `url(${src})` }}
+      />
+    ))}
     <div className="login-form">
       
+      <div className="login-card">
+      <img src={logo} alt="Logo" className="login-logo" />
       <form>
-      <h2 className="sign-in-title">Iniciar Sesión</h2>
+      
+      <h2 className="sign-in-title">
+        Iniciar Sesión
+      </h2>
         <label className="sign-in-label">Usuario</label>
         <input
           className="sign-in-username-field"
@@ -69,6 +100,9 @@ const AuthUserForm = () => {
         </a>
       </form>
     </div>
+    </div>
+  </div>
+  
   );
 };
 
