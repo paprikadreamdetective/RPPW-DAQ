@@ -249,10 +249,11 @@ function Dashboard() {
         <div className="sidebar-options">
         
           <div className="sidebar-item" onClick={() => navigate("/")}>
-            <FontAwesomeIcon icon={faHome} size="2x" color="white"/>
+            <FontAwesomeIcon icon={faHome} size="2x" color="white" />
+            
           </div>
           <div className="sidebar-item" onClick={logout}>
-            <FontAwesomeIcon icon={faSignOutAlt} size="2x" color="white"/>
+            <FontAwesomeIcon icon={faSignOutAlt} size="2x" color="white" />
           </div>
         </div>  
       </div>

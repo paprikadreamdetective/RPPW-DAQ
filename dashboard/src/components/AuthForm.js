@@ -38,9 +38,10 @@ const AuthUserForm = () => {
   };
 
   return (
-    <>
-      <h2 className="sign-in-title">Iniciar Sesión</h2>
+    <div className="login-form">
+      
       <form>
+      <h2 className="sign-in-title">Iniciar Sesión</h2>
         <label className="sign-in-label">Usuario</label>
         <input
           className="sign-in-username-field"
@@ -67,7 +68,7 @@ const AuthUserForm = () => {
           ¿No tienes cuenta? Regístrate
         </a>
       </form>
-    </>
+    </div>
   );
 };
 

@@ -1,3 +1,11 @@
+
+.login-form {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .sign-in-title  {
     text-align: center;
     margin-bottom: 20px;
