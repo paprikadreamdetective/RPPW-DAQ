@@ -20,8 +20,9 @@
 }
 
 .login-form {
+    
     position: relative;
-    margin-top: 100px;
+    margin-top: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,14 +34,19 @@
     padding: 40px;
     box-shadow: 0.7 2px 32px rgba(0, 0, 0, 0.1);
     /*height: 550px; */
+    display: flex;
+    flex-direction: column; /* Apila los elementos en columna */
+    align-items: center; /* Centra horizontalmente */
+    text-align: center; /* Centra el texto */
+      
 }
 .login-logo {
-    position: relative;
-    /*max-width: 150px; /* Ajusta el tamaño según necesites */
+    
+    /* Ajusta el tamaño según necesites */
     /*height: auto;*/
-    align-items: center;
-    width: 70px;
-    height: 70px;
+  
+    width: 150px;
+    height: auto;
     /*margin-bottom: 20px;*/
 }
 

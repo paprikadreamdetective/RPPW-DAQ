@@ -67,9 +67,9 @@ const AuthUserForm = () => {
     <div className="login-form">
       
       <div className="login-card">
-      <img src={logo} alt="Logo" className="login-logo" />
-      <form>
       
+      <form>
+      <img src={logo} alt="Logo" className="login-logo" />
       <h2 className="sign-in-title">
         Iniciar Sesión
       </h2>
