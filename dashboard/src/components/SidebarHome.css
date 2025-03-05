@@ -38,38 +38,52 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   .sidebar.open {
+    
     width: 450px; /* Se expande cuando está abierto */
   }
   
   .sidebar-options {
-    /*display: flex;
-    flex-direction: column;
-    gap: 20px;*/
+    
+    gap: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    width: 100%;
     /*align-items: center;*/
-    opacity: 0; /* Oculta las opciones cuando está cerrado */
-    transition: opacity 0.3s ease-in-out;
+    
+    /*width: 100%;*/
+    align-items: flex-start; /* Alineación a la izquierda cuando está abierto */
+    
+    
   }
 
-  .sidebar.open .sidebar-options {
-    opacity: 1; /* Muestra las opciones cuando se expande */
-}
+  
   
 .sidebar-item {
+    display: flex;
     cursor: pointer;
     padding: 10px;
     border-radius: 10px;
-    transition: background 0.3s;
+    transition: background 0.3s, width 0.3s ease-in-out;
+    align-items: center;
+  width: 95%;
+  /*position: relative;*/
     
   }
   
   .sidebar-item:hover {
     background: rgba(255, 255, 255, 0.2);
+    
   }
   
+  .sidebar-item-text {
+    margin-left: 10px; /* Espacio entre el icono y el texto */
+    color: white;
+    font-size: 16px;
+    
+  }
+
+  /*.sidebar.open .sidebar-item-text {
+    opacity: 1; /* Muestra las opciones cuando se expande */
+/*}*/
   /* Botón para abrir el menú */
   .menu-button {
     /*position: relative;
@@ -90,6 +104,10 @@
     cursor: pointer;
   }
   
+/* Tooltip cuando el sidebar está cerrado */
+
+
+
   /* Botón para cerrar el Sidebar */
   .close-sidebar {
     position: absolute;
@@ -102,3 +120,39 @@
     cursor: pointer;
   }
   
+  .sidebar.open .menu-button {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* Cuando el sidebar está cerrado, los elementos se reducen */
+.sidebar:not(.open) .sidebar-item {
+  display: flex;
+  justify-content: center;
+  width: auto;
+  
+}
+
+/* Tooltip personalizado */
+.sidebar-item::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none;
+}
+
+/* Mostrar el tooltip cuando el sidebar está cerrado y el mouse pasa encima */
+.sidebar:not(.open) .sidebar-item:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(10px);
+}

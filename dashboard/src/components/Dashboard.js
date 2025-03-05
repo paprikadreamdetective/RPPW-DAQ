@@ -209,8 +209,8 @@ import "./Dashboard.css";
 
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faSignOutAlt, faBars } from "@fortawesome/free-solid-svg-icons";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons"; // Usamos íconos de react-icons
+import { faHome, faMicrochip, faMicroscope, faSignOutAlt, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faClose } from "@fortawesome/free-solid-svg-icons"; // Usamos íconos de react-icons
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -282,7 +282,8 @@ function Dashboard() {
       <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
         {/* Botón para abrir/cerrar el Sidebar */}
         <button className="menu-button" onClick={toggleSidebar}>
-          <FontAwesomeIcon icon={faBars} />
+          <FontAwesomeIcon icon={sidebarOpen ? faClose : faBars} />
+          
         </button>
 
         <br/>
@@ -290,13 +291,22 @@ function Dashboard() {
         <hr/>
         
         <div className="sidebar-options">
-        
-          <div className="sidebar-item" onClick={() => navigate("/")}>
+
+          <div className="sidebar-item" title={!sidebarOpen ? "Home" : ""}>
             <FontAwesomeIcon icon={faHome} size="2x" color="white" />
-            
+            {sidebarOpen && <span className="sidebar-item-text">Home</span>}
           </div>
-          <div className="sidebar-item" onClick={logout}>
+          <div className="sidebar-item" title={!sidebarOpen ? "Devices" : ""} onClick={() => navigate("/")}>
+            <FontAwesomeIcon icon={faMicrochip} size="2x" color="white" />
+            {sidebarOpen && <span className="sidebar-item-text">Devices</span>}
+          </div>
+          <div className="sidebar-item" title={!sidebarOpen ? "Experiments" : ""}>
+            <FontAwesomeIcon icon={faMicroscope} size="2x" color="white" />
+            {sidebarOpen && <span className="sidebar-item-text">Experiments</span>}
+          </div>
+          <div className="sidebar-item" title={!sidebarOpen ? "Logout" : ""} onClick={logout}>
             <FontAwesomeIcon icon={faSignOutAlt} size="2x" color="white" />
+            {sidebarOpen && <span className="sidebar-item-text">Logout</span>}
           </div>
         </div>  
       </div>
