@@ -71,9 +71,9 @@ const AuthUserForm = () => {
       <form>
       <img src={logo} alt="Logo" className="login-logo" />
       <h2 className="sign-in-title">
-        Iniciar Sesión
+        Sign In
       </h2>
-        <label className="sign-in-label">Usuario</label>
+        <label className="sign-in-label">Username</label>
         <input
           className="sign-in-username-field"
           type="text"
@@ -82,7 +82,7 @@ const AuthUserForm = () => {
           required
         />
 
-        <label className="sign-in-label">Contraseña</label>
+        <label className="sign-in-label">Password</label>
         <input
           className="sign-in-password-field"
           type="password"
@@ -92,11 +92,11 @@ const AuthUserForm = () => {
         />
 
         <button className="sign-in-button" type="submit" onClick={handleLogin}>
-          Entrar
+          Login
         </button>
         <p>{message}</p>
         <a href="#" className="sign-in-button-register-now">
-          ¿No tienes cuenta? Regístrate
+        Don't have an account? Sign up
         </a>
       </form>
     </div>

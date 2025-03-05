@@ -53,7 +53,9 @@ const MotorControl = ({ titleMotor }) => {
   };
 
   return (
-    <div className="stirring-container">
+    <>
+    {/*<div className="stirring-container">*/}
+    <div className={`stirring-container ${error ? "error-active" : ""}`}>
       <h3>{titleMotor}</h3>
       <form className="form" onSubmit={handleSubmit}>
         {/*<input
@@ -72,7 +74,7 @@ const MotorControl = ({ titleMotor }) => {
         />*/}
 
 <div className="slider-container-speed">
-<Typography gutterBottom>Velocidad (RPM): {speed}</Typography>
+<Typography gutterBottom>Speed (RPM): {speed}</Typography>
           <Slider
             value={speed}
             min={0}
@@ -83,7 +85,7 @@ const MotorControl = ({ titleMotor }) => {
           />
         </div>
         <div className="slider-container-rpm">
-        <Typography gutterBottom>Revoluciones: {revolutions}</Typography>
+        <Typography gutterBottom>REV: {revolutions}</Typography>
           <Slider
             value={revolutions}
             min={0}
@@ -94,7 +96,7 @@ const MotorControl = ({ titleMotor }) => {
           />
         </div>
         <Button variant="contained" type="submit" className="button">
-          Enviar Comando
+          Update Config
         </Button>
         {error && <p className="error">{error}</p>}
       </form>
@@ -110,9 +112,10 @@ const MotorControl = ({ titleMotor }) => {
           />
           <span className="slider"></span>
         </label>
-        <p>{isMotorOn ? "Motor Encendido" : "Motor Apagado"}</p>
+        <p>{isMotorOn ? "Motor On" : "Motor Off"}</p>
       </div>
     </div>
+    </>
   );
 };
 

@@ -96,9 +96,9 @@
 
 /* Lista de items con scrollbar */
 .vertical-panel-list {
- 
+  
   overflow-y: auto;
-  max-height: 600px; /* Ajusta la altura máxima según necesidad */
+  /*max-height: 600px; /* Ajusta la altura máxima según necesidad */
   padding-right: 10px; /* Espacio para scrollbar */
   background-color: #D5D3E0;
   
@@ -121,12 +121,14 @@
   /*background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 5px;*/
-  padding: 15px;
-  /*margin-bottom: 15px;*/
+  padding: 35px;
+  /*margin-bottom: 35px;*/
   /*max-height: 500px;*/
-  display: flex;
+  /*display: flex;*/
   flex-direction: column;
-  max-height: 350px;
+  height: auto;
+  transition: margin-bottom 0.3s ease; /* Animación suave */
+  /*max-height: 350px;*/
   /*
   
   /*justify-content: center;

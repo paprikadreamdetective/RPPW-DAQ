@@ -89,7 +89,7 @@ const BioMotor = () => {
             valueLabelDisplay="auto"
           />
         </div>
-        <Button variant="contained" type="submit" className="button">
+        <Button variant="contained" type="submit" className="button" >
           Enviar Comando
         </Button>
         {error && <p className="error">{error}</p>}

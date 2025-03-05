@@ -205,13 +205,54 @@ import BioMotor from "./BioMotor";
 import VerticalSwipeToSlide from "./VerticalPanel";
 import "../App.css";  
 import "./SidebarHome.css";
+import "./Dashboard.css";
+
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faSignOutAlt, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons"; // Usamos íconos de react-icons
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+
+function SampleNextArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", color: "black" }}
+      onClick={onClick}
+    />
+  );
+}
+
+function SamplePrevArrow(props) {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{ ...style, display: "block", color: "black" }}
+      onClick={onClick}
+    />
+  );
+}
+
 function Dashboard() {
+  
+  
+  
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    swipe: false,
+    draggable: false,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />
+  };
+
   const { user, logout } = useContext(AuthContext); // Obtener usuario del contexto
   //const [selectedDevice, setSelectedDevice] = useState(null);
   const [showPanel, setShowPanel] = useState(false);
@@ -230,6 +271,8 @@ function Dashboard() {
   ];
 
   const selectedDevice = devices.find((d) => d.name === deviceName);
+
+  
 
   return (
     <div className={`app-container ${sidebarOpen ? "sidebar-open" : ""}`}>
@@ -288,7 +331,7 @@ function Dashboard() {
 
         {showPanel && (
           <div className="slider-container">
-            <Slider {...{ dots: true, infinite: true, speed: 500, slidesToShow: 1, slidesToScroll: 1 }}>
+            <Slider {...settings}>
               <div className="dashboard-panel"><DaqInfo /></div>
               <div className="dashboard-panel"><Graph graphUrl="http://192.168.100.174/zabbix/index.php?name=Admin&password=&enter=Sign&action=dashboard.view&kiosk=1&dashboardid=47320" /></div>
               <div className="dashboard-panel"><PwmControl changeMode={changeMode} setChangeMode={setChangeMode} /></div>
