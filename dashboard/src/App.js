@@ -206,7 +206,8 @@ function AppRoutes() {
       <Route path="/login" element={user ? <Navigate to="/" /> : <AuthUserForm />} />
     </Routes>*/}
     <Routes>
-      <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />
+      <Route path="/" element={<Navigate to="/login" />} />
+      {/*<Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />*/}
       <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <AuthUserForm />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/dashboard/:deviceName" element={<Dashboard />} /> {/* Ruta para dispositivos */}
