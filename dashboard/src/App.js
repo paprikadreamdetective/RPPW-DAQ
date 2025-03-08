@@ -194,6 +194,7 @@ import { useContext } from "react";
 import { AuthProvider, AuthContext } from "./components/AuthContext";
 import Dashboard from "./components/Dashboard";
 import AuthUserForm from "./components/AuthForm";
+import HomePage from "./pages/HomePage";
 import "./App.css";
 
 function AppRoutes() {
@@ -209,7 +210,9 @@ function AppRoutes() {
       <Route path="/" element={<Navigate to="/login" />} />
       {/*<Route path="/" element={user ? <Navigate to="/dashboard" /> : <Navigate to="/login" />} />*/}
       <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <AuthUserForm />} />
+      <Route path="Home" element={<HomePage />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      {/*<Route path="/dashboard/:Home" element={<HomePage />} />*/} {/* Ruta para dispositivos */}
       <Route path="/dashboard/:deviceName" element={<Dashboard />} /> {/* Ruta para dispositivos */}
     </Routes>
     </>

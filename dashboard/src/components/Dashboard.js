@@ -192,6 +192,7 @@ function Dashboard() {
 
 export default Dashboard;*/
 import { useParams, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext";
 //import Login from "./Login"; // Importamos la pantalla de Login
@@ -238,6 +239,7 @@ function SamplePrevArrow(props) {
 }
 
 function Dashboard() {
+  const location = useLocation(); 
   
   
   
@@ -262,6 +264,7 @@ function Dashboard() {
   const navigate = useNavigate();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
   if (!user) return <AuthUserForm />; // Si no está autenticado, mostrar la pantalla de Login
 
@@ -292,7 +295,7 @@ function Dashboard() {
         
         <div className="sidebar-options">
 
-          <div className="sidebar-item" title={!sidebarOpen ? "Home" : ""}>
+          <div className="sidebar-item" title={!sidebarOpen ? "Home" : ""} onClick={() => navigate("/dashboard/Home")}>
             <FontAwesomeIcon icon={faHome} size="2x" color="white" />
             {sidebarOpen && <span className="sidebar-item-text">Home</span>}
           </div>
@@ -311,7 +314,7 @@ function Dashboard() {
         </div>  
       </div>
 
-      <div className="devices-list">
+      {!showPanel && (<div className="devices-list">
         <h3>Devices</h3>
         {devices.map((device, index) => (
           <div key={index} className="device-item" onClick={() => navigate(`/dashboard/${device.name}`)}>
@@ -320,9 +323,16 @@ function Dashboard() {
           </div>
         ))}
       </div>
+    
+    
+    
+    )
+    
+    }
 
       <div className="device-details">
         {selectedDevice && !showPanel && (
+          
           <>
             <h2>{selectedDevice.name}</h2>
             <div className="device-info">
