@@ -204,6 +204,8 @@ import DaqInfo from "./DAQInfo";
 import Graph from "./Graph";
 import BioMotor from "./BioMotor";
 import VerticalSwipeToSlide from "./VerticalPanel";
+import HomePage from "../pages/HomePage";
+
 import "../App.css";  
 import "./SidebarHome.css";
 import "./Dashboard.css";
@@ -254,7 +256,7 @@ function Dashboard() {
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />
   };
-
+  
   const { user, logout } = useContext(AuthContext); // Obtener usuario del contexto
   //const [selectedDevice, setSelectedDevice] = useState(null);
   const [showPanel, setShowPanel] = useState(false);
@@ -314,21 +316,18 @@ function Dashboard() {
         </div>  
       </div>
 
-      {!showPanel && (<div className="devices-list">
+
+      {location.pathname == "/dashboard/Home" ? (
+        <HomePage />) : (
+      !showPanel && (<div className="devices-list">
         <h3>Devices</h3>
         {devices.map((device, index) => (
           <div key={index} className="device-item" onClick={() => navigate(`/dashboard/${device.name}`)}>
-          {/*<div key={index} className="device-item" onClick={() => setSelectedDevice(device)}>*/}
+          
             {device.name}
           </div>
         ))}
-      </div>
-    
-    
-    
-    )
-    
-    }
+      </div>))}
 
       <div className="device-details">
         {selectedDevice && !showPanel && (

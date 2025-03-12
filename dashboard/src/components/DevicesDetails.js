@@ -1,36 +1,31 @@
 // src/components/DeviceDetails.js
-import React from "react";
+
 import { useParams, useNavigate } from "react-router-dom";
 import './DevicesDetails.css';
-const devices = [
-  // Misma lista de dispositivos que en DevicesList
-  { id: 1, name: "Device1", hardware: "Raspberry PI 4", ip: "192.168.100.164", location: "Biprocess Lab", i2c: 0, pwmOutputs: 8, analogInputs: 8, description: "Device description here..." },
-  { id: 2, name: "Device2", hardware: "Arduino Uno", ip: "192.168.100.165", location: "Main Lab", i2c: 1, pwmOutputs: 4, analogInputs: 6, description: "Another device description here..." },
-];
+// DeviceDetails.js
+import React from "react";
 
-function DeviceDetails() {
-  const { deviceId } = useParams();
-  const navigate = useNavigate();
-  const device = devices.find((d) => d.id === parseInt(deviceId));
-
-  if (!device) return <div>Device not found.</div>;
-
+function DeviceDetails ({ selectedDevice, setShowPanel }) {
   return (
     <div className="device-details">
-      <h2>{device.name}</h2>
-      <div className="device-info">
-        <p><strong>Hardware:</strong> {device.hardware}</p>
-        <p><strong>IP:</strong> {device.ip}</p>
-        <p><strong>Location:</strong> {device.location}</p>
-        <p><strong>I2C Address:</strong> {device.i2c}</p>
-        <p><strong>PWM Outputs:</strong> {device.pwmOutputs}</p>
-        <p><strong>Analog Inputs:</strong> {device.analogInputs}</p>
-        <p><strong>Description:</strong></p>
-        <div className="device-description">{device.description}</div>
-      </div>
-      <button className="use-daq-button" onClick={() => navigate("/dashboard")}>Use DAQ</button>
+      {selectedDevice && (
+        <>
+          <h2>{selectedDevice.name}</h2>
+          <div className="device-info">
+            <p><strong>Hardware:</strong> {selectedDevice.hardware}</p>
+            <p><strong>IP:</strong> {selectedDevice.ip}</p>
+            <p><strong>Location:</strong> {selectedDevice.location}</p>
+            <p><strong>I2C Address:</strong> {selectedDevice.i2c}</p>
+            <p><strong>PWM Outputs:</strong> {selectedDevice.pwmOutputs}</p>
+            <p><strong>Analog Inputs:</strong> {selectedDevice.analogInputs}</p>
+            <p><strong>Description:</strong></p>
+            <div className="device-description">{selectedDevice.description}</div>
+          </div>
+          <button className="use-daq-button" onClick={() => setShowPanel(true)}>Use DAQ</button>
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default DeviceDetails;
