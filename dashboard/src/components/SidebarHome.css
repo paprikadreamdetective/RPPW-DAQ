@@ -156,3 +156,14 @@
   opacity: 1;
   transform: translateY(-50%) translateX(10px);
 }
+
+.sidebar-text {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px 15px;
+  text-align: center;
+  width: 100%;
+  cursor: default; /* Evita que se comporte como botón */
+  user-select: none; /* Evita que el usuario seleccione el texto */
+}

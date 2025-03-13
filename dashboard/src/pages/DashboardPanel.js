@@ -64,7 +64,7 @@ function DashboardPanel({ showDevices }) {
       {location.pathname === "/dashboard/About" && <AboutPage />}
 
       {/* Mostrar DeviceList solo si no hay un deviceName seleccionado */}
-      {showDevices && !deviceName && <DeviceList devices={devices} navigate={navigate} />}
+      {showDevices && !deviceName && <DeviceList devices={devices} navigate={navigate} /> }
 
       {/* Mostrar detalles solo si hay un dispositivo seleccionado */}
       {selectedDevice && !showPanel && <DeviceDetails selectedDevice={selectedDevice}  />}

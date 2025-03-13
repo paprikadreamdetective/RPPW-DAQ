@@ -10,7 +10,9 @@ function MainSidebar({ sidebarOpen, toggleSidebar, navigate, logout }) {
   return (
     <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
       <button className="menu-button" onClick={toggleSidebar}>
+        
         <FontAwesomeIcon icon={sidebarOpen ? faClose : faBars} />
+        {sidebarOpen && <span className="sidebar-text">BioReactify</span>}
       </button>
       <br/>
       
