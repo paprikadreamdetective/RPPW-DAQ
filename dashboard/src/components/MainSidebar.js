@@ -5,11 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faMicrochip, faMicroscope, faSignOutAlt, faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import "./SidebarHome.css";
 
-function MainSidebar({ logout, navigate }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+function MainSidebar({ sidebarOpen, toggleSidebar, navigate, logout }) {
+  /*const [sidebarOpen, setSidebarOpen] = useState(false);*/
   return (
     <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
-      <button className="menu-button" onClick={() => setSidebarOpen(!sidebarOpen)}>
+      <button className="menu-button" onClick={toggleSidebar}>
         <FontAwesomeIcon icon={sidebarOpen ? faClose : faBars} />
       </button>
       <br/>

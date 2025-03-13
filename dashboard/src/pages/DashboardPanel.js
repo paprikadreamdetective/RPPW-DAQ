@@ -11,28 +11,24 @@ import HomePage from "./HomePage";
 import "../components/Dashboard.css";
 import "../App.css";
 
-function DashboardPanel() {
+function DashboardPanel({ showDevices }) {
   const location = useLocation(); 
+  const navigate = useNavigate();
   const { user, logout } = useContext(AuthContext);
   const { deviceName } = useParams();
-  const navigate = useNavigate();
   const [showPanel, setShowPanel] = useState(false);
-  const [changeMode, setChangeMode] = useState(0);
-  const [deviceData, setDeviceData] = useState(null); // Estado para almacenar los datos de dispositivos
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
-  useEffect(() => {
-    // Simula carga de datos (reemplaza con tu lógica real de obtención de datos)
-    setTimeout(() => {
-      const fakeDeviceData = [
-        { id: 1, name: "Device 1" },
-        { id: 2, name: "Device 2" },
-        { id: 3, name: "Device 3" }
-      ];
-      setDeviceData(fakeDeviceData);
-    }, 1000); // Tiempo simulado de carga
-  }, []); // Se ejecuta solo una vez al montar el componente
-  
+  /*const [changeMode, setChangeMode] = useState(0);*/
+  /*const [deviceData, setDeviceData] = useState(null);*/ // Estado para almacenar los datos de dispositivos
   if (!user) return <AuthUserForm />;
+
+  const devices = [
+    { name: "Device1", hardware: "Raspberry PI 4", ip: "192.168.100.164", location: "Biprocess Lab", i2c: 0, pwmOutputs: 8, analogInputs: 8, description: "Device description here..." },
+    { name: "Device2", hardware: "Arduino Uno", ip: "192.168.100.165", location: "Main Lab", i2c: 1, pwmOutputs: 4, analogInputs: 6, description: "Another device description here..." },
+  ];
+  const selectedDevice = devices.find((d) => d.name === deviceName);
+  
 
   /*return (
     <div className="app-container">
@@ -43,16 +39,31 @@ function DashboardPanel() {
     </div>
   );*/
 
-  return (
+  /*return (
     <div className="app-container">
       <MainSidebar logout={logout} navigate={navigate} />
       {location.pathname === "/dashboard/Home" ? (
         <HomePage />
       ) : !showPanel && deviceData ? ( // Verifica que deviceData esté definido
-        <DeviceList data={deviceData} navigate={navigate} /> // Pasa los datos a DeviceList
+        <DeviceList data={devices} navigate={navigate} /> // Pasa los datos a DeviceList
       ) : null}
-      <DeviceDetails deviceName={deviceName} setShowPanel={setShowPanel} />
+      <DeviceDetails deviceName={devices} setShowPanel={setShowPanel} />
       {showPanel && <DAQSlider changeMode={changeMode} setChangeMode={setChangeMode} />}
+    </div>
+  );*/
+  return (
+    <div className={`app-container ${sidebarOpen ? "sidebar-open" : ""}`}>
+      <MainSidebar sidebarOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} navigate={navigate} logout={logout} />
+      
+      {location.pathname === "/dashboard/Home" && <HomePage />}
+
+      {/* Mostrar DeviceList solo si no hay un deviceName seleccionado */}
+      {showDevices && !deviceName && <DeviceList devices={devices} navigate={navigate} />}
+
+      {/* Mostrar detalles solo si hay un dispositivo seleccionado */}
+      {selectedDevice && !showPanel && <DeviceDetails selectedDevice={selectedDevice} onUseDaq={() => setShowPanel(true)} />}
+
+      {showPanel && <DAQSlider />}
     </div>
   );
 }
