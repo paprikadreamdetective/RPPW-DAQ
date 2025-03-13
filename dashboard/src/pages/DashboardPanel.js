@@ -8,6 +8,7 @@ import DeviceList from "../components/DevicesList";
 import DeviceDetails from "../components/DevicesDetails";
 //import DAQSlider from "../components/DAQSlider";
 import HomePage from "./HomePage";
+import ExperimentsPage from "./ExperimentsPage";
 import "../components/Dashboard.css";
 import "../App.css";
 
@@ -56,6 +57,8 @@ function DashboardPanel({ showDevices }) {
       <MainSidebar sidebarOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} navigate={navigate} logout={logout} />
       
       {location.pathname === "/dashboard/Home" && <HomePage />}
+
+      {location.pathname === "/dashboard/Experiments" && <ExperimentsPage />}
 
       {/* Mostrar DeviceList solo si no hay un deviceName seleccionado */}
       {showDevices && !deviceName && <DeviceList devices={devices} navigate={navigate} />}

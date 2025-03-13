@@ -1,4 +1,4 @@
-
+import './HomePage.css';
 
 
 function HomePage() {
@@ -17,6 +17,11 @@ function HomePage() {
         <>
         <div className="home-page">
             
+        <div className="home-info">
+          <p><strong>Home</strong> </p>
+          
+          <div className="home-description"></div>
+        </div>
 
         </div>
     
