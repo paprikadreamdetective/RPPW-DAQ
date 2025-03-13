@@ -1,11 +1,17 @@
 .experiments-page {
+  display:flex;
     width: 100%;
     margin-left: 20px;
     background-color: #D5D3E0;
     border-radius: 10px;
-    padding: 30px;
+    padding: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
+  
+.exp-info p, .exp-description {
+  margin: 5px 0;
+}
 
   /* styles.css */
 
@@ -26,8 +32,8 @@
   --primary-color: #4b49ac; 
   --secondary-color: #0c007d; 
   --Border-color: #3f0097; 
-  --one-use-color: #3f0097; 
-  --two-use-color: #5500cb; 
+  --one-use-color: #000000; 
+  --two-use-color: #000000; 
   } 
   body { 
   background-color: var(--background-color4); 
@@ -290,14 +296,14 @@
   .recent-Articles { 
   font-size: 30px; 
   font-weight: 600; 
-  color: #5500cb; 
+  color: #000000; 
   } 
   
   .view { 
   height: 35px; 
   width: 90px; 
   border-radius: 8px; 
-  background-color: #5500cb; 
+  background-color: #000000; 
   color: white; 
   font-size: 15px; 
   border: none; 

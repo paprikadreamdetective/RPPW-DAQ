@@ -1,14 +1,19 @@
 import React from 'react';
 import './ExperimentsPage.css';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFlask, faVialCircleCheck, faXmarkCircle, faHourglass } from "@fortawesome/free-solid-svg-icons";
 function ExperimentsPage() {
     
     return (
         <>
             <div className="experiments-page">
-            
+            <div className="exp-info">
+          <p><strong>Experiments</strong> </p>
+          
+          <div className="exp-description"></div>
+        </div>
     <div className="main">
-      <div className="searchbar2">
+      {/*<div className="searchbar2">
         <input type="text" name="" id="" placeholder="Search" />
         <div className="searchbtn">
           <img
@@ -17,65 +22,57 @@ function ExperimentsPage() {
             alt="search-button"
           />
         </div>
-      </div>
+      </div>*/}
 
       <div className="box-container">
         <div className="box box1">
           <div className="text">
             <h2 className="topic-heading">60.5k</h2>
-            <h2 className="topic">Article Views</h2>
+            <h2 className="topic">Total experiments</h2>
           </div>
-          <img
+          {/*<img
             src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(31).png"
             alt="Views"
-          />
+          />*/}
+          <FontAwesomeIcon icon={faFlask} size="2x" color="white"/> 
         </div>
 
         <div className="box box2">
           <div className="text">
             <h2 className="topic-heading">150</h2>
-            <h2 className="topic">Likes</h2>
+            <h2 className="topic">Active experiments</h2>
           </div>
-          <img
-            src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185030/14.png"
-            alt="likes"
-          />
+          <FontAwesomeIcon icon={faHourglass} size="2x" color="white"/> 
         </div>
 
         <div className="box box3">
           <div className="text">
             <h2 className="topic-heading">320</h2>
-            <h2 className="topic">Comments</h2>
+            <h2 className="topic">Experiments interrupted</h2>
           </div>
-          <img
-            src="https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png"
-            alt="comments"
-          />
+          <FontAwesomeIcon icon={faXmarkCircle} size="2x" color="white"/> 
         </div>
 
         <div className="box box4">
           <div className="text">
             <h2 className="topic-heading">70</h2>
-            <h2 className="topic">Published</h2>
+            <h2 className="topic">Experiments completed</h2>
           </div>
-          <img
-            src="https://media.geeksforgeeks.org/wp-content/uploads/20221210185029/13.png"
-            alt="published"
-          />
+          <FontAwesomeIcon icon={faVialCircleCheck} size="2x" color="white"/> 
         </div>
       </div>
 
       <div className="report-container">
         <div className="report-header">
-          <h1 className="recent-Articles">Recent Articles</h1>
+          <h1 className="recent-Articles">Recent Experiments</h1>
           <button className="view">View All</button>
         </div>
 
         <div className="report-body">
           <div className="report-topic-heading">
-            <h3 className="t-op">Article</h3>
-            <h3 className="t-op">Views</h3>
-            <h3 className="t-op">Comments</h3>
+            <h3 className="t-op">Experiment</h3>
+            <h3 className="t-op">Duration</h3>
+            <h3 className="t-op">Description</h3>
             <h3 className="t-op">Status</h3>
           </div>
 
