@@ -6,7 +6,7 @@ import AuthUserForm from "../components/AuthForm";
 import MainSidebar from "../components/MainSidebar";
 import DeviceList from "../components/DevicesList";
 import DeviceDetails from "../components/DevicesDetails";
-import DAQSlider from "../components/DAQSlider";
+//import DAQSlider from "../components/DAQSlider";
 import HomePage from "./HomePage";
 import "../components/Dashboard.css";
 import "../App.css";
@@ -61,9 +61,9 @@ function DashboardPanel({ showDevices }) {
       {showDevices && !deviceName && <DeviceList devices={devices} navigate={navigate} />}
 
       {/* Mostrar detalles solo si hay un dispositivo seleccionado */}
-      {selectedDevice && !showPanel && <DeviceDetails selectedDevice={selectedDevice} onUseDaq={() => setShowPanel(true)} />}
+      {selectedDevice && !showPanel && <DeviceDetails selectedDevice={selectedDevice}  />}
 
-      {showPanel && <DAQSlider />}
+      {/*showPanel && <DAQSlider />*/}
     </div>
   );
 }
