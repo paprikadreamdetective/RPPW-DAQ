@@ -1,0 +1,14 @@
+.about-page {
+    width: 100%;
+    margin-left: 20px;
+    background-color: #D5D3E0;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+
+  
+.about-info p, .about-description {
+  margin: 8px 0;
+}

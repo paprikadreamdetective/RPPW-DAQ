@@ -1,6 +1,6 @@
 // src/components/DeviceDetails.js
 import { useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+//import { useParams, useNavigate } from "react-router-dom";
 import './DevicesDetails.css';
 import DAQSlider from "./DAQSlider";
 // DeviceDetails.js

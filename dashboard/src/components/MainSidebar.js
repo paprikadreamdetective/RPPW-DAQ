@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome, faMicrochip, faMicroscope, faSignOutAlt, faBars, faClose } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faMicrochip, faMicroscope, faSignOutAlt, faBars, faClose, faCircleQuestion } from "@fortawesome/free-solid-svg-icons";
 import "./SidebarHome.css";
 
 function MainSidebar({ sidebarOpen, toggleSidebar, navigate, logout }) {
@@ -27,6 +27,10 @@ function MainSidebar({ sidebarOpen, toggleSidebar, navigate, logout }) {
         <div className="sidebar-item" onClick={() => navigate("/dashboard/Experiments")}> 
           <FontAwesomeIcon icon={faMicroscope} size="2x" color="white"/> 
           {sidebarOpen && <span className="sidebar-item-text">Experiments</span>}
+        </div>
+        <div className="sidebar-item" onClick={() => navigate("/dashboard/About")}> 
+          <FontAwesomeIcon icon={faCircleQuestion} size="2x" color="white"/> 
+          {sidebarOpen && <span className="sidebar-item-text">About</span>}
         </div>
         <div className="sidebar-item" onClick={logout}> 
           <FontAwesomeIcon icon={faSignOutAlt} size="2x" color="white"/> 

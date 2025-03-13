@@ -1,11 +1,12 @@
 // Dashboard.js (Mover a pages/)
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../components/AuthContext";
 import AuthUserForm from "../components/AuthForm";
 import MainSidebar from "../components/MainSidebar";
 import DeviceList from "../components/DevicesList";
 import DeviceDetails from "../components/DevicesDetails";
+import AboutPage from "./AboutPage";
 //import DAQSlider from "../components/DAQSlider";
 import HomePage from "./HomePage";
 import ExperimentsPage from "./ExperimentsPage";
@@ -59,6 +60,8 @@ function DashboardPanel({ showDevices }) {
       {location.pathname === "/dashboard/Home" && <HomePage />}
 
       {location.pathname === "/dashboard/Experiments" && <ExperimentsPage />}
+
+      {location.pathname === "/dashboard/About" && <AboutPage />}
 
       {/* Mostrar DeviceList solo si no hay un deviceName seleccionado */}
       {showDevices && !deviceName && <DeviceList devices={devices} navigate={navigate} />}

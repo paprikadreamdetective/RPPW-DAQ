@@ -3,14 +3,6 @@ import './HomePage.css';
 
 function HomePage() {
 
-    
-    const onCreate = () => {
-        // logic goes here
-    };
-    
-    const onPanelResize = () => {
-        // logic goes here
-    };
 
 
     return (
