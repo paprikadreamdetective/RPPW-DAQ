@@ -15,7 +15,7 @@ class MasterDAQ:
         self._MAX_SIZE_OUTPUT_PWM = 8    
 
     def getAnalogChannelValues(self):
-        return [{ channel : self._adc.read_channel(channel) } for channel in range(0, 8)]
+        return [{ channel : self._adc.get_analog_input(channel).value } for channel in range(0, 8)]
         #return [{ channel : self._adc.get_analog_input(channel).value } for channel in range(0, 8)]
 
     def enableOutputPWM(self, output_channel, pin, output_type, control_mode, value):

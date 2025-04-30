@@ -9,6 +9,18 @@ B = 2.65207e-4
 C = 1.272206e-7
 
 def convert_adc_to_temperature(adc_value):
+    if adc_value <= 0:  # Evita divisiones por cero o valores negativos
+        return None  # O float('inf') si prefieres
+
+    resistance = (65535 / adc_value) - 1
+    if resistance <= 0:  # También evita problemas aquí
+        return None  
+
+    resistance = 10000 / resistance
+    temperature = 1 / (A + B * log(resistance) + C * (log(resistance)) ** 3) - 273.15  
+    return temperature
+'''
+def convert_adc_to_temperature(adc_value):
     #print(adc_value)
     if adc_value == 0:
     # Manejo para el caso en que adc_value es cero
@@ -20,7 +32,7 @@ def convert_adc_to_temperature(adc_value):
     resistance = 10000 / resistance
     temperature = 1 / (A + B * (log(resistance)) + C * (log(resistance)) ** 3) - 273.15  # Kelvin to Celsius
     return temperature
-
+'''
 CONFIG_THERMISTOR_RESISTOR = 9900
 REF_VOLTAGE = 3.3
 thermistor = [8.1197E-4, 2.65207E-4, 1.272206E-7] # 103JT-025 semitec
