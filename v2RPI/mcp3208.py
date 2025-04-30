@@ -1,3 +1,43 @@
+import busio
+import digitalio
+import board
+import adafruit_mcp3xxx.mcp3008 as MCP
+from adafruit_mcp3xxx.analog_in import AnalogIn
+
+class ADC_MCP3208:  # Mantenemos este nombre aunque sea un MCP3008
+    def __init__(self, spi_object, chip_select):
+        """Inicializa el MCP3008 con SPI y Chip Select (CS)."""
+        self.spi = spi_object
+        self.cs = chip_select
+        self.mcp = MCP.MCP3008(self.spi, self.cs)
+
+    def get_analog_input(self, channel):
+        """Lee el valor analógico de un canal (0-7) y devuelve un valor entre 0 y 65535."""
+        if 0 <= channel < 8:
+            return AnalogIn(self.mcp, getattr(MCP, f'P{channel}'))
+        else:
+            raise ValueError("Canal fuera de rango (0-7)")
+
+
+'''
+import adafruit_mcp3xxx.mcp3008 as MCP
+from adafruit_mcp3xxx.analog_in import AnalogIn
+
+class ADC_MCP3208:
+    def __init__(self, spi_object, chip_select):
+        self._spi_object = spi_object
+        self._chip_select = chip_select
+        self._mcp = self.init()
+    def init(self):
+        return MCP.MCP3008(self._spi_object, self._chip_select)
+    def get_analog_input(self, channel):
+        if channel < 8 and channel >= 0:
+            return AnalogIn(self._mcp, getattr(MCP, f'P{channel}'))
+        return None
+'''
+
+
+'''
 import spidev
 
 class ADC_MCP3208:
@@ -26,3 +66,4 @@ class ADC_MCP3208:
 
     def close(self):
         self.spi.close()
+'''

@@ -3,6 +3,7 @@ from RMQProducer import RabbitMQProducer
 from mcp3208 import ADC_MCP3208
 from utilities import *
 from app import *
+from datetime import datetime
 
 import time
 import board
@@ -94,19 +95,32 @@ def daq_task():
     # i2c = busio.I2C(board.SCL, board.SDA)
     # sensor_aht10 = AHTx0(i2c)
     # i2c_sensor = {'aht10' : sensor_aht10} 
-    #adc = ADC_MCP3208(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.D8))
-    adc = ADC_MCP3208()
+    adc = ADC_MCP3208(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), digitalio.DigitalInOut(board.CE1))
+    #adc = ADC_MCP3208(busio.SPI(clock=board.SCK, MISO=board.MISO, MOSI=board.MOSI), board.CE0)
+    #adc = ADC_MCP3208()
     master = create_master_daq(adc, [], [])
     slave_arduino_mega = SerialCommunicator(arduino_port, baud_rate)
+
+    producer = RabbitMQProducer()
+
+    producer.connect()
+    producer.declare_exchange()
     
     try:
         while 1:
             adc_analog_inputs = master.getAnalogChannelValues() 
-            #converted_data = [{f'temp{key}': convert_adc_to_temperature(value)} for item in adc_analog_inputs for key, value in item.items()]
-            #print(converted_data)
-            print(adc_analog_inputs)
-            time.sleep(1)
+            converted_data = [{f'temp{key}': convert_adc_to_temperature(value)} for item in adc_analog_inputs for key, value in item.items()]
+            print(converted_data[1])
+            #print(adc_analog_inputs)
+            # Obtener el tiempo actual en UTC
+            timestamp = datetime.utcnow()
+
+            # Convertir a formato ISO 8601 con 'Z' al final para indicar UTC
+            timestamp = timestamp.isoformat() + "Z"
+            value = converted_data[1]['temp1']
+            producer.publish_message("6749feafcf993887d7c1c19b", timestamp, value)
             print("TIME: ", time.ctime())
+            time.sleep(0.5)
             
     except KeyboardInterrupt:
         print("Programa detenido por el usuario.")
