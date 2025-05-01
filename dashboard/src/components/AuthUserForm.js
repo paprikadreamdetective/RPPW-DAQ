@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+/*import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext"; // Importa el contexto
@@ -103,6 +103,104 @@ const AuthUserForm = () => {
     </div>
   </div>
   
+  );
+};
+
+export default AuthUserForm;*/
+
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./AuthContext";
+import React from "react";
+import img1 from "../assets/imagen1.jpg";
+import img2 from "../assets/imagen2.jpg";
+import img3 from "../assets/imagen3.jpg";
+import logo from "../assets/LOGO.png";
+import "../styles/AuthUserForm.css";
+
+const users = [
+  { username: "admin", password: "admin123", role: "Admin" },
+  { username: "usuario", password: "user123", role: "Usuario" }
+];
+
+const images = [img1, img2, img3];
+
+const AuthUserForm = () => {
+  const [index, setIndex] = useState(0);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    const user = users.find(
+      (u) => u.username === username && u.password === password
+    );
+
+    if (user) {
+      login(user.username);
+      sessionStorage.setItem("role", user.role);
+      setMessage("Autenticado con éxito");
+      window.alert(`(${user.role}) Usuario: ${user.username} autenticado con éxito`);
+      navigate("/home");
+    } else {
+      setMessage("Usuario o contraseña incorrectos");
+      window.alert("Usuario o contraseña incorrectos");
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="background-container">
+      {images.map((src, i) => (
+        <div
+          key={i}
+          className={`slide ${i === index ? "active" : ""}`}
+          style={{ backgroundImage: `url(${src})` }}
+        />
+      ))}
+      <div className="login-form">
+        <div className="login-card">
+          <form>
+            <img src={logo} alt="Logo" className="login-logo" />
+            <h2 className="sign-in-title">Sign In</h2>
+            <label className="sign-in-label">Username</label>
+            <input
+              className="sign-in-username-field"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <label className="sign-in-label">Password</label>
+            <input
+              className="sign-in-password-field"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button className="sign-in-button" type="submit" onClick={handleLogin}>
+              Login
+            </button>
+            <p>{message}</p>
+            <a href="#" className="sign-in-button-register-now">
+              Don't have an account? Sign up
+            </a>
+          </form>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -2,7 +2,7 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../components/AuthContext";
-import AuthUserForm from "../components/AuthForm";
+import AuthUserForm from "../components/AuthUserForm";
 import MainSidebar from "../components/MainSidebar";
 import DeviceList from "../components/DevicesList";
 import DeviceDetails from "../components/DevicesDetails";
@@ -31,28 +31,6 @@ function DashboardPanel({ showDevices }) {
   ];
   const selectedDevice = devices.find((d) => d.name === deviceName);
   
-
-  /*return (
-    <div className="app-container">
-      <MainSidebar logout={logout} navigate={navigate} />
-      {location.pathname === "/dashboard/Home" ? <HomePage /> : !showPanel && <DeviceList navigate={navigate} />}
-      <DeviceDetails deviceName={deviceName} setShowPanel={setShowPanel} />
-      {showPanel && <DAQSlider changeMode={changeMode} setChangeMode={setChangeMode} />}
-    </div>
-  );*/
-
-  /*return (
-    <div className="app-container">
-      <MainSidebar logout={logout} navigate={navigate} />
-      {location.pathname === "/dashboard/Home" ? (
-        <HomePage />
-      ) : !showPanel && deviceData ? ( // Verifica que deviceData esté definido
-        <DeviceList data={devices} navigate={navigate} /> // Pasa los datos a DeviceList
-      ) : null}
-      <DeviceDetails deviceName={devices} setShowPanel={setShowPanel} />
-      {showPanel && <DAQSlider changeMode={changeMode} setChangeMode={setChangeMode} />}
-    </div>
-  );*/
   return (
     <div className={`app-container ${sidebarOpen ? "sidebar-open" : ""}`}>
       <MainSidebar sidebarOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} navigate={navigate} logout={logout} />
@@ -64,10 +42,18 @@ function DashboardPanel({ showDevices }) {
       {location.pathname === "/dashboard/About" && <AboutPage />}
 
       {/* Mostrar DeviceList solo si no hay un deviceName seleccionado */}
-      {showDevices && !deviceName && <DeviceList devices={devices} navigate={navigate} /> }
+      {/*showDevices && !deviceName && <DeviceList devices={devices} navigate={navigate} /> */}
 
       {/* Mostrar detalles solo si hay un dispositivo seleccionado */}
-      {selectedDevice && !showPanel && <DeviceDetails selectedDevice={selectedDevice}  />}
+      {/*selectedDevice && !showPanel && <DeviceDetails selectedDevice={selectedDevice}  />*/}
+
+      {/* Contenedor para mostrar DeviceList y DeviceDetails lado a lado */}
+      {showDevices && (
+        <div className="devices-container">
+          <DeviceList devices={devices} navigate={navigate} />
+          {selectedDevice && <DeviceDetails selectedDevice={selectedDevice} />}
+        </div>
+      )}
 
       {/*showPanel && <DAQSlider />*/}
     </div>

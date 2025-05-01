@@ -1,7 +1,16 @@
 
 .device-details {
-  width: 90%;
+  /*width: 90%;
   margin-left: 20px;
+  background-color: #D5D3E0;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
+
+  flex: 2; /* Ocupa más espacio que DeviceList */
+  min-width: 300px; /* Ancho mínimo */
+  max-width: 600px; /* Ancho máximo */
+  margin-left: 0; /* Elimina el margen fijo para que flex lo maneje */
   background-color: #D5D3E0;
   border-radius: 10px;
   padding: 30px;
@@ -19,4 +28,8 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
+}
+
+.use-daq-button:hover {
+  background-color: #333; /* Efecto hover más sutil */
 }

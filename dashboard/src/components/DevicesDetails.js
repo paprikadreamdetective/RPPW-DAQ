@@ -33,7 +33,7 @@ function DeviceDetails({ selectedDevice }) {
   const [onUseDaq, setOnUseDaq] = useState(false);
   return (
     <div className="device-details">
-      {( selectedDevice && !onUseDaq &&
+      {selectedDevice && !onUseDaq && (
       <>
         <h2>{selectedDevice.name}</h2>
         <div className="device-info">

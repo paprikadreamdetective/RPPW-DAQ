@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };*/
-
+/*
 import { createContext, useState, useEffect } from "react";
 //import { useNavigate } from "react-router-dom";
 
@@ -62,6 +62,37 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     setUser(null);
     //navigate("/login");
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};*/
+
+import { createContext,ameliorate, useState, useEffect } from "react";
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUser(storedUser.username);
+    }
+  }, []);
+
+  const login = (username) => {
+    localStorage.setItem("user", JSON.stringify({ username }));
+    setUser(username);
+  };
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
   };
 
   return (
