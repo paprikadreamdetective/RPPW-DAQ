@@ -15,5 +15,14 @@
 
 ### 4. Panel de control
 
+#### 4.1. Informacion del dispositivo
+![image](https://github.com/user-attachments/assets/b52867ba-88ba-41b3-95f5-0973ec492c09)
+
+#### 4.2. Graficos de temperatura
+![image](https://github.com/user-attachments/assets/474bda2b-4325-4750-a50c-f9e7b941f04c)
+
+### 4.3. Control de motor de agitacion y control de temperatura de manta termica
+
+
 
 
