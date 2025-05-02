@@ -21,8 +21,11 @@
 #### 4.2. Graficos de temperatura
 ![image](https://github.com/user-attachments/assets/474bda2b-4325-4750-a50c-f9e7b941f04c)
 
-### 4.3. Control de motor de agitacion y control de temperatura de manta termica
+#### 4.3. Control de motor de agitacion y control de temperatura de manta termica
 ![image](https://github.com/user-attachments/assets/51471ed8-09f3-4853-9f83-899b58999e92)
+
+#### 4.4. Control de velocidades de bombas paristalticas
+![image](https://github.com/user-attachments/assets/36393c77-38a2-4cde-a7a4-b25488afc203)
 
 
 
