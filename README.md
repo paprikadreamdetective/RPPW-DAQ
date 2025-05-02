@@ -10,8 +10,10 @@
 ### 2. Home
 ![image](https://github.com/user-attachments/assets/924a4d7a-7f81-4370-ac4d-2136064ff241)
 
+### 3. Experimentos
+![image](https://github.com/user-attachments/assets/5aca9227-ae63-4fc4-97c2-6c33f7f9a8ab)
 
-
+### 4. Panel de control
 
 
 
